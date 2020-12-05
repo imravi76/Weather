@@ -21,6 +21,7 @@
             android:layout_marginStart="30dp"
             motion:layout_constraintTop_toTopOf="@+id/current_icon"
             motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintVertical_chainStyle="packed"
             android:alpha="1" />
         <Constraint
             android:id="@+id/current_location"
@@ -57,11 +58,11 @@
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="15dp"
             motion:layout_constraintBottom_toTopOf="@+id/forecast_container"
             android:layout_marginEnd="30dp"
             motion:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="15dp" />
         <Constraint
             android:id="@+id/current_temperature"
             android:layout_width="wrap_content"
@@ -70,6 +71,7 @@
             android:layout_marginStart="30dp"
             motion:layout_constraintTop_toTopOf="@+id/current_icon"
             motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintVertical_chainStyle="packed"
             android:alpha="0" />
         <Constraint
             android:id="@+id/current_location"

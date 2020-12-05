@@ -7,6 +7,16 @@
     app:layoutDescription="@xml/fragment_feed_scene"
     tools:context=".FeedFragment">
 
+    <View
+        android:id="@+id/background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?android:colorBackgroundFloating"
+        app:layout_constraintBottom_toTopOf="@+id/forecast_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/current_icon"
         android:layout_width="120dp"
@@ -46,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:text="24°C"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintBottom_toBottomOf="@+id/current_icon"
         app:layout_constraintEnd_toStartOf="@+id/current_location_end"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Brescia"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintBottom_toBottomOf="@+id/current_temperature_end"
         app:layout_constraintStart_toEndOf="@id/current_temperature_end"
         app:layout_constraintTop_toTopOf="@+id/current_temperature_end" />
