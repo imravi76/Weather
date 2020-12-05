@@ -1,2 +1,3 @@
-include ':app'
+include ':app',':revengeui'
 rootProject.name = "Weather"
+project(':revengeui').projectDir = new File(settingsDir, '../RevengeUI/revengeui')
