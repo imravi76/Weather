@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000">
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnSwipe />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/current_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toTopOf="@+id/current_location"
+            android:layout_marginStart="30dp"
+            motion:layout_constraintTop_toTopOf="@+id/current_icon"
+            motion:layout_constraintStart_toStartOf="parent">
+            <CustomAttribute
+                motion:attributeName="textSize"
+                motion:customDimension="24sp" />
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/current_icon"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="30dp"
+            motion:layout_constraintBottom_toTopOf="@+id/forecast_container"
+            android:layout_marginEnd="30dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="30dp" />
+        <Constraint
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/current_location"
+            motion:layout_constraintStart_toEndOf="@+id/current_temperature"
+            motion:layout_constraintTop_toTopOf="@+id/current_temperature"
+            motion:layout_constraintBottom_toBottomOf="@+id/current_temperature"
+            android:layout_marginStart="15dp" />
+        <Constraint
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="@+id/current_icon"
+            android:layout_width="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="30dp"
+            android:id="@+id/current_temperature"
+            motion:layout_constraintBottom_toBottomOf="@+id/current_icon">
+            <CustomAttribute
+                motion:attributeName="textSize"
+                motion:customDimension="15sp" />
+        </Constraint>
+    </ConstraintSet>
+</MotionScene>
