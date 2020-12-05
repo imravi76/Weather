@@ -1,0 +1,87 @@
+package com.revengeos.simpleweather;
+
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class FeedFragment extends Fragment {
+
+    public static String BaseUrl = "http://api.openweathermap.org/";
+    public static String AppId = "a9a5a8c0a12e5b11ae2fc673c8edf0c2";
+    public static String lat = "35";
+    public static String lon = "139";
+
+    public FeedFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        View v = inflater.inflate(R.layout.fragment_feed, container, false);
+
+        getCurrentData();
+        
+        return v;
+    }
+
+    private void getCurrentData() {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BaseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WeatherService service = retrofit.create(WeatherService.class);
+        Call<WeatherResponse> call = service.getCurrentWeatherData(lat, lon, AppId);
+        call.enqueue(new Callback<WeatherResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
+                if (response.code() == 200) {
+                    WeatherResponse weatherResponse = response.body();
+                    assert weatherResponse != null;
+
+                    String stringBuilder = "Country: " +
+                            weatherResponse.sys.country +
+                            "\n" +
+                            "Temperature: " +
+                            weatherResponse.main.temp +
+                            "\n" +
+                            "Temperature(Min): " +
+                            weatherResponse.main.temp_min +
+                            "\n" +
+                            "Temperature(Max): " +
+                            weatherResponse.main.temp_max +
+                            "\n" +
+                            "Humidity: " +
+                            weatherResponse.main.humidity +
+                            "\n" +
+                            "Sunrise: " +
+                            weatherResponse.sys.sunrise +
+                            "\n" +
+                            "Pressure: " +
+                            weatherResponse.main.pressure;
+
+                    //weatherData.setText(stringBuilder);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
+                //weatherData.setText(t.getMessage());
+            }
+        });
+    }
+}
