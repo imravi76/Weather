@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.revengeos.simpleweather.util.LocaleUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,6 +25,11 @@ public class FeedFragment extends Fragment {
     public static String lat = "35";
     public static String lon = "139";
 
+    private TextView currentTemp;
+    private TextView currentTempEnd;
+    private TextView currentLocation;
+    private TextView currentLocationEnd;
+
     public FeedFragment() {
         // Required empty public constructor
     }
@@ -32,6 +40,10 @@ public class FeedFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_feed, container, false);
+        currentTemp = v.findViewById(R.id.current_temperature);
+        currentTempEnd = v.findViewById(R.id.current_temperature_end);
+        currentLocation = v.findViewById(R.id.current_location);
+        currentLocationEnd = v.findViewById(R.id.current_location_end);
 
         getCurrentData();
         
@@ -52,6 +64,13 @@ public class FeedFragment extends Fragment {
                 if (response.code() == 200) {
                     WeatherResponse weatherResponse = response.body();
                     assert weatherResponse != null;
+
+                    String temperature = LocaleUtils.Companion.getFormattedTemperature(weatherResponse.main.temp);
+
+                    currentTemp.setText(temperature);
+                    currentTempEnd.setText(temperature);
+                    currentLocation.setText(weatherResponse.name);
+                    currentLocationEnd.setText(weatherResponse.name);
 
                     String stringBuilder = "Country: " +
                             weatherResponse.sys.country +
