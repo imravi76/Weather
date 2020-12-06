@@ -18,9 +18,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.revengeos.simpleweather.util.LocaleUtils;
+import com.revengeos.weathericons.WeatherIconsHelper;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +39,7 @@ public class FeedFragment extends Fragment {
     private TextView currentTempEnd;
     private TextView currentLocation;
     private TextView currentLocationEnd;
+    private ImageView currentIcon;
 
     private Location mLocation;
 
@@ -79,6 +82,7 @@ public class FeedFragment extends Fragment {
         currentTempEnd = v.findViewById(R.id.current_temperature_end);
         currentLocation = v.findViewById(R.id.current_location);
         currentLocationEnd = v.findViewById(R.id.current_location_end);
+        currentIcon = v.findViewById(R.id.current_icon);
 
         LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -113,6 +117,10 @@ public class FeedFragment extends Fragment {
                     currentTempEnd.setText(temperature);
                     currentLocation.setText(weatherResponse.name);
                     currentLocationEnd.setText(weatherResponse.name);
+
+                    int state = WeatherIconsHelper.Companion.mapConditionIconToCode(weatherResponse.weather.get(0).id,
+                            weatherResponse.sys.sunrise, weatherResponse.sys.sunset);
+                    currentIcon.setImageDrawable(getResources().getDrawable(WeatherIconsHelper.Companion.getDrawable(state, getContext())));
 
                     String stringBuilder = "Country: " +
                             weatherResponse.sys.country +
