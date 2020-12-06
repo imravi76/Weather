@@ -4,41 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/fragment_feed_scene"
-    tools:context=".FeedFragment">
+    tools:context=".FeedFragment"
+    app:layoutDescription="@xml/fragment_feed_scene">
 
     <View
         android:id="@+id/background"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?android:colorBackgroundFloating"
+        android:background="?colorBackgroundFloating"
         app:layout_constraintBottom_toTopOf="@+id/forecast_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/current_icon"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
-        android:src="@drawable/sunny"
-        app:layout_constraintBottom_toTopOf="@+id/forecast_container"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/current_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="@dimen/current_weather_horizontal_margin"
         android:text="--"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         app:layout_constraintBottom_toTopOf="@+id/current_location"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/current_icon" />
+        app:layout_constraintTop_toTopOf="@+id/current_icon"
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <TextView
         android:id="@+id/current_location"
@@ -48,13 +37,14 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="@+id/current_icon"
         app:layout_constraintStart_toStartOf="@+id/current_temperature"
-        app:layout_constraintTop_toBottomOf="@+id/current_temperature" />
+        app:layout_constraintTop_toBottomOf="@+id/current_temperature"/>
 
     <TextView
         android:id="@+id/current_temperature_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="@dimen/current_weather_horizontal_margin_collapsed"
+        android:alpha="0"
         android:text="--"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintBottom_toBottomOf="@+id/current_icon"
@@ -66,11 +56,25 @@
         android:id="@+id/current_location_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:alpha="0"
         android:text="Unknown"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintBottom_toBottomOf="@+id/current_temperature_end"
         app:layout_constraintStart_toEndOf="@id/current_temperature_end"
         app:layout_constraintTop_toTopOf="@+id/current_temperature_end" />
+
+    <ImageView
+        android:id="@+id/current_icon"
+        android:layout_width="@dimen/current_weather_icon_size"
+        android:layout_height="@dimen/current_weather_icon_size"
+        android:layout_marginTop="@dimen/current_weather_top_margin"
+        android:layout_marginEnd="@dimen/current_weather_horizontal_margin"
+        android:layout_marginBottom="@dimen/current_weather_bottom_margin"
+        android:src="@drawable/sunny"
+        app:layout_constraintBottom_toTopOf="@+id/forecast_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/forecast_container"
