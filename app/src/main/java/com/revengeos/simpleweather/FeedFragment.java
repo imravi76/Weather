@@ -1,8 +1,18 @@
 package com.revengeos.simpleweather;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -22,16 +32,41 @@ public class FeedFragment extends Fragment {
 
     public static String BaseUrl = "http://api.openweathermap.org/";
     public static String AppId = "a9a5a8c0a12e5b11ae2fc673c8edf0c2";
-    public static String lat = "35";
-    public static String lon = "139";
 
     private TextView currentTemp;
     private TextView currentTempEnd;
     private TextView currentLocation;
     private TextView currentLocationEnd;
 
+    private Location mLocation;
+
+    final LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            mLocation = location;
+            getCurrentData();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+        }
+    };
+
     public FeedFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -45,8 +80,15 @@ public class FeedFragment extends Fragment {
         currentLocation = v.findViewById(R.id.current_location);
         currentLocationEnd = v.findViewById(R.id.current_location_end);
 
-        getCurrentData();
-        
+        LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        String locationProvider = locationManager.getBestProvider(criteria, true);
+        if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestSingleUpdate(locationProvider, locationListener, null);
+        }
+
         return v;
     }
 
@@ -57,7 +99,7 @@ public class FeedFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WeatherService service = retrofit.create(WeatherService.class);
-        Call<WeatherResponse> call = service.getCurrentWeatherData(lat, lon, AppId);
+        Call<WeatherResponse> call = service.getCurrentWeatherData(Double.toString(mLocation.getLatitude()), Double.toString(mLocation.getLongitude()), AppId);
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
