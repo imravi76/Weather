@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint android:id="@+id/background" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -14,7 +13,7 @@
             android:layout_width="@dimen/current_weather_icon_size_collapsed"
             android:layout_height="@dimen/current_weather_icon_size_collapsed"
             android:layout_marginBottom="@dimen/current_weather_vertical_margin_collapsed"
-            app:layout_constraintBottom_toTopOf="@+id/forecast_container"
+            app:layout_constraintBottom_toTopOf="@+id/current_more"
             android:layout_marginEnd="@dimen/current_weather_horizontal_margin_collapsed"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="@dimen/current_weather_vertical_margin_collapsed" />

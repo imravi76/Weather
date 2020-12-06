@@ -18,9 +18,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daasuu.ei.Ease;
+import com.daasuu.ei.EasingInterpolator;
 import com.revengeos.simpleweather.util.LocaleUtils;
 import com.revengeos.weathericons.WeatherIconsHelper;
 
@@ -29,6 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rjsv.expconslayout.ExpandableConstraintLayout;
 
 public class FeedFragment extends Fragment {
 
@@ -40,6 +44,9 @@ public class FeedFragment extends Fragment {
     private TextView currentLocation;
     private TextView currentLocationEnd;
     private ImageView currentIcon;
+
+    private ExpandableConstraintLayout currentMoreDataLayout;
+    private View currentTouchLayer;
 
     private Location mLocation;
 
@@ -83,6 +90,18 @@ public class FeedFragment extends Fragment {
         currentLocation = v.findViewById(R.id.current_location);
         currentLocationEnd = v.findViewById(R.id.current_location_end);
         currentIcon = v.findViewById(R.id.current_icon);
+
+        currentMoreDataLayout = v.findViewById(R.id.current_more);
+        currentMoreDataLayout.collapse();
+        currentMoreDataLayout.setAnimationDuration(700);
+
+        currentTouchLayer = v.findViewById(R.id.current_touch_layer);
+        currentTouchLayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentMoreDataLayout.toggle();
+            }
+        });
 
         LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();

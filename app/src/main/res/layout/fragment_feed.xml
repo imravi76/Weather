@@ -12,10 +12,19 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="?colorBackgroundFloating"
-        app:layout_constraintBottom_toTopOf="@+id/forecast_container"
+        app:layout_constraintBottom_toBottomOf="@id/current_more"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/current_touch_layer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/current_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/background" />
 
     <TextView
         android:id="@+id/current_temperature"
@@ -72,9 +81,33 @@
         android:layout_marginEnd="@dimen/current_weather_horizontal_margin"
         android:layout_marginBottom="@dimen/current_weather_bottom_margin"
         android:src="@drawable/sunny"
-        app:layout_constraintBottom_toTopOf="@+id/forecast_container"
+        app:layout_constraintBottom_toTopOf="@id/current_more"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <rjsv.expconslayout.ExpandableConstraintLayout
+        android:id="@+id/current_more"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/revengeui_bg_colored"
+        app:layout_constraintBottom_toTopOf="@id/forecast_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/current_icon">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:text="More data"
+            android:textAppearance="@style/TextAppearance.AppTheme.CurrentCollapsed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </rjsv.expconslayout.ExpandableConstraintLayout>
 
     <LinearLayout
         android:id="@+id/forecast_container"
@@ -84,8 +117,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_icon">
-
+        app:layout_constraintTop_toBottomOf="@id/current_more">
     </LinearLayout>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
