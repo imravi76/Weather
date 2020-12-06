@@ -3,4 +3,19 @@
     <style name="AppTheme" parent="Theme.RevengeUI.DayNight">
     </style>
 
+    <style name="TextAppearance.AppTheme.CurrentTemperature" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:fontFamily">@font/urbanist_semibold</item>
+        <item name="android:textSize">42sp</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.CurrentLocation" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:fontFamily">@font/urbanist_regular</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.CurrentCollapsed" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:fontFamily">@font/urbanist_semibold</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
 </resources>

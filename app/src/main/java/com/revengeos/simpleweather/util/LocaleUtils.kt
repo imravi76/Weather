@@ -27,9 +27,9 @@ class LocaleUtils {
 
         fun getFormattedTemperature(degrees : Float) : String {
             return if (default == Imperial) {
-                "${"%.1f".format(kelvinToFahrenheit(degrees))}°F"
+                "${"%.1f".format(kelvinToFahrenheit(degrees))} °F"
             } else {
-                "${"%.1f".format(kelvinToCelsius(degrees))}°C"
+                "${"%.1f".format(kelvinToCelsius(degrees))} °C"
             }
         }
     }
