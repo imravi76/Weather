@@ -102,9 +102,20 @@
             android:gravity="center_vertical">
 
             <com.revengeos.weather.IconTextView
+                android:id="@+id/current_wind"
                 style="@style/AppTheme.CurrentTextIconView"
                 app:src="@drawable/ic_wind"
                 app:text="210km/h" />
+
+            <com.revengeos.weather.IconTextView
+                android:id="@+id/current_sunrise"
+                style="@style/AppTheme.CurrentTextIconView"
+                app:src="@drawable/ic_sunrise" />
+
+            <com.revengeos.weather.IconTextView
+                android:id="@+id/current_sunset"
+                style="@style/AppTheme.CurrentTextIconView"
+                app:src="@drawable/ic_sunset" />
         </LinearLayout>
     </rjsv.expconslayout.ExpandableConstraintLayout>
 

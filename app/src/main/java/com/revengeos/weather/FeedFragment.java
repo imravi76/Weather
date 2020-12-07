@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.revengeos.weather.util.LocaleUtils;
+import com.revengeos.weather.util.WeatherUtils;
 import com.revengeos.weathericons.WeatherIconsHelper;
 
 import retrofit2.Call;
@@ -44,6 +44,9 @@ public class FeedFragment extends Fragment {
     private TextView currentLocation;
     private TextView currentLocationEnd;
     private ImageView currentIcon;
+
+    private IconTextView sunrise;
+    private IconTextView sunset;
 
     private ExpandableConstraintLayout currentMoreDataLayout;
     private View currentTouchLayer;
@@ -119,6 +122,9 @@ public class FeedFragment extends Fragment {
         currentMoreDataLayout.collapse();
         currentMoreDataLayout.setAnimationDuration(700);
 
+        sunrise = v.findViewById(R.id.current_sunrise);
+        sunset = v.findViewById(R.id.current_sunset);
+
         currentTouchLayer = v.findViewById(R.id.current_touch_layer);
         currentTouchLayer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,12 +153,15 @@ public class FeedFragment extends Fragment {
                     WeatherResponse weatherResponse = response.body();
                     assert weatherResponse != null;
 
-                    String temperature = LocaleUtils.Companion.getFormattedTemperature(weatherResponse.main.temp);
+                    String temperature = WeatherUtils.Companion.getFormattedTemperature(weatherResponse.main.temp);
 
                     currentTemp.setText(temperature);
                     currentTempEnd.setText(temperature);
                     currentLocation.setText(weatherResponse.name);
                     currentLocationEnd.setText(weatherResponse.name);
+
+                    sunrise.getTextView().setText(WeatherUtils.Companion.getTimeFromEpoch(weatherResponse.sys.sunrise, weatherResponse.timezone));
+                    sunset.getTextView().setText(WeatherUtils.Companion.getTimeFromEpoch(weatherResponse.sys.sunset, weatherResponse.timezone));
 
                     int state = WeatherIconsHelper.Companion.mapConditionIconToCode(weatherResponse.weather.get(0).id,
                             weatherResponse.sys.sunrise, weatherResponse.sys.sunset);

@@ -28,6 +28,8 @@ public class WeatherResponse {
     public String name;
     @SerializedName("cod")
     public float cod;
+    @SerializedName("timezone")
+    public int timezone;
 }
 
 class Weather {
