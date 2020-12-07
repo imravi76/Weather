@@ -116,6 +116,16 @@
                 android:id="@+id/current_sunset"
                 style="@style/AppTheme.CurrentTextIconView"
                 app:src="@drawable/ic_sunset" />
+
+            <com.revengeos.weather.IconTextView
+                android:id="@+id/current_pressure"
+                style="@style/AppTheme.CurrentTextIconView"
+                app:src="@drawable/ic_barometer" />
+
+            <com.revengeos.weather.IconTextView
+                android:id="@+id/current_humidity"
+                style="@style/AppTheme.CurrentTextIconView"
+                app:src="@drawable/ic_water" />
         </LinearLayout>
     </rjsv.expconslayout.ExpandableConstraintLayout>
 
