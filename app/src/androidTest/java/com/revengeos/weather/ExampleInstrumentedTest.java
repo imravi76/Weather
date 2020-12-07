@@ -1,4 +1,4 @@
-package com.revengeos.simpleweather;
+package com.revengeos.weather;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.revengeos.simpleweather", appContext.getPackageName());
+        assertEquals("com.revengeos.weather", appContext.getPackageName());
     }
 }

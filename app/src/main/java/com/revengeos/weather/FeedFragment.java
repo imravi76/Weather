@@ -1,14 +1,12 @@
-package com.revengeos.simpleweather;
+package com.revengeos.weather;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,13 +16,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.daasuu.ei.Ease;
-import com.daasuu.ei.EasingInterpolator;
-import com.revengeos.simpleweather.util.LocaleUtils;
+import com.revengeos.weather.util.LocaleUtils;
 import com.revengeos.weathericons.WeatherIconsHelper;
 
 import retrofit2.Call;

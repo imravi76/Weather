@@ -1,4 +1,4 @@
-package com.revengeos.simpleweather;
+package com.revengeos.weather;
 
 import org.junit.Test;
 

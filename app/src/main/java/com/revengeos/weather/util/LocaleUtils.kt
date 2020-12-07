@@ -1,7 +1,6 @@
-package com.revengeos.simpleweather.util
+package com.revengeos.weather.util
 
 import java.util.*
-import kotlin.math.round
 
 class LocaleUtils {
     companion object {

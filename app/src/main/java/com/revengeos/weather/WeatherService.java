@@ -1,4 +1,4 @@
-package com.revengeos.simpleweather;
+package com.revengeos.weather;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
