@@ -90,23 +90,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/revengeui_bg_colored"
         app:layout_constraintBottom_toTopOf="@id/forecast_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/current_icon">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:gravity="center"
-            android:text="More data"
-            android:textAppearance="@style/TextAppearance.AppTheme.CurrentCollapsed"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
+            <com.revengeos.weather.IconTextView
+                style="@style/AppTheme.CurrentTextIconView"
+                app:src="@drawable/ic_wind"
+                app:text="210km/h" />
+        </LinearLayout>
     </rjsv.expconslayout.ExpandableConstraintLayout>
 
     <LinearLayout
