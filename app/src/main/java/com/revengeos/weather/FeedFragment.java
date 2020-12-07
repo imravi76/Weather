@@ -53,26 +53,6 @@ public class FeedFragment extends Fragment {
 
     private Location mLocation;
 
-    final LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            mLocation = location;
-            getCurrentData();
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-        }
-    };
-
     public FeedFragment() {
         // Required empty public constructor
     }
@@ -95,7 +75,8 @@ public class FeedFragment extends Fragment {
                         String locationProvider = locationManager.getBestProvider(criteria, true);
                         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                                 && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            locationManager.requestSingleUpdate(locationProvider, locationListener, null);
+                            mLocation = locationManager.getLastKnownLocation(locationProvider);
+                            getCurrentData();
                         }
                     }
                 } else {
