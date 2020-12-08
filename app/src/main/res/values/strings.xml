@@ -4,4 +4,6 @@
     <string name="nav_cities">Cities</string>
     <string name="nav_settings">Settings</string>
     <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="feels_like">Feels like</string>
 </resources>

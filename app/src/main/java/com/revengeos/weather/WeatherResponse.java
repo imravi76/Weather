@@ -73,6 +73,8 @@ class Main {
     public float temp_min;
     @SerializedName("temp_max")
     public float temp_max;
+    @SerializedName("feels_like")
+    public float feels_like;
 }
 
 class Sys {

@@ -44,9 +44,20 @@
         android:layout_height="wrap_content"
         android:text="Unknown"
         android:textAppearance="@style/TextAppearance.AppTheme.CurrentLocation"
-        app:layout_constraintBottom_toBottomOf="@+id/current_icon"
+        app:layout_constraintBottom_toTopOf="@+id/current_temp_feels_like"
         app:layout_constraintStart_toStartOf="@+id/current_temperature"
-        app:layout_constraintTop_toBottomOf="@+id/current_temperature"/>
+        app:layout_constraintTop_toBottomOf="@+id/current_temperature"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/current_temp_feels_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5sp"
+        android:textAppearance="@style/TextAppearance.AppTheme.CurrentExtraTempInfo"
+        app:layout_constraintBottom_toBottomOf="@+id/current_icon"
+        app:layout_constraintStart_toStartOf="@+id/current_temperature_end"
+        app:layout_constraintTop_toBottomOf="@+id/current_location" />
 
     <TextView
         android:id="@+id/current_temperature_end"
@@ -56,7 +67,7 @@
         android:alpha="0"
         android:text="--"
         android:textAppearance="@style/TextAppearance.AppTheme.CurrentCollapsed"
-        app:layout_constraintBottom_toBottomOf="@+id/current_icon"
+        app:layout_constraintBottom_toTopOf="@+id/current_temp_feels_like_end"
         app:layout_constraintEnd_toStartOf="@+id/current_location_end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/current_icon" />
@@ -71,7 +82,18 @@
         android:textAppearance="@style/TextAppearance.AppTheme.CurrentCollapsed"
         app:layout_constraintBottom_toBottomOf="@+id/current_temperature_end"
         app:layout_constraintStart_toEndOf="@id/current_temperature_end"
-        app:layout_constraintTop_toTopOf="@+id/current_temperature_end" />
+        app:layout_constraintTop_toTopOf="@+id/current_temperature_end"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <TextView
+        android:id="@+id/current_temp_feels_like_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:textAppearance="@style/TextAppearance.AppTheme.CurrentExtraTempInfo"
+        app:layout_constraintStart_toStartOf="@+id/current_temperature_end"
+        app:layout_constraintTop_toBottomOf="@+id/current_temperature_end"
+        app:layout_constraintBottom_toBottomOf="@id/current_icon" />
 
     <ImageView
         android:id="@+id/current_icon"

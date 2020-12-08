@@ -35,6 +35,35 @@
             app:layout_constraintStart_toStartOf="@+id/current_temperature"
             android:alpha="0" />
         <Constraint
+            app:layout_constraintStart_toEndOf="@id/current_temperature_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/current_temperature_end"
+            android:layout_marginStart="12dp"
+            app:layout_constraintTop_toTopOf="@+id/current_temperature_end" />
+        <Constraint
+            app:layout_constraintEnd_toStartOf="@+id/current_location_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/current_weather_horizontal_margin_collapsed"
+            app:layout_constraintTop_toTopOf="@+id/current_icon"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            app:layout_constraintStart_toEndOf="@id/current_location_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            app:layout_constraintTop_toTopOf="@+id/current_temperature_end" />
+        <Constraint
+            android:id="@+id/current_temp_feels_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/current_icon"
+            app:layout_constraintTop_toBottomOf="@+id/current_location"
+            app:layout_constraintStart_toStartOf="@+id/current_temperature_end"
+            android:layout_marginTop="5sp"
+            android:alpha="0" />
+        <Constraint
             android:id="@+id/current_location_end"
             app:layout_constraintStart_toEndOf="@id/current_temperature_end"
             android:layout_width="wrap_content"
@@ -42,17 +71,26 @@
             app:layout_constraintBottom_toBottomOf="@+id/current_temperature_end"
             android:alpha="1"
             android:layout_marginStart="12dp"
+            app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintTop_toTopOf="@+id/current_temperature_end" />
         <Constraint
             android:id="@+id/current_temperature_end"
             app:layout_constraintEnd_toStartOf="@+id/current_location_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/current_icon"
+            app:layout_constraintBottom_toTopOf="@+id/current_temp_feels_like_end"
             android:alpha="1"
             android:layout_marginStart="@dimen/current_weather_horizontal_margin_collapsed"
             app:layout_constraintTop_toTopOf="@+id/current_icon"
             app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/current_temp_feels_like_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/current_icon"
+            app:layout_constraintTop_toBottomOf="@+id/current_temperature_end"
+            android:alpha="1"
+            app:layout_constraintStart_toStartOf="@+id/current_temperature_end" />
     </ConstraintSet>
 
     <Transition
