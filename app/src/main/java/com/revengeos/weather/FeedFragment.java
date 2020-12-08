@@ -50,6 +50,7 @@ public class FeedFragment extends Fragment {
     private IconTextView pressure;
     private IconTextView humidity;
     private IconTextView wind;
+    private IconTextView visibilityDistance;
 
     private ExpandableConstraintLayout currentMoreDataLayout;
     private View currentTouchLayer;
@@ -137,6 +138,7 @@ public class FeedFragment extends Fragment {
         pressure = v.findViewById(R.id.current_pressure);
         humidity = v.findViewById(R.id.current_humidity);
         wind = v.findViewById(R.id.current_wind);
+        visibilityDistance = v.findViewById(R.id.current_visibility);
 
         currentTouchLayer = v.findViewById(R.id.current_touch_layer);
         currentTouchLayer.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +181,7 @@ public class FeedFragment extends Fragment {
                     humidity.getTextView().setText(weatherResponse.main.humidity + " %");
                     wind.getIconView().setRotation(weatherResponse.wind.deg);
                     wind.getTextView().setText(weatherResponse.wind.speed + " m/s");
+                    visibilityDistance.getTextView().setText(WeatherUtils.Companion.getFormattedDistance(weatherResponse.visibility));
 
                     int state = WeatherIconsHelper.Companion.mapConditionIconToCode(weatherResponse.weather.get(0).id,
                             weatherResponse.sys.sunrise, weatherResponse.sys.sunset);

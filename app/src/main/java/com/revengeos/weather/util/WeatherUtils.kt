@@ -21,15 +21,15 @@ class WeatherUtils {
             return if ("MM" == countryCode) imperial else metric // Myanmar
         }
 
-        fun kelvinToCelsius(degrees : Float) : Float {
+        fun kelvinToCelsius(degrees: Float) : Float {
             return degrees - 273.15f
         }
 
-        fun kelvinToFahrenheit(degrees : Float) : Float {
+        fun kelvinToFahrenheit(degrees: Float) : Float {
             return (degrees - 273.15f) * 1.8f + 32.0f
         }
 
-        fun getFormattedTemperature(degrees : Float) : String {
+        fun getFormattedTemperature(degrees: Float) : String {
             return if (default == imperial) {
                 "${"%.1f".format(kelvinToFahrenheit(degrees))} °F"
             } else {
@@ -37,16 +37,42 @@ class WeatherUtils {
             }
         }
 
-        fun getTimeFromEpoch(epoch : Long, shiftSeconds : Int) : String {
+        fun getTimeFromEpoch(epoch: Long, shiftSeconds: Int) : String {
             val sdf = SimpleDateFormat("HH:mm")
             sdf.timeZone = TimeZone.getTimeZone("UTC")
             val time = Date((epoch + shiftSeconds) * 1000)
             return sdf.format(time)
         }
 
-        fun getWindDirectionString(degrees : Int) : String {
+        fun getWindDirectionString(degrees: Int) : String {
             val value = floor((degrees / 22.5) + 0.5)
             return directions[(value % 16).roundToInt()]
+        }
+
+        fun truncateDecimal(number: String) : String {
+            val numberSplit = number.split(",")
+            return if (numberSplit.size == 2) {
+                val decimalPart = "0.${numberSplit[1]}".toDouble()
+                if (decimalPart.roundToInt() == 0) {
+                    numberSplit[0]
+                } else {
+                    number
+                }
+            } else {
+                number
+            }
+        }
+
+        fun convertMetersToMiles(meters: Float) : Float {
+            return meters * 0.000621371f
+        }
+
+        fun getFormattedDistance(meters: Float) : String {
+            val distance = if (default == imperial) convertMetersToMiles(meters) else meters / 1000
+            val shouldTruncate = (distance - distance.toInt()).roundToInt() == 0
+            val distanceString = if (shouldTruncate) "${distance.toInt()}" else "${"%.1f".format(distance)}"
+            val unit = if (default == imperial) "miles" else "km"
+            return "$distanceString $unit"
         }
     }
 }

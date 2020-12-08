@@ -125,6 +125,11 @@
                 android:id="@+id/current_humidity"
                 style="@style/AppTheme.CurrentTextIconView"
                 app:src="@drawable/water_percent" />
+
+            <com.revengeos.weather.IconTextView
+                android:id="@+id/current_visibility"
+                style="@style/AppTheme.CurrentTextIconView"
+                app:src="@drawable/ic_outline_visibility_24" />
         </LinearLayout>
     </rjsv.expconslayout.ExpandableConstraintLayout>
 
