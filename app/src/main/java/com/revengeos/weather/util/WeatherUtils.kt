@@ -2,9 +2,13 @@ package com.revengeos.weather.util
 
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.floor
+import kotlin.math.roundToInt
 
 class WeatherUtils {
     companion object {
+        val directions = arrayOf("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW")
+
         var imperial: WeatherUtils = WeatherUtils()
         var metric: WeatherUtils = WeatherUtils()
         val default: WeatherUtils
@@ -38,6 +42,11 @@ class WeatherUtils {
             sdf.timeZone = TimeZone.getTimeZone("UTC")
             val time = Date((epoch + shiftSeconds) * 1000)
             return sdf.format(time)
+        }
+
+        fun getWindDirectionString(degrees : Int) : String {
+            val value = floor((degrees / 22.5) + 0.5)
+            return directions[(value % 16).roundToInt()]
         }
     }
 }

@@ -49,6 +49,7 @@ public class FeedFragment extends Fragment {
     private IconTextView sunset;
     private IconTextView pressure;
     private IconTextView humidity;
+    private IconTextView wind;
 
     private ExpandableConstraintLayout currentMoreDataLayout;
     private View currentTouchLayer;
@@ -135,6 +136,7 @@ public class FeedFragment extends Fragment {
         sunset = v.findViewById(R.id.current_sunset);
         pressure = v.findViewById(R.id.current_pressure);
         humidity = v.findViewById(R.id.current_humidity);
+        wind = v.findViewById(R.id.current_wind);
 
         currentTouchLayer = v.findViewById(R.id.current_touch_layer);
         currentTouchLayer.setOnClickListener(new View.OnClickListener() {
@@ -175,6 +177,8 @@ public class FeedFragment extends Fragment {
                     sunset.getTextView().setText(WeatherUtils.Companion.getTimeFromEpoch(weatherResponse.sys.sunset, weatherResponse.timezone));
                     pressure.getTextView().setText(weatherResponse.main.pressure + " mbar");
                     humidity.getTextView().setText(weatherResponse.main.humidity + " %");
+                    wind.getIconView().setRotation(weatherResponse.wind.deg);
+                    wind.getTextView().setText(weatherResponse.wind.speed + " m/s");
 
                     int state = WeatherIconsHelper.Companion.mapConditionIconToCode(weatherResponse.weather.get(0).id,
                             weatherResponse.sys.sunrise, weatherResponse.sys.sunset);

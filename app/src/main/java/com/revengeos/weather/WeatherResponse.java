@@ -57,7 +57,7 @@ class Wind {
     @SerializedName("speed")
     public float speed;
     @SerializedName("deg")
-    public float deg;
+    public int deg;
 }
 
 class Main {
