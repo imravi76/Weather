@@ -45,6 +45,10 @@ public class FeedFragment extends Fragment {
     private TextView currentLocationEnd;
     private TextView currentTempFeelsLike;
     private TextView currentTempFeelsLikeEnd;
+    private IconTextView currentMinTemp;
+    private IconTextView currentMinTempEnd;
+    private IconTextView currentMaxTemp;
+    private IconTextView currentMaxTempEnd;
     private ImageView currentIcon;
 
     private IconTextView sunrise;
@@ -131,6 +135,8 @@ public class FeedFragment extends Fragment {
         currentLocationEnd = v.findViewById(R.id.current_location_end);
         currentTempFeelsLike = v.findViewById(R.id.current_temp_feels_like);
         currentTempFeelsLikeEnd = v.findViewById(R.id.current_temp_feels_like_end);
+        currentMinTemp = v.findViewById(R.id.current_min_temp);
+        currentMaxTemp = v.findViewById(R.id.current_max_temp);
         currentIcon = v.findViewById(R.id.current_icon);
 
         currentMoreDataLayout = v.findViewById(R.id.current_more);
@@ -182,6 +188,12 @@ public class FeedFragment extends Fragment {
                     String feelsLikeText = getString(R.string.feels_like) + " " + WeatherUtils.Companion.getFormattedTemperature(weatherResponse.main.feels_like);
                     currentTempFeelsLike.setText(feelsLikeText);
                     currentTempFeelsLikeEnd.setText(feelsLikeText);
+
+                    String minTemp = WeatherUtils.Companion.getFormattedTemperature(weatherResponse.main.temp_min);
+                    String maxTemp = WeatherUtils.Companion.getFormattedTemperature(weatherResponse.main.temp_min);
+
+                    currentMinTemp.getTextView().setText(minTemp);
+                    currentMaxTemp.getTextView().setText(maxTemp);
 
                     sunrise.getTextView().setText(WeatherUtils.Companion.getTimeFromEpoch(weatherResponse.sys.sunrise, weatherResponse.timezone));
                     sunset.getTextView().setText(WeatherUtils.Companion.getTimeFromEpoch(weatherResponse.sys.sunset, weatherResponse.timezone));

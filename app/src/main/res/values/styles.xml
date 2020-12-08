@@ -26,8 +26,10 @@
     <style name="TextAppearance.AppTheme.CurrentExtraTempInfoCollapsed" parent="TextAppearance.AppTheme.CurrentExtraTempInfo">
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="AppTheme.TextIconView"/>
     
-    <style name="AppTheme.CurrentTextIconView">
+    <style name="AppTheme.TextIconView.ExtraData">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
@@ -38,6 +40,18 @@
         <item name="iconSize">24dp</item>
         <item name="iconTextVerticalMargin">5dp</item>
         <item name="iconTintColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="AppTheme.TextIconView.ExtraTemp">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="iconSize">16sp</item>
+        <item name="iconTextHorizontalMargin">5sp</item>
+        <item name="iconTintColor">?android:textColorPrimary</item>
+        <item name="textAppearance">@style/TextAppearance.AppTheme.CurrentExtraTempInfo</item>
     </style>
 
 </resources>

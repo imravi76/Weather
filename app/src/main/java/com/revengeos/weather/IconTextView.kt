@@ -38,7 +38,7 @@ class IconTextView : LinearLayout {
         val iconTint = typedArray.getColorStateList(R.styleable.IconTextView_iconTintColor)
         ImageViewCompat.setImageTintList(iconView, iconTint);
         iconView.setImageDrawable(typedArray.getDrawable(R.styleable.IconTextView_src))
-        textView.setTextAppearance(context, typedArray.getInt(R.styleable.IconTextView_textAppearance, 0))
+        textView.setTextAppearance(context, typedArray.getResourceId(R.styleable.IconTextView_textAppearance, 0))
         textView.text = typedArray.getString(R.styleable.IconTextView_text)
     }
 }
