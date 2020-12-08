@@ -95,42 +95,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/current_icon">
 
-        <LinearLayout
+        <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:stretchColumns="*">
 
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/current_wind"
-                style="@style/AppTheme.CurrentTextIconView"
-                app:src="@drawable/ic_arrow" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/current_sunrise"
-                style="@style/AppTheme.CurrentTextIconView"
-                app:src="@drawable/weather_sunset_up" />
+                <com.revengeos.weather.IconTextView
+                    android:id="@+id/current_wind"
+                    style="@style/AppTheme.CurrentTextIconView"
+                    app:src="@drawable/ic_arrow" />
 
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/current_sunset"
-                style="@style/AppTheme.CurrentTextIconView"
-                app:src="@drawable/weather_sunset_down" />
+                <com.revengeos.weather.IconTextView
+                    android:id="@+id/current_sunrise"
+                    style="@style/AppTheme.CurrentTextIconView"
+                    app:src="@drawable/weather_sunset_up" />
 
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/current_pressure"
-                style="@style/AppTheme.CurrentTextIconView"
-                app:src="@drawable/gauge" />
+                <com.revengeos.weather.IconTextView
+                    android:id="@+id/current_sunset"
+                    style="@style/AppTheme.CurrentTextIconView"
+                    app:src="@drawable/weather_sunset_down" />
+            </TableRow>
 
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/current_humidity"
-                style="@style/AppTheme.CurrentTextIconView"
-                app:src="@drawable/water_percent" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/current_visibility"
-                style="@style/AppTheme.CurrentTextIconView"
-                app:src="@drawable/ic_outline_visibility_24" />
-        </LinearLayout>
+                <com.revengeos.weather.IconTextView
+                    android:id="@+id/current_pressure"
+                    style="@style/AppTheme.CurrentTextIconView"
+                    app:src="@drawable/gauge" />
+
+                <com.revengeos.weather.IconTextView
+                    android:id="@+id/current_humidity"
+                    style="@style/AppTheme.CurrentTextIconView"
+                    app:src="@drawable/water_percent" />
+
+                <com.revengeos.weather.IconTextView
+                    android:id="@+id/current_visibility"
+                    style="@style/AppTheme.CurrentTextIconView"
+                    app:src="@drawable/ic_outline_visibility_24" />
+            </TableRow>
+        </TableLayout>
     </rjsv.expconslayout.ExpandableConstraintLayout>
 
     <LinearLayout
