@@ -5,12 +5,14 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TableLayout
 import androidx.annotation.Nullable
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayout
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedDistance
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedSpeed
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weather.util.WeatherUtils.Companion.getTimeFromEpoch
 
-class WeatherDataGridView : TableLayout {
+class WeatherDataGridView : FlexboxLayout {
 
     private val sunriseView: IconTextView
     private val sunsetView: IconTextView
@@ -35,6 +37,8 @@ class WeatherDataGridView : TableLayout {
         visibilityDistanceView = findViewById(R.id.current_visibility)
         minTempView = findViewById(R.id.current_min_temp)
         maxTempView = findViewById(R.id.current_max_temp)
+
+        flexWrap = FlexWrap.WRAP
     }
 
     fun updateData(sunrise: Long, sunset: Long, timeZone : Int, pressure: Int, humidity: Int, windDirection: Int,
