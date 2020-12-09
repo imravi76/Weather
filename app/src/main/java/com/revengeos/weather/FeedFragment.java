@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +23,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.revengeos.weather.forecast.HourlyAdapter;
+import com.revengeos.weather.response.OneCallResponse;
 import com.revengeos.weather.util.WeatherUtils;
 import com.revengeos.weathericons.WeatherIconsHelper;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,8 +38,8 @@ import rjsv.expconslayout.ExpandableConstraintLayout;
 
 public class FeedFragment extends Fragment {
 
-    public static String BaseUrl = "http://api.openweathermap.org/";
-    public static String AppId = "a9a5a8c0a12e5b11ae2fc673c8edf0c2";
+    public static String BaseUrl = "https://api.openweathermap.org/";
+    public static String AppId = "19063415dbe8507f4bd3e92ad691a57e";
 
     private final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
     private final int permissionsRequestCode = 420;
@@ -51,6 +56,8 @@ public class FeedFragment extends Fragment {
 
     private ExpandableConstraintLayout currentMoreDataLayout;
     private View currentTouchLayer;
+
+    private RecyclerView todayForecast;
 
     private Location mLocation;
 
@@ -142,6 +149,9 @@ public class FeedFragment extends Fragment {
             }
         });
 
+        todayForecast = v.findViewById(R.id.today_forecast);
+        todayForecast.setLayoutManager(new LinearLayoutManager(getContext()));
+
         requestPermissions(permissions, permissionsRequestCode);
 
         return v;
@@ -154,8 +164,8 @@ public class FeedFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WeatherService service = retrofit.create(WeatherService.class);
-        Call<WeatherResponse> call = service.getCurrentWeatherData(Double.toString(mLocation.getLatitude()), Double.toString(mLocation.getLongitude()), AppId);
-        call.enqueue(new Callback<WeatherResponse>() {
+        Call<WeatherResponse> callCurrentWeather = service.getCurrentWeatherData(Double.toString(mLocation.getLatitude()), Double.toString(mLocation.getLongitude()), AppId);
+        callCurrentWeather.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
                 if (response.code() == 200) {
@@ -180,34 +190,28 @@ public class FeedFragment extends Fragment {
                     int state = WeatherIconsHelper.Companion.mapConditionIconToCode(weatherResponse.weather.get(0).id,
                             weatherResponse.sys.sunrise, weatherResponse.sys.sunset);
                     currentIcon.setImageDrawable(getResources().getDrawable(WeatherIconsHelper.Companion.getDrawable(state, getContext())));
-
-                    String stringBuilder = "Country: " +
-                            weatherResponse.sys.country +
-                            "\n" +
-                            "Temperature: " +
-                            weatherResponse.main.temp +
-                            "\n" +
-                            "Temperature(Min): " +
-                            weatherResponse.main.temp_min +
-                            "\n" +
-                            "Temperature(Max): " +
-                            weatherResponse.main.temp_max +
-                            "\n" +
-                            "Humidity: " +
-                            weatherResponse.main.humidity +
-                            "\n" +
-                            "Sunrise: " +
-                            weatherResponse.sys.sunrise +
-                            "\n" +
-                            "Pressure: " +
-                            weatherResponse.main.pressure;
-
-                    //weatherData.setText(stringBuilder);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
+            }
+        });
+
+        Call<OneCallResponse> callForecast = service.getOneCallData(Double.toString(mLocation.getLatitude()), Double.toString(mLocation.getLongitude()), AppId);
+        callForecast.enqueue(new Callback<OneCallResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<OneCallResponse> call, @NonNull Response<OneCallResponse> response) {
+                if (response.code() == 200) {
+                    OneCallResponse oneCallResponse = response.body();
+                    assert oneCallResponse != null;
+                    final HourlyAdapter todayAdapter = new HourlyAdapter(oneCallResponse.hourly);
+                    todayForecast.setAdapter(todayAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<OneCallResponse> call, @NonNull Throwable t) {
                 //weatherData.setText(t.getMessage());
             }
         });

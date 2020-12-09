@@ -1,6 +1,7 @@
 package com.revengeos.weather;
 
 import com.google.gson.annotations.SerializedName;
+import com.revengeos.weather.response.Weather;
 
 import java.util.ArrayList;
 
@@ -32,17 +33,6 @@ public class WeatherResponse {
     public int visibility;
     @SerializedName("timezone")
     public int timezone;
-}
-
-class Weather {
-    @SerializedName("id")
-    public int id;
-    @SerializedName("main")
-    public String main;
-    @SerializedName("description")
-    public String description;
-    @SerializedName("icon")
-    public String icon;
 }
 
 class Clouds {
