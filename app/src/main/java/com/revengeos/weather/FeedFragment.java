@@ -45,18 +45,9 @@ public class FeedFragment extends Fragment {
     private TextView currentLocationEnd;
     private TextView currentTempFeelsLike;
     private TextView currentTempFeelsLikeEnd;
-    private IconTextView currentMinTemp;
-    private IconTextView currentMinTempEnd;
-    private IconTextView currentMaxTemp;
-    private IconTextView currentMaxTempEnd;
     private ImageView currentIcon;
 
-    private IconTextView sunrise;
-    private IconTextView sunset;
-    private IconTextView pressure;
-    private IconTextView humidity;
-    private IconTextView wind;
-    private IconTextView visibilityDistance;
+    private WeatherDataGridView currentData;
 
     private ExpandableConstraintLayout currentMoreDataLayout;
     private View currentTouchLayer;
@@ -135,20 +126,13 @@ public class FeedFragment extends Fragment {
         currentLocationEnd = v.findViewById(R.id.current_location_end);
         currentTempFeelsLike = v.findViewById(R.id.current_temp_feels_like);
         currentTempFeelsLikeEnd = v.findViewById(R.id.current_temp_feels_like_end);
-        currentMinTemp = v.findViewById(R.id.current_min_temp);
-        currentMaxTemp = v.findViewById(R.id.current_max_temp);
         currentIcon = v.findViewById(R.id.current_icon);
 
         currentMoreDataLayout = v.findViewById(R.id.current_more);
         currentMoreDataLayout.collapse();
         currentMoreDataLayout.setAnimationDuration(700);
 
-        sunrise = v.findViewById(R.id.current_sunrise);
-        sunset = v.findViewById(R.id.current_sunset);
-        pressure = v.findViewById(R.id.current_pressure);
-        humidity = v.findViewById(R.id.current_humidity);
-        wind = v.findViewById(R.id.current_wind);
-        visibilityDistance = v.findViewById(R.id.current_visibility);
+        currentData = v.findViewById(R.id.current_data);
 
         currentTouchLayer = v.findViewById(R.id.current_touch_layer);
         currentTouchLayer.setOnClickListener(new View.OnClickListener() {
@@ -189,19 +173,9 @@ public class FeedFragment extends Fragment {
                     currentTempFeelsLike.setText(feelsLikeText);
                     currentTempFeelsLikeEnd.setText(feelsLikeText);
 
-                    String minTemp = WeatherUtils.Companion.getFormattedTemperature(weatherResponse.main.temp_min);
-                    String maxTemp = WeatherUtils.Companion.getFormattedTemperature(weatherResponse.main.temp_min);
-
-                    currentMinTemp.getTextView().setText(minTemp);
-                    currentMaxTemp.getTextView().setText(maxTemp);
-
-                    sunrise.getTextView().setText(WeatherUtils.Companion.getTimeFromEpoch(weatherResponse.sys.sunrise, weatherResponse.timezone));
-                    sunset.getTextView().setText(WeatherUtils.Companion.getTimeFromEpoch(weatherResponse.sys.sunset, weatherResponse.timezone));
-                    pressure.getTextView().setText(weatherResponse.main.pressure + " mbar");
-                    humidity.getTextView().setText(weatherResponse.main.humidity + " %");
-                    wind.getIconView().setRotation(weatherResponse.wind.deg);
-                    wind.getTextView().setText(weatherResponse.wind.speed + " m/s");
-                    visibilityDistance.getTextView().setText(WeatherUtils.Companion.getFormattedDistance(weatherResponse.visibility));
+                    currentData.updateData(weatherResponse.sys.sunrise, weatherResponse.sys.sunset, weatherResponse.timezone,
+                            weatherResponse.main.pressure, weatherResponse.main.humidity, weatherResponse.wind.deg,
+                            weatherResponse.wind.speed, weatherResponse.visibility, weatherResponse.main.temp_min, weatherResponse.main.temp_max);
 
                     int state = WeatherIconsHelper.Companion.mapConditionIconToCode(weatherResponse.weather.get(0).id,
                             weatherResponse.sys.sunrise, weatherResponse.sys.sunset);

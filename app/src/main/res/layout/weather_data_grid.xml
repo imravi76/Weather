@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <com.revengeos.weather.IconTextView
+            android:id="@+id/current_wind"
+            style="@style/AppTheme.TextIconView.ExtraData"
+            app:src="@drawable/ic_arrow" />
+
+        <com.revengeos.weather.IconTextView
+            android:id="@+id/current_humidity"
+            style="@style/AppTheme.TextIconView.ExtraData"
+            app:src="@drawable/water_percent" />
+
+        <com.revengeos.weather.IconTextView
+            android:id="@+id/current_min_temp"
+            style="@style/AppTheme.TextIconView.ExtraData"
+            app:src="@drawable/thermometer_minus" />
+
+        <com.revengeos.weather.IconTextView
+            android:id="@+id/current_max_temp"
+            style="@style/AppTheme.TextIconView.ExtraData"
+            app:src="@drawable/thermometer_plus" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <com.revengeos.weather.IconTextView
+            android:id="@+id/current_sunrise"
+            style="@style/AppTheme.TextIconView.ExtraData"
+            app:src="@drawable/weather_sunset_up" />
+
+        <com.revengeos.weather.IconTextView
+            android:id="@+id/current_sunset"
+            style="@style/AppTheme.TextIconView.ExtraData"
+            app:src="@drawable/weather_sunset_down" />
+
+        <com.revengeos.weather.IconTextView
+            android:id="@+id/current_pressure"
+            style="@style/AppTheme.TextIconView.ExtraData"
+            app:src="@drawable/gauge" />
+
+        <com.revengeos.weather.IconTextView
+            android:id="@+id/current_visibility"
+            style="@style/AppTheme.TextIconView.ExtraData"
+            app:src="@drawable/ic_outline_visibility_24" />
+    </TableRow>
+</merge>
