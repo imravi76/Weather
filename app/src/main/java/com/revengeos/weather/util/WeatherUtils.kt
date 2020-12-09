@@ -49,30 +49,31 @@ class WeatherUtils {
             return directions[(value % 16).roundToInt()]
         }
 
-        fun truncateDecimal(number: String) : String {
-            val numberSplit = number.split(",")
-            return if (numberSplit.size == 2) {
-                val decimalPart = "0.${numberSplit[1]}".toDouble()
-                if (decimalPart.roundToInt() == 0) {
-                    numberSplit[0]
-                } else {
-                    number
-                }
-            } else {
-                number
-            }
-        }
-
         fun convertMetersToMiles(meters: Float) : Float {
             return meters * 0.000621371f
         }
 
+        fun truncateFloatToString(number : Float, decimals : Int) : String {
+            val shouldTruncate = ((number - number.toInt()) * 10).roundToInt() == 0
+            return if (shouldTruncate) "${number.toInt()}" else "${"%.${decimals}f".format(number)}"
+        }
+
         fun getFormattedDistance(meters: Float) : String {
             val distance = if (default == imperial) convertMetersToMiles(meters) else meters / 1000
-            val shouldTruncate = (distance - distance.toInt()).roundToInt() == 0
-            val distanceString = if (shouldTruncate) "${distance.toInt()}" else "${"%.1f".format(distance)}"
             val unit = if (default == imperial) "miles" else "km"
-            return "$distanceString $unit"
+            return "${truncateFloatToString(distance, 1)} $unit"
+        }
+
+        fun metersPerSecondsToMilesPerHour(metersPerSecond : Float) : Float {
+            return metersPerSecond * 2.2369362920544f
+        }
+
+        fun getFormattedSpeed(metersPerSecond : Float) : String {
+            return if (default == imperial) {
+                "${truncateFloatToString(metersPerSecondsToMilesPerHour(metersPerSecond), 1)} mph"
+            } else {
+                "${truncateFloatToString(metersPerSecond, 1)} m/s"
+            }
         }
     }
 }

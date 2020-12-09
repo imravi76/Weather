@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.TableLayout
 import androidx.annotation.Nullable
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedDistance
+import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedSpeed
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weather.util.WeatherUtils.Companion.getTimeFromEpoch
 
@@ -47,7 +48,7 @@ class WeatherDataGridView : TableLayout {
         pressureView.textView.text = "$pressure mbar"
         humidityView.textView.text = "$humidity %"
         windView.iconView.rotation = windDirection.toFloat()
-        windView.textView.text = "$windSpeed m/s"
+        windView.textView.text = getFormattedSpeed(windSpeed)
         visibilityDistanceView.textView.text = getFormattedDistance(visibility.toFloat())
 
     }
