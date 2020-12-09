@@ -40,5 +40,7 @@ class IconTextView : LinearLayout {
         iconView.setImageDrawable(typedArray.getDrawable(R.styleable.IconTextView_src))
         textView.setTextAppearance(context, typedArray.getResourceId(R.styleable.IconTextView_textAppearance, 0))
         textView.text = typedArray.getString(R.styleable.IconTextView_text)
+
+        typedArray.recycle()
     }
 }
