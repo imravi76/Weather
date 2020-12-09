@@ -131,11 +131,19 @@
         android:id="@+id/forecast_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/current_more">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today"
+            android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/today_forecast"
