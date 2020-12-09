@@ -179,7 +179,7 @@ public class FeedFragment extends Fragment {
                     currentLocation.setText(weatherResponse.name);
                     currentLocationEnd.setText(weatherResponse.name);
 
-                    String feelsLikeText = getString(R.string.feels_like) + " " + WeatherUtils.Companion.getFormattedTemperature(weatherResponse.main.feels_like);
+                    String feelsLikeText = WeatherUtils.Companion.getFeelsLikeFormattedTemp(getContext(), weatherResponse.main.feels_like);
                     currentTempFeelsLike.setText(feelsLikeText);
                     currentTempFeelsLikeEnd.setText(feelsLikeText);
 

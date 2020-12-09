@@ -11,7 +11,7 @@
         style="@style/TextAppearance.AppTheme.CurrentExtraTempInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="14:32"
+        android:text="--:--"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,8 +20,8 @@
         style="@style/TextAppearance.AppTheme.CurrentExtraTempInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12sp"
-        android:text="Hailstorm"
+        android:layout_marginStart="6sp"
+        android:text="Unknown"
         app:layout_constraintStart_toEndOf="@id/time"
         app:layout_constraintTop_toTopOf="@id/time"
         app:layout_constraintBottom_toBottomOf="@id/time"/>
@@ -40,8 +40,7 @@
         style="@style/TextAppearance.AppTheme.CurrentExtraTempInfoCollapsed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8sp"
-        android:text="Feels like 23 gradi"
+        android:layout_marginStart="4sp"
         app:layout_constraintStart_toEndOf="@id/temperature"
         app:layout_constraintTop_toTopOf="@id/temperature"
         app:layout_constraintBottom_toBottomOf="@id/temperature" />

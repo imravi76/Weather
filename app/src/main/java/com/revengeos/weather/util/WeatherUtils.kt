@@ -1,5 +1,7 @@
 package com.revengeos.weather.util
 
+import android.content.Context
+import com.revengeos.weather.R
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.floor
@@ -74,6 +76,10 @@ class WeatherUtils {
             } else {
                 "${truncateFloatToString(metersPerSecond, 1)} m/s"
             }
+        }
+
+        fun getFeelsLikeFormattedTemp(context : Context, temperature : Float) : String {
+            return context.getString(R.string.feels_like).toString() + " " + getFormattedTemperature(temperature)
         }
     }
 }

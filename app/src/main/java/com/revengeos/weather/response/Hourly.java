@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Hourly {
     @SerializedName("dt")
-    public int dt;
+    public long dt;
     @SerializedName("temp")
     public float temp;
     @SerializedName("feels_like")

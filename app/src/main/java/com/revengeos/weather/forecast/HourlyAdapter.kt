@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.revengeos.weather.R
 import com.revengeos.weather.response.Hourly
 import com.revengeos.weather.util.WeatherUtils
+import com.revengeos.weather.util.WeatherUtils.Companion.getFeelsLikeFormattedTemp
+import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
+import com.revengeos.weather.util.WeatherUtils.Companion.getTimeFromEpoch
 
 class HourlyAdapter(private val dataSet: List<Hourly>) :
         RecyclerView.Adapter<HourlyAdapter.ViewHolder>() {
@@ -16,9 +19,10 @@ class HourlyAdapter(private val dataSet: List<Hourly>) :
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    class ViewHolder(private val view : View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(hourly: Hourly) {
-            view.findViewById<TextView>(R.id.temperature).text = WeatherUtils.getFormattedTemperature(hourly.temp)
+            view.findViewById<TextView>(R.id.temperature).text = getFormattedTemperature(hourly.temp)
+            view.findViewById<TextView>(R.id.feels_like).text = getFeelsLikeFormattedTemp(view.context, hourly.feelsLike)
         }
     }
 
