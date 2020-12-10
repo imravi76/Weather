@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.revengeos.weather.*
 import com.revengeos.weather.forecast.HourlyAdapter
@@ -38,6 +39,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rjsv.expconslayout.ExpandableConstraintLayout
 
 class FeedFragment : Fragment() {
+
+    val TAG = javaClass.toString()
 
     var BaseUrl = "https://api.openweathermap.org/"
     var AppId = "19063415dbe8507f4bd3e92ad691a57e"
@@ -99,6 +102,9 @@ class FeedFragment : Fragment() {
 
         currentTouchLayer = v.findViewById(R.id.current_touch_layer)
         currentTouchLayer.setOnClickListener { currentMoreDataLayout.toggle() }
+
+        todayForecast = v.findViewById(R.id.today_forecast)
+        todayForecast.layoutManager = LinearLayoutManager(v.context)
 
         requestPermissions(permissions, permissionsRequestCode);
 
@@ -168,7 +174,9 @@ class FeedFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<WeatherResponse?>, t: Throwable) {}
+            override fun onFailure(call: Call<WeatherResponse?>, t: Throwable) {
+                Log.d(TAG, t.toString())
+            }
         })
         val callForecast = service.getOneCallData(java.lang.Double.toString(mLocation!!.latitude), java.lang.Double.toString(mLocation!!.longitude), AppId)
         callForecast.enqueue(object : Callback<OneCallResponse?> {
@@ -181,7 +189,7 @@ class FeedFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<OneCallResponse?>, t: Throwable) {
-                //weatherData.setText(t.getMessage());
+                Log.d(TAG, t.toString())
             }
         })
     }
