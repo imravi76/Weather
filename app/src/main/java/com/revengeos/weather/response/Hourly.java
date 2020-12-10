@@ -30,5 +30,5 @@ public class Hourly {
     @SerializedName("weather")
     public List<Weather> weather = null;
     @SerializedName("pop")
-    public float pop;
+    public int pop;
 }

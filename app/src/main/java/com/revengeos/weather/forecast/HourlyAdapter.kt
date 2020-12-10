@@ -23,7 +23,6 @@ class HourlyAdapter(private val dataSet: List<Hourly>) :
         fun bind(hourly: Hourly) {
             view.findViewById<TextView>(R.id.temperature).text = getFormattedTemperature(hourly.temp)
             view.findViewById<TextView>(R.id.feels_like).text = getFeelsLikeFormattedTemp(view.context, hourly.feelsLike)
-            view.findViewById<TextView>(R.id.time).text = getTimeFromEpoch(hourly.dt, 0)
         }
     }
 

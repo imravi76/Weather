@@ -127,7 +127,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/today_forecast"
+        app:layout_constraintBottom_toTopOf="@id/forecast_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/current_icon">
@@ -141,12 +141,28 @@
             android:stretchColumns="*"/>
     </rjsv.expconslayout.ExpandableConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/today_forecast"
+    <LinearLayout
+        android:id="@+id/forecast_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/background"
+        android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/current_more">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today"
+            android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/today_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
