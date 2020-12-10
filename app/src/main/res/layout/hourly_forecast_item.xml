@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="55dp"
     android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:layout_margin="15dp">
 
     <TextView
@@ -15,6 +17,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/condition_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_margin="7dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/sunny"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/condition"
         style="@style/TextAppearance.AppTheme.CurrentExtraTempInfo"
@@ -22,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6sp"
         android:text="Unknown"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/time"
         app:layout_constraintTop_toTopOf="@id/time"
         app:layout_constraintBottom_toBottomOf="@id/time"/>
@@ -41,18 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4sp"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/temperature"
         app:layout_constraintTop_toTopOf="@id/temperature"
         app:layout_constraintBottom_toBottomOf="@id/temperature" />
-
-    <ImageView
-        android:id="@+id/condition_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_margin="7dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/sunny"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
