@@ -22,7 +22,7 @@ public class WeatherResponse {
     @SerializedName("clouds")
     public Clouds clouds;
     @SerializedName("dt")
-    public float dt;
+    public long dt;
     @SerializedName("id")
     public int id;
     @SerializedName("name")

@@ -63,6 +63,8 @@ class FeedFragment : Fragment() {
 
     private lateinit var todayForecast: RecyclerView
 
+    private var mCurrentTime : Long = -1;
+
     private var mLocation : Location? = null
 
     val locationListener: LocationListener = object : LocationListener {
@@ -157,6 +159,10 @@ class FeedFragment : Fragment() {
             override fun onResponse(call: Call<WeatherResponse?>, response: Response<WeatherResponse?>) {
                 if (response.code() == 200) {
                     val weatherResponse = response.body()!!
+
+                    mCurrentTime = weatherResponse.dt
+                    Log.d(TAG, "$mCurrentTime")
+
                     val temperature = getFormattedTemperature(weatherResponse.main.temp)
                     currentTemp.text = temperature
                     currentTempEnd.text = temperature
@@ -183,7 +189,11 @@ class FeedFragment : Fragment() {
             override fun onResponse(call: Call<OneCallResponse?>, response: Response<OneCallResponse?>) {
                 if (response.code() == 200) {
                     val oneCallResponse = response.body()!!
-                    val todayAdapter = HourlyAdapter(oneCallResponse.hourly)
+                    val hourlyForecast = (oneCallResponse.hourly).toMutableList()
+                    if (hourlyForecast[0].dt < mCurrentTime) {
+                        hourlyForecast.removeAt(0)
+                    }
+                    val todayAdapter = HourlyAdapter(hourlyForecast)
                     todayForecast.adapter = todayAdapter
                 }
             }

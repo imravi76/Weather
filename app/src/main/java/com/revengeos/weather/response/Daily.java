@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Daily {
     @SerializedName("dt")
-    public int dt;
+    public long dt;
     @SerializedName("sunrise")
     public int sunrise;
     @SerializedName("sunset")
