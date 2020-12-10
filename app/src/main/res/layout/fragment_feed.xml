@@ -162,7 +162,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/today_forecast"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:splitMotionEvents="false" />
     </LinearLayout>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
