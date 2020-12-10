@@ -161,7 +161,6 @@ class FeedFragment : Fragment() {
                     val weatherResponse = response.body()!!
 
                     mCurrentTime = weatherResponse.dt
-                    Log.d(TAG, "$mCurrentTime")
 
                     val temperature = getFormattedTemperature(weatherResponse.main.temp)
                     currentTemp.text = temperature
@@ -189,9 +188,11 @@ class FeedFragment : Fragment() {
             override fun onResponse(call: Call<OneCallResponse?>, response: Response<OneCallResponse?>) {
                 if (response.code() == 200) {
                     val oneCallResponse = response.body()!!
-                    val hourlyForecast = (oneCallResponse.hourly).toMutableList()
+                    var hourlyForecast = (oneCallResponse.hourly).subList(0, 25).toMutableList()
                     if (hourlyForecast[0].dt < mCurrentTime) {
                         hourlyForecast.removeAt(0)
+                    } else {
+                        hourlyForecast.removeAt(24)
                     }
                     val todayAdapter = HourlyAdapter(hourlyForecast)
                     todayForecast.adapter = todayAdapter
