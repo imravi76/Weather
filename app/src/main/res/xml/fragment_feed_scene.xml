@@ -15,7 +15,7 @@
             android:layout_marginBottom="@dimen/current_weather_vertical_margin_collapsed"
             app:layout_constraintBottom_toTopOf="@+id/current_more"
             android:layout_marginEnd="@dimen/current_weather_horizontal_margin_collapsed"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/current_touch_layer"
             android:layout_marginTop="@dimen/current_weather_vertical_margin_collapsed" />
         <Constraint
             android:id="@+id/current_temperature"

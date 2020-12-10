@@ -2,6 +2,7 @@ package com.revengeos.weather
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -12,10 +13,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         val mMainNav = findViewById<BottomNavigationView>(R.id.main_nav)
         feedFragment = FeedFragment()
         citiesFragment = CitiesFragment()
         settingsFragment = SettingsFragment()
+        supportFragmentManager.beginTransaction().add(R.id.main_frame, feedFragment, "").show(feedFragment).commit()
         setFragment(feedFragment)
         mMainNav.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {

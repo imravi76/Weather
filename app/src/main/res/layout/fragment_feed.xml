@@ -2,6 +2,7 @@
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feed_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FeedFragment"
@@ -18,6 +19,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <FrameLayout
+        android:id="@+id/top_inset_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Space
+            android:id="@+id/top_inset"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+    </FrameLayout>
+
     <View
         android:id="@+id/current_touch_layer"
         android:layout_width="0dp"
@@ -25,7 +39,7 @@
         app:layout_constraintBottom_toTopOf="@+id/current_more"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintTop_toBottomOf="@id/top_inset_container" />
 
     <TextView
         android:id="@+id/current_temperature"
@@ -106,7 +120,7 @@
         android:src="@drawable/sunny"
         app:layout_constraintBottom_toTopOf="@id/current_more"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="@id/current_touch_layer"/>
 
     <rjsv.expconslayout.ExpandableConstraintLayout
         android:id="@+id/current_more"
