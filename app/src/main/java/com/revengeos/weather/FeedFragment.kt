@@ -109,7 +109,6 @@ class FeedFragment : Fragment() {
         currentTouchLayer.setOnClickListener { currentMoreDataLayout.toggle() }
 
         todayForecast = v.findViewById(R.id.today_forecast)
-        todayForecast.clipToOutline = true
         var itemDecoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
         itemDecoration.setDrawable(resources.getDrawable(R.drawable.forecast_container_separator, v.context.theme))
         todayForecast.addItemDecoration(itemDecoration)
@@ -128,6 +127,7 @@ class FeedFragment : Fragment() {
         val currentBackground = v.findViewById<BlurView>(R.id.current_background)
         currentBackground.setupWith(bgContainer).setHasFixedTransformationMatrix(true).setBlurAlgorithm(RenderScriptBlur(v.context))
         val forecastBlur =  v.findViewById<BlurView>(R.id.forcast_blur)
+        forecastBlur.clipToOutline = true
         forecastBlur.setupWith(bgContainer).setHasFixedTransformationMatrix(false).setBlurAlgorithm(RenderScriptBlur(v.context))
 
         return v
