@@ -182,19 +182,25 @@
                 android:text="Today"
                 android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/today_forecast"
+            <eightbitlab.com.blurview.BlurView
+                android:id="@+id/forcast_blur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/forecast_container"
-                android:outlineProvider="background"
-                android:elevation="15dp"
                 android:layout_marginTop="@dimen/forecast_container_vertical_margin"
                 android:layout_marginBottom="@dimen/forecast_container_vertical_margin"
                 android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
                 android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
-                android:splitMotionEvents="false"
-                android:nestedScrollingEnabled="false"/>
+                android:background="@drawable/forecast_container"
+                android:outlineProvider="background"
+                android:elevation="15dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/today_forecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:splitMotionEvents="false"
+                    android:nestedScrollingEnabled="false" />
+            </eightbitlab.com.blurview.BlurView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

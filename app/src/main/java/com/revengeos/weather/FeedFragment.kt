@@ -124,9 +124,11 @@ class FeedFragment : Fragment() {
             return@setOnApplyWindowInsetsListener inset
         }
 
-        val feedContainer = v.findViewById<ViewGroup>(R.id.bg_container)
+        val bgContainer = v.findViewById<ViewGroup>(R.id.bg_container)
         val currentBackground = v.findViewById<BlurView>(R.id.current_background)
-        currentBackground.setupWith(feedContainer).setHasFixedTransformationMatrix(true).setBlurAlgorithm(RenderScriptBlur(v.context))
+        currentBackground.setupWith(bgContainer).setHasFixedTransformationMatrix(true).setBlurAlgorithm(RenderScriptBlur(v.context))
+        val forecastBlur =  v.findViewById<BlurView>(R.id.forcast_blur)
+        forecastBlur.setupWith(bgContainer).setHasFixedTransformationMatrix(false).setBlurAlgorithm(RenderScriptBlur(v.context))
 
         return v
     }
