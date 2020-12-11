@@ -108,7 +108,7 @@
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start" >
         <OnSwipe
-            app:touchAnchorId="@id/today_forecast"
+            app:touchAnchorId="@id/forecast_container"
             app:touchAnchorSide="top"
             app:dragDirection="dragUp" />
     </Transition>

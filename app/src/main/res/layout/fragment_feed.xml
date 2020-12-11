@@ -145,7 +145,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/today_title"
+        app:layout_constraintBottom_toTopOf="@id/forecast_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/current_icon">
@@ -159,31 +159,43 @@
             android:stretchColumns="*"/>
     </rjsv.expconslayout.ExpandableConstraintLayout>
 
-    <TextView
-        android:id="@+id/today_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
-        android:layout_marginStart="@dimen/forecast_container_title_start_margin"
-        android:text="Today"
-        android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"
-        app:layout_constraintStart_toStartOf="@id/today_forecast"
-        app:layout_constraintTop_toBottomOf="@id/current_more" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/today_forecast"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/forecast_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/forecast_container"
-        android:outlineProvider="background"
-        android:elevation="15dp"
-        android:layout_marginTop="@dimen/forecast_container_vertical_margin"
-        android:layout_marginBottom="@dimen/forecast_container_vertical_margin"
-        android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
-        android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
-        android:splitMotionEvents="false"
-        app:layout_constraintTop_toBottomOf="@id/today_title"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/current_more"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/today_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
+                android:layout_marginStart="@dimen/forecast_container_title_start_margin"
+                android:text="Today"
+                android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/today_forecast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/forecast_container"
+                android:outlineProvider="background"
+                android:elevation="15dp"
+                android:layout_marginTop="@dimen/forecast_container_vertical_margin"
+                android:layout_marginBottom="@dimen/forecast_container_vertical_margin"
+                android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
+                android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
+                android:splitMotionEvents="false"
+                android:nestedScrollingEnabled="false"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
