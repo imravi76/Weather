@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.revengeos.weather.*
@@ -106,6 +107,10 @@ class FeedFragment : Fragment() {
         currentTouchLayer.setOnClickListener { currentMoreDataLayout.toggle() }
 
         todayForecast = v.findViewById(R.id.today_forecast)
+        todayForecast.clipToOutline = true
+        var itemDecoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
+        itemDecoration.setDrawable(resources.getDrawable(R.drawable.forecast_container_separator, v.context.theme))
+        todayForecast.addItemDecoration(itemDecoration)
         todayForecast.layoutManager = LinearLayoutManager(v.context)
 
         requestPermissions(permissions, permissionsRequestCode);
