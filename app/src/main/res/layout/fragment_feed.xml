@@ -163,6 +163,7 @@
         android:id="@+id/forecast_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/current_more"
@@ -177,7 +178,6 @@
                 android:id="@+id/today_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
                 android:layout_marginStart="@dimen/forecast_container_title_start_margin"
                 android:text="Today"
                 android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"/>
