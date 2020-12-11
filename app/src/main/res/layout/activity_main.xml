@@ -10,13 +10,21 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/main_nav"
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/nav_blur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:labelVisibilityMode="selected"
-        app:menu="@menu/nav_items" />
+        android:layout_gravity="bottom">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorBackgroundFloatingTranslucent"
+            app:labelVisibilityMode="selected"
+            app:elevation="0dp"
+            app:menu="@menu/nav_items" />
+    </eightbitlab.com.blurview.BlurView>
 </FrameLayout>

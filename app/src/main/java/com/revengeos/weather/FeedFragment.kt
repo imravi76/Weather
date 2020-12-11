@@ -32,6 +32,8 @@ import com.revengeos.weather.util.WeatherUtils.Companion.getFeelsLikeFormattedTe
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weathericons.WeatherIconsHelper.Companion.getDrawable
 import com.revengeos.weathericons.WeatherIconsHelper.Companion.mapConditionIconToCode
+import eightbitlab.com.blurview.BlurView
+import eightbitlab.com.blurview.RenderScriptBlur
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -121,6 +123,10 @@ class FeedFragment : Fragment() {
             topInsetView.layoutParams.height = topInset
             return@setOnApplyWindowInsetsListener inset
         }
+
+        val feedContainer = v.findViewById<ViewGroup>(R.id.bg_container)
+        val currentBackground = v.findViewById<BlurView>(R.id.current_background)
+        currentBackground.setupWith(feedContainer).setHasFixedTransformationMatrix(true).setBlurAlgorithm(RenderScriptBlur(v.context))
 
         return v
     }

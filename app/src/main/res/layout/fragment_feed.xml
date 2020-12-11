@@ -8,12 +8,30 @@
     tools:context=".FeedFragment"
     app:layoutDescription="@xml/fragment_feed_scene">
 
-    <View
-        android:id="@+id/background"
+    <FrameLayout
+        android:id="@+id/bg_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/page_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/demo"
+            android:foreground="#55000000"
+            android:scaleType="centerCrop" />
+    </FrameLayout>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/current_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0"
-        android:background="?colorBackgroundFloating"
+        android:background="?colorBackgroundFloatingTranslucent"
         app:layout_constraintBottom_toBottomOf="@id/current_more"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -159,8 +177,8 @@
         android:background="@drawable/forecast_container"
         android:outlineProvider="background"
         android:elevation="15dp"
-        android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
-        android:layout_marginBottom="@dimen/forecast_container_title_vertical_margin"
+        android:layout_marginTop="@dimen/forecast_container_vertical_margin"
+        android:layout_marginBottom="@dimen/forecast_container_vertical_margin"
         android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
         android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
         android:splitMotionEvents="false"

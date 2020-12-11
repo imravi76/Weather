@@ -1,15 +1,19 @@
 package com.revengeos.weather
 
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import eightbitlab.com.blurview.BlurView
+import eightbitlab.com.blurview.RenderScriptBlur
 
 class MainActivity : AppCompatActivity() {
     private lateinit var feedFragment: FeedFragment
     private lateinit var citiesFragment: CitiesFragment
     private lateinit var settingsFragment: SettingsFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,6 +41,10 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        val fragmentFrame = findViewById<ViewGroup>(R.id.main_frame)
+        val navBlur = findViewById<BlurView>(R.id.nav_blur)
+        navBlur.setupWith(fragmentFrame).setHasFixedTransformationMatrix(true).setBlurAlgorithm(RenderScriptBlur(this)).setFrameClearDrawable(window.decorView.background)
     }
 
     private fun setFragment(fragment: Fragment) {

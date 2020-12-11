@@ -13,7 +13,7 @@
     <dimen name="forecast_item_horizontal_margin">15dp</dimen>
     <dimen name="forecast_item_vertical_margin">15dp</dimen>
     <dimen name="forecast_container_horizontal_margin">15dp</dimen>
-    <dimen name="forecast_container_vertical_margin">15dp</dimen>
+    <dimen name="forecast_container_vertical_margin">20dp</dimen>
     <dimen name="forecast_container_title_vertical_margin">15dp</dimen>
     <dimen name="forecast_container_title_start_margin">15dp</dimen>
 </resources>
