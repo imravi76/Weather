@@ -127,8 +127,10 @@ class FeedFragment : Fragment() {
         val currentBackground = v.findViewById<BlurView>(R.id.current_background)
         currentBackground.setupWith(bgContainer).setHasFixedTransformationMatrix(true).setBlurAlgorithm(RenderScriptBlur(v.context))
         val forecastBlur =  v.findViewById<BlurView>(R.id.forcast_blur)
-        forecastBlur.clipToOutline = true
         forecastBlur.setupWith(bgContainer).setHasFixedTransformationMatrix(false).setBlurAlgorithm(RenderScriptBlur(v.context))
+        val forecastContainer = v.findViewById<View>(R.id.forecast_container)
+        forecastContainer.clipToOutline = true
+        forecastBlur.clipToOutline = true
 
         return v
     }
