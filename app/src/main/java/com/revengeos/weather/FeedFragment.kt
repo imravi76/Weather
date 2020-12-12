@@ -15,8 +15,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -25,15 +23,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.revengeos.weather.*
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.response.OneCallResponse
 import com.revengeos.weather.util.WeatherUtils.Companion.getFeelsLikeFormattedTemp
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weathericons.WeatherIconsHelper.Companion.getDrawable
 import com.revengeos.weathericons.WeatherIconsHelper.Companion.mapConditionIconToCode
-import eightbitlab.com.blurview.BlurView
-import eightbitlab.com.blurview.RenderScriptBlur
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -113,6 +108,10 @@ class FeedFragment : Fragment() {
         itemDecoration.setDrawable(resources.getDrawable(R.drawable.forecast_container_separator, v.context.theme))
         todayForecast.addItemDecoration(itemDecoration)
         todayForecast.layoutManager = LinearLayoutManager(v.context)
+        todayForecast.clipToOutline = true
+
+        val forecastContainer : View = v.findViewById(R.id.forecast_container)
+        forecastContainer.clipToOutline = true
 
         requestPermissions(permissions, permissionsRequestCode);
 
@@ -122,15 +121,6 @@ class FeedFragment : Fragment() {
             topInsetView.layoutParams.height = topInset
             return@setOnApplyWindowInsetsListener inset
         }
-
-        val bgContainer = v.findViewById<ViewGroup>(R.id.bg_container)
-        val currentBackground = v.findViewById<BlurView>(R.id.current_background)
-        currentBackground.setupWith(bgContainer).setHasFixedTransformationMatrix(true).setBlurAlgorithm(RenderScriptBlur(v.context))
-        val forecastBlur =  v.findViewById<BlurView>(R.id.forcast_blur)
-        forecastBlur.setupWith(bgContainer).setHasFixedTransformationMatrix(false).setBlurAlgorithm(RenderScriptBlur(v.context))
-        val forecastContainer = v.findViewById<View>(R.id.forecast_container)
-        forecastContainer.clipToOutline = true
-        forecastBlur.clipToOutline = true
 
         return v
     }

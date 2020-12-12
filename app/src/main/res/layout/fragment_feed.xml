@@ -8,25 +8,19 @@
     tools:context=".FeedFragment"
     app:layoutDescription="@xml/fragment_feed_scene">
 
-    <FrameLayout
-        android:id="@+id/bg_container"
+    <ImageView
+        android:id="@+id/page_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:src="@drawable/demo"
+        android:foreground="#55000000"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <ImageView
-            android:id="@+id/page_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/demo"
-            android:foreground="#55000000"
-            android:scaleType="centerCrop" />
-    </FrameLayout>
-
-    <eightbitlab.com.blurview.BlurView
+    <View
         android:id="@+id/current_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -189,20 +183,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <eightbitlab.com.blurview.BlurView
-                android:id="@+id/forcast_blur"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/today_forecast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/forecast_container_vertical_margin"
                 android:background="@drawable/forecast_container"
-                android:outlineProvider="background">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/today_forecast"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:splitMotionEvents="false" />
-            </eightbitlab.com.blurview.BlurView>
+                android:outlineProvider="background"
+                android:nestedScrollingEnabled="false"
+                android:splitMotionEvents="false" />
 
             <Space
                 android:layout_width="0dp"
