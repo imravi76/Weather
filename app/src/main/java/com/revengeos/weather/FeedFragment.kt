@@ -108,10 +108,6 @@ class FeedFragment : Fragment() {
         itemDecoration.setDrawable(resources.getDrawable(R.drawable.forecast_container_separator, v.context.theme))
         todayForecast.addItemDecoration(itemDecoration)
         todayForecast.layoutManager = LinearLayoutManager(v.context)
-        todayForecast.clipToOutline = true
-
-        val forecastContainer : View = v.findViewById(R.id.forecast_container)
-        forecastContainer.clipToOutline = true
 
         requestPermissions(permissions, permissionsRequestCode);
 

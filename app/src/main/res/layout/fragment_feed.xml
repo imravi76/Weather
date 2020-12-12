@@ -13,23 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/demo"
-        android:foreground="#55000000"
+        android:foreground="#95000000"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
-    <View
-        android:id="@+id/current_background"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0"
-        android:background="?colorBackgroundFloatingTranslucent"
-        app:layout_constraintBottom_toBottomOf="@id/current_more"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/top_inset_container"
@@ -164,39 +153,20 @@
         app:layout_constraintTop_toBottomOf="@id/current_more"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/forecast_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/forecast_container_clipping"
-        android:outlineProvider="background"
-        android:layout_marginTop="@dimen/forecast_container_vertical_margin"
-        android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
-        android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
-        app:layout_constraintBottom_toTopOf="@id/bottom_inset_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/today_title"
-        app:layout_constraintStart_toStartOf="parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/today_forecast"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/forecast_container"
-        android:outlineProvider="background"
-        android:nestedScrollingEnabled="false"
-        android:splitMotionEvents="false" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/forecast_container_vertical_margin"/>
-    </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/forecast_container_vertical_margin"
+        android:layout_marginTop="@dimen/forecast_container_vertical_margin"
+        android:paddingStart="@dimen/forecast_container_horizontal_margin"
+        android:paddingEnd="@dimen/forecast_container_horizontal_margin"
+        android:splitMotionEvents="false"
+        app:layout_constraintBottom_toTopOf="@id/bottom_inset_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/today_title"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <FrameLayout
         android:id="@+id/bottom_inset_container"
