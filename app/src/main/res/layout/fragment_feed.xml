@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/demo"
-        android:foreground="#95000000"
+        android:foreground="#a5000000"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -153,19 +153,28 @@
         app:layout_constraintTop_toBottomOf="@id/current_more"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <View
+        android:id="@+id/forecast_title_separator"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="@drawable/forecast_title_separator"
+        android:layout_marginTop="@dimen/forecast_container_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@id/today_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/today_forecast"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/forecast_container_vertical_margin"
-        android:layout_marginTop="@dimen/forecast_container_vertical_margin"
         android:paddingStart="@dimen/forecast_container_horizontal_margin"
         android:paddingEnd="@dimen/forecast_container_horizontal_margin"
         android:splitMotionEvents="false"
         app:layout_constraintBottom_toTopOf="@id/bottom_inset_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/today_title"
+        app:layout_constraintTop_toBottomOf="@id/forecast_title_separator"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <FrameLayout
