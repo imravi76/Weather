@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import eightbitlab.com.blurview.BlurView
+import eightbitlab.com.blurview.RenderScriptBlur
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,6 +49,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         val fragmentFrame = findViewById<ViewGroup>(R.id.main_frame)
+        val navBlur = findViewById<BlurView>(R.id.nav_blur)
+        navBlur.setupWith(fragmentFrame).setHasFixedTransformationMatrix(true)
+                .setBlurAlgorithm(RenderScriptBlur(this))
+                .setFrameClearDrawable(window.decorView.background)
+                .setBlurRadius(15f)
     }
 
     private fun setFragment(fragment: Fragment) {
