@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.RevengeUI.DayNight">
+    <style name="AppTheme" parent="Theme.RevengeUI.Dark">
     </style>
 
     <style name="TextAppearance.AppTheme.CurrentTemperature" parent="TextAppearance.AppCompat.Headline">
