@@ -119,7 +119,11 @@ class FeedFragment : Fragment() {
             val topInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).top
             val topInsetView = v.findViewById<View>(R.id.top_inset)
             topInsetView.layoutParams.height = topInset
-            return@setOnApplyWindowInsetsListener inset
+
+            val bottomInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+            val bottomInsetView = v.findViewById<View>(R.id.bottom_inset)
+            bottomInsetView.layoutParams.height = bottomInset
+                    return@setOnApplyWindowInsetsListener inset
         }
 
         return v

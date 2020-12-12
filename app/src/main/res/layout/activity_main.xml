@@ -20,5 +20,5 @@
         android:background="?colorBackgroundFloatingTranslucent"
         app:labelVisibilityMode="selected"
         app:elevation="0dp"
-        app:menu="@menu/nav_items" />
+        app:menu="@menu/nav_items"/>
 </FrameLayout>

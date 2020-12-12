@@ -3,6 +3,7 @@ package com.revengeos.weather
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -45,8 +46,6 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-        val fragmentFrame = findViewById<ViewGroup>(R.id.main_frame)
     }
 
     private fun setFragment(fragment: Fragment) {

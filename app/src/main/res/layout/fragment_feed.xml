@@ -173,30 +173,43 @@
         android:layout_marginTop="@dimen/forecast_container_vertical_margin"
         android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
         android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_inset_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/today_title"
         app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/today_forecast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/forecast_container"
+        android:outlineProvider="background"
+        android:nestedScrollingEnabled="false"
+        android:splitMotionEvents="false" />
+
+        <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/today_forecast"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/forecast_container_vertical_margin"
-                android:background="@drawable/forecast_container"
-                android:outlineProvider="background"
-                android:nestedScrollingEnabled="false"
-                android:splitMotionEvents="false" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="70dp"/>
-        </LinearLayout>
+            android:layout_height="@dimen/forecast_container_vertical_margin"/>
+    </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/bottom_inset_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Space
+            android:id="@+id/bottom_inset"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/design_bottom_navigation_height"/>
+    </FrameLayout>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
