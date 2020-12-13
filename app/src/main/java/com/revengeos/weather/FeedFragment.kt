@@ -32,12 +32,9 @@ import com.revengeos.weathericons.WeatherIconsHelper.Companion.getDrawable
 import com.revengeos.weathericons.WeatherIconsHelper.Companion.mapConditionIconToCode
 import rjsv.expframelayout.ExpandableFrameLayout
 
-class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
+class FeedFragment : Fragment() {
 
     val TAG = javaClass.toString()
-
-    private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-    private val permissionsRequestCode = 420
 
     private lateinit var currentTemp: TextView
     private lateinit var currentTempEnd: TextView
@@ -58,18 +55,6 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
     private var mCurrentTimeShift : Int = 0
     private var mCurrentSunrise : Long = -1
     private var mCurrentSunset : Long = -1
-
-    private val weatherData = WeatherData(this)
-
-    val locationListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            updateWeatherUI(location, weatherData)
-        }
-
-        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-        override fun onProviderEnabled(provider: String) {}
-        override fun onProviderDisabled(provider: String) {}
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,27 +89,6 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
         todayForecast.addItemDecoration(itemDecoration)
         todayForecast.layoutManager = LinearLayoutManager(v.context)
 
-        var permissionsGranted = true
-        for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(requireActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
-                permissionsGranted = false
-            }
-        }
-        if (permissionsGranted) {
-            val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val criteria = Criteria()
-            criteria.accuracy = Criteria.ACCURACY_FINE
-            val locationProvider = locationManager.getBestProvider(criteria, true)
-            val location = locationManager.getLastKnownLocation(locationProvider!!)
-            if (location != null) {
-                updateWeatherUI(location, weatherData)
-            } else {
-                locationManager.requestSingleUpdate(locationProvider, locationListener, null)
-            }
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(), permissions, permissionsRequestCode)
-        }
-
         ViewCompat.setOnApplyWindowInsetsListener(v) { view, inset ->
             val topInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).top
             val topInsetView = v.findViewById<View>(R.id.top_inset)
@@ -139,47 +103,7 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
         return v
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when (requestCode) {
-            permissionsRequestCode -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(requireContext(),
-                                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                        val criteria = Criteria()
-                        criteria.accuracy = Criteria.ACCURACY_FINE
-                        val locationProvider = locationManager.getBestProvider(criteria, true)
-                        if (ActivityCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                                && ActivityCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            val location = locationManager.getLastKnownLocation(locationProvider!!)
-                            if (location != null) {
-                                updateWeatherUI(location, weatherData)
-                            } else {
-                                locationManager.requestSingleUpdate(locationProvider, locationListener, null)
-                            }
-                        }
-                    }
-                } else {
-                    Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
-                }
-                return
-            }
-        }
-    }
-
-    private fun updateWeatherUI(location : Location, weatherData : WeatherData) {
-        weatherData.latitude = location.latitude
-        weatherData.longitude = location.longitude
-        weatherData.updateCurrentWeatherData()
-        weatherData.updateOneCallWeatherData()
-    }
-
-    override fun onCurrentWeatherDataUpdated(weatherResponse: WeatherResponse?) {
-        if (weatherResponse == null) {
-            if (DEBUG) Log.d(TAG, "Current weather data is null !")
-            return
-        }
-
+    fun updateCurrentWeather(weatherResponse: WeatherResponse) {
         mCurrentTime = weatherResponse.dt
         mCurrentTimeShift = weatherResponse.timezone
         mCurrentSunrise = weatherResponse.sys.sunrise
@@ -202,12 +126,7 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
         currentIcon.setImageResource(getDrawable(state, requireContext())!!)
     }
 
-    override fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?) {
-        if (oneCallResponse == null) {
-            if (DEBUG) Log.d(TAG, "Onecall weather data is null !")
-            return
-        }
-
+    fun updateForecastWeather(oneCallResponse: OneCallResponse) {
         var hourlyForecast = (oneCallResponse.hourly).subList(0, 25).toMutableList()
         if (hourlyForecast[0].dt < mCurrentTime) {
             hourlyForecast.removeAt(0)
