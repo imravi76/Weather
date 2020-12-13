@@ -34,7 +34,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import rjsv.expconslayout.ExpandableConstraintLayout
+import rjsv.expframelayout.ExpandableFrameLayout
 
 class FeedFragment : Fragment() {
 
@@ -56,7 +56,7 @@ class FeedFragment : Fragment() {
 
     private lateinit var currentData: WeatherDataGridView
 
-    private lateinit var currentMoreDataLayout: ExpandableConstraintLayout
+    private lateinit var currentMoreDataLayout: ExpandableFrameLayout
     private lateinit var currentTouchLayer: View
 
     private lateinit var todayForecast: RecyclerView

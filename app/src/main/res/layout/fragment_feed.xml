@@ -132,7 +132,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/current_touch_layer"/>
 
-    <rjsv.expconslayout.ExpandableConstraintLayout
+    <rjsv.expframelayout.ExpandableFrameLayout
         android:id="@+id/current_more"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:stretchColumns="*"/>
-    </rjsv.expconslayout.ExpandableConstraintLayout>
+    </rjsv.expframelayout.ExpandableFrameLayout>
 
     <TextView
         android:id="@+id/today_title"

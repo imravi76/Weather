@@ -1,4 +1,4 @@
-include ':expconslayout'
+include ':expframelayout'
 include ':weathericons'
 include ':app',':revengeui'
 rootProject.name = "Weather"
