@@ -3,6 +3,8 @@
     <style name="AppTheme" parent="Theme.RevengeUI.Dark">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:colorAccent">?android:textColorPrimary</item>
+        <item name="colorAccent">?android:textColorPrimary</item>
     </style>
 
     <style name="TextAppearance.AppTheme.CurrentTemperature" parent="TextAppearance.AppCompat.Headline">
