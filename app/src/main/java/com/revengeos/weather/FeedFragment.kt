@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.response.OneCallResponse
+import com.revengeos.weather.util.WeatherUtils
+import com.revengeos.weather.util.WeatherUtils.Companion.API_KEY
 import com.revengeos.weather.util.WeatherUtils.Companion.getFeelsLikeFormattedTemp
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weathericons.WeatherIconsHelper.Companion.getDrawable
@@ -39,9 +41,6 @@ import rjsv.expframelayout.ExpandableFrameLayout
 class FeedFragment : Fragment() {
 
     val TAG = javaClass.toString()
-
-    var BaseUrl = "https://api.openweathermap.org/"
-    var AppId = "19063415dbe8507f4bd3e92ad691a57e"
 
     private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
     private val permissionsRequestCode = 420
@@ -155,11 +154,11 @@ class FeedFragment : Fragment() {
 
     private fun getCurrentData() {
         val retrofit = Retrofit.Builder()
-                .baseUrl(BaseUrl)
+                .baseUrl(WeatherUtils.OPENWEATHER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         val service = retrofit.create(WeatherService::class.java)
-        val callCurrentWeather = service.getCurrentWeatherData(java.lang.Double.toString(mLocation!!.latitude), java.lang.Double.toString(mLocation!!.longitude), AppId)
+        val callCurrentWeather = service.getCurrentWeatherData(java.lang.Double.toString(mLocation!!.latitude), java.lang.Double.toString(mLocation!!.longitude), API_KEY)
         callCurrentWeather.enqueue(object : Callback<WeatherResponse?> {
             override fun onResponse(call: Call<WeatherResponse?>, response: Response<WeatherResponse?>) {
                 if (response.code() == 200) {
@@ -188,7 +187,7 @@ class FeedFragment : Fragment() {
                 Log.d(TAG, t.toString())
             }
         })
-        val callForecast = service.getOneCallData(java.lang.Double.toString(mLocation!!.latitude), java.lang.Double.toString(mLocation!!.longitude), AppId)
+        val callForecast = service.getOneCallData(java.lang.Double.toString(mLocation!!.latitude), java.lang.Double.toString(mLocation!!.longitude), API_KEY)
         callForecast.enqueue(object : Callback<OneCallResponse?> {
             override fun onResponse(call: Call<OneCallResponse?>, response: Response<OneCallResponse?>) {
                 if (response.code() == 200) {

@@ -9,6 +9,9 @@ import kotlin.math.roundToInt
 
 class WeatherUtils {
     companion object {
+        val API_KEY = "19063415dbe8507f4bd3e92ad691a57e"
+        val OPENWEATHER_URL = "https://api.openweathermap.org/"
+
         val directions = arrayOf("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW")
 
         var imperial: WeatherUtils = WeatherUtils()
