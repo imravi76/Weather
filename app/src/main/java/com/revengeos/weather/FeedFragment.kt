@@ -125,7 +125,7 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
             ActivityCompat.requestPermissions(requireActivity(), permissions, permissionsRequestCode)
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(requireActivity().window.decorView) { view, inset ->
+        ViewCompat.setOnApplyWindowInsetsListener(v) { view, inset ->
             val topInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).top
             val topInsetView = v.findViewById<View>(R.id.top_inset)
             topInsetView.layoutParams.height = topInset

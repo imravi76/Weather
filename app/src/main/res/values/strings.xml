@@ -8,4 +8,8 @@
     <string name="feels_like">Feels like</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="today_title">Today</string>
+    <string name="tomorrow_title">Tomorrow</string>
+    <string name="next_days_title">Next days</string>
 </resources>

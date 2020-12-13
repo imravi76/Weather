@@ -8,9 +8,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var feedFragment: FeedFragment
-    private lateinit var citiesFragment: CitiesFragment
-    private lateinit var settingsFragment: SettingsFragment
+    private lateinit var todayFragment: Fragment
+    private lateinit var tomorrowFragment: Fragment
+    private lateinit var nextDaysFragment: Fragment
+    private lateinit var settingsFragment: Fragment
+
+    private var activeFragment : Fragment? = null
+
+    private lateinit var bottomNav : BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,27 +23,36 @@ class MainActivity : AppCompatActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        val mMainNav = findViewById<BottomNavigationView>(R.id.main_nav)
+        if (savedInstanceState == null) {
+            todayFragment = setupFragment(FeedFragment(), getString(R.string.today_title))
+            tomorrowFragment = setupFragment(FeedFragment(), getString(R.string.tomorrow_title))
+            nextDaysFragment = setupFragment(FeedFragment(), getString(R.string.next_days_title))
+            settingsFragment = setupFragment(SettingsFragment(), getString(R.string.nav_settings))
+            switchActiveFragment(todayFragment)
+        } else {
+            todayFragment = supportFragmentManager.findFragmentByTag(getString(R.string.today_title))!!
+            tomorrowFragment = supportFragmentManager.findFragmentByTag(getString(R.string.tomorrow_title))!!
+            nextDaysFragment = supportFragmentManager.findFragmentByTag(getString(R.string.next_days_title))!!
+            settingsFragment = supportFragmentManager.findFragmentByTag(getString(R.string.nav_settings))!!
+        }
 
-        feedFragment = FeedFragment()
-        citiesFragment = CitiesFragment()
-        settingsFragment = SettingsFragment()
-
-        supportFragmentManager.beginTransaction().add(R.id.main_frame, feedFragment, "").show(feedFragment).commit()
-        setFragment(feedFragment)
-
-        mMainNav.setOnNavigationItemSelectedListener { menuItem ->
+        bottomNav = findViewById(R.id.main_nav)
+        bottomNav.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_feed -> {
-                    setFragment(feedFragment)
+                R.id.today -> {
+                    switchActiveFragment(todayFragment)
                     true
                 }
-                R.id.nav_cities -> {
-                    setFragment(citiesFragment)
+                R.id.tomorrow -> {
+                    switchActiveFragment(tomorrowFragment)
+                    true
+                }
+                R.id.next_days -> {
+                    switchActiveFragment(nextDaysFragment)
                     true
                 }
                 R.id.nav_settings -> {
-                    setFragment(settingsFragment)
+                    switchActiveFragment(settingsFragment)
                     true
                 }
                 else -> false
@@ -46,9 +60,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setFragment(fragment: Fragment) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.main_frame, fragment)
-        fragmentTransaction.commit()
+    private fun setupFragment(fragment : Fragment, title : String) : Fragment {
+        supportFragmentManager.beginTransaction().add(R.id.main_content, fragment, title).hide(fragment).commit()
+        return fragment
+    }
+
+    private fun switchActiveFragment(newFragment : Fragment) {
+        if (newFragment != activeFragment) {
+            val transaction = supportFragmentManager.beginTransaction()
+            activeFragment?.let { transaction.hide(it) }
+            transaction.show(newFragment).commit()
+            activeFragment = newFragment
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("selectedTab", bottomNav.selectedItemId)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        bottomNav.selectedItemId = savedInstanceState.getInt("selectedTab")
+        super.onRestoreInstanceState(savedInstanceState)
     }
 }
