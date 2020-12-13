@@ -60,10 +60,7 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
 
     val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            weatherData.latitude = location.latitude
-            weatherData.longitude = location.longitude
-            weatherData.updateCurrentWeatherData()
-            weatherData.updateOneCallWeatherData()
+            updateWeatherUI(location, weatherData)
         }
 
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -117,10 +114,7 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
             val locationProvider = locationManager.getBestProvider(criteria, true)
             val location = locationManager.getLastKnownLocation(locationProvider!!)
             if (location != null) {
-                weatherData.latitude = location.latitude
-                weatherData.longitude = location.longitude
-                weatherData.updateCurrentWeatherData()
-                weatherData.updateOneCallWeatherData()
+                updateWeatherUI(location, weatherData)
             } else {
                 locationManager.requestSingleUpdate(locationProvider, locationListener, null)
             }
@@ -156,10 +150,7 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
                                 && ActivityCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                             val location = locationManager.getLastKnownLocation(locationProvider!!)
                             if (location != null) {
-                                weatherData.latitude = location.latitude
-                                weatherData.longitude = location.longitude
-                                weatherData.updateCurrentWeatherData()
-                                weatherData.updateOneCallWeatherData()
+                                updateWeatherUI(location, weatherData)
                             } else {
                                 locationManager.requestSingleUpdate(locationProvider, locationListener, null)
                             }
@@ -171,6 +162,13 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
                 return
             }
         }
+    }
+
+    private fun updateWeatherUI(location : Location, weatherData : WeatherData) {
+        weatherData.latitude = location.latitude
+        weatherData.longitude = location.longitude
+        weatherData.updateCurrentWeatherData()
+        weatherData.updateOneCallWeatherData()
     }
 
     override fun onCurrentWeatherDataUpdated(weatherResponse: WeatherResponse?) {
