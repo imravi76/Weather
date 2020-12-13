@@ -19,13 +19,11 @@
 package com.revengeos.weathericons
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 
 class WeatherIconsHelper {
     companion object {
-        fun mapConditionIconToCode(conditionId: Int, sunrise: Long, sunset: Long): Int {
-            val ut2 = System.currentTimeMillis() / 1000L
-            if (ut2 in (sunrise + 1) until sunset) {
+        fun mapConditionIconToCode(conditionId: Int, day : Boolean): Int {
+            if (day) {
                 // First, use condition ID for specific cases
                 when (conditionId) {
                     202, 232, 211 -> return 4

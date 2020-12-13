@@ -54,7 +54,10 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
 
     private lateinit var todayForecast: RecyclerView
 
-    private var mCurrentTime : Long = -1;
+    private var mCurrentTime : Long = -1
+    private var mCurrentTimeShift : Int = 0
+    private var mCurrentSunrise : Long = -1
+    private var mCurrentSunset : Long = -1
 
     private val weatherData = WeatherData(this)
 
@@ -178,6 +181,9 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
         }
 
         mCurrentTime = weatherResponse.dt
+        mCurrentTimeShift = weatherResponse.timezone
+        mCurrentSunrise = weatherResponse.sys.sunrise
+        mCurrentSunset = weatherResponse.sys.sunset
 
         val temperature = getFormattedTemperature(weatherResponse.main.temp)
         currentTemp.text = temperature
@@ -190,9 +196,10 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
         currentData.updateData(weatherResponse.sys.sunrise, weatherResponse.sys.sunset, weatherResponse.timezone,
                 weatherResponse.main.pressure, weatherResponse.main.humidity, weatherResponse.wind.deg,
                 weatherResponse.wind.speed, weatherResponse.visibility, weatherResponse.main.temp_min, weatherResponse.main.temp_max)
-        val state = mapConditionIconToCode(weatherResponse.weather[0].id,
-                weatherResponse.sys.sunrise, weatherResponse.sys.sunset)
-        currentIcon.setImageDrawable(resources.getDrawable(getDrawable(state, requireContext())!!))
+
+        val isDay = weatherResponse.weather[0].icon.takeLast(1) == "d"
+        val state = mapConditionIconToCode(weatherResponse.weather[0].id, isDay)
+        currentIcon.setImageResource(getDrawable(state, requireContext())!!)
     }
 
     override fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?) {
@@ -207,7 +214,7 @@ class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
         } else {
             hourlyForecast.removeAt(24)
         }
-        val todayAdapter = HourlyAdapter(hourlyForecast)
+        val todayAdapter = HourlyAdapter(hourlyForecast, mCurrentTimeShift, mCurrentSunrise, mCurrentSunset)
         todayForecast.adapter = todayAdapter
     }
 
