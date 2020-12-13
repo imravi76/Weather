@@ -23,22 +23,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.revengeos.weather.BuildConfig.DEBUG
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.response.OneCallResponse
-import com.revengeos.weather.util.WeatherUtils
-import com.revengeos.weather.util.WeatherUtils.Companion.API_KEY
 import com.revengeos.weather.util.WeatherUtils.Companion.getFeelsLikeFormattedTemp
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weathericons.WeatherIconsHelper.Companion.getDrawable
 import com.revengeos.weathericons.WeatherIconsHelper.Companion.mapConditionIconToCode
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import rjsv.expframelayout.ExpandableFrameLayout
 
-class FeedFragment : Fragment() {
+class FeedFragment : Fragment(), WeatherData.WeatherDataListener {
 
     val TAG = javaClass.toString()
 
@@ -62,12 +56,14 @@ class FeedFragment : Fragment() {
 
     private var mCurrentTime : Long = -1;
 
-    private var mLocation : Location? = null
+    private val weatherData = WeatherData(this)
 
     val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            mLocation = location
-            getCurrentData()
+            weatherData.latitude = location.latitude
+            weatherData.longitude = location.longitude
+            weatherData.updateCurrentWeatherData()
+            weatherData.updateOneCallWeatherData()
         }
 
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -108,7 +104,29 @@ class FeedFragment : Fragment() {
         todayForecast.addItemDecoration(itemDecoration)
         todayForecast.layoutManager = LinearLayoutManager(v.context)
 
-        requestPermissions(permissions, permissionsRequestCode);
+        var permissionsGranted = true
+        for (permission in permissions) {
+            if (ContextCompat.checkSelfPermission(requireActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionsGranted = false
+            }
+        }
+        if (permissionsGranted) {
+            val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val criteria = Criteria()
+            criteria.accuracy = Criteria.ACCURACY_FINE
+            val locationProvider = locationManager.getBestProvider(criteria, true)
+            val location = locationManager.getLastKnownLocation(locationProvider!!)
+            if (location != null) {
+                weatherData.latitude = location.latitude
+                weatherData.longitude = location.longitude
+                weatherData.updateCurrentWeatherData()
+                weatherData.updateOneCallWeatherData()
+            } else {
+                locationManager.requestSingleUpdate(locationProvider, locationListener, null)
+            }
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), permissions, permissionsRequestCode)
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(requireActivity().window.decorView) { view, inset ->
             val topInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).top
@@ -136,9 +154,12 @@ class FeedFragment : Fragment() {
                         val locationProvider = locationManager.getBestProvider(criteria, true)
                         if (ActivityCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                                 && ActivityCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            mLocation = locationManager.getLastKnownLocation(locationProvider!!)
-                            if (mLocation != null) {
-                                getCurrentData()
+                            val location = locationManager.getLastKnownLocation(locationProvider!!)
+                            if (location != null) {
+                                weatherData.latitude = location.latitude
+                                weatherData.longitude = location.longitude
+                                weatherData.updateCurrentWeatherData()
+                                weatherData.updateOneCallWeatherData()
                             } else {
                                 locationManager.requestSingleUpdate(locationProvider, locationListener, null)
                             }
@@ -152,61 +173,44 @@ class FeedFragment : Fragment() {
         }
     }
 
-    private fun getCurrentData() {
-        val retrofit = Retrofit.Builder()
-                .baseUrl(WeatherUtils.OPENWEATHER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val service = retrofit.create(WeatherService::class.java)
-        val callCurrentWeather = service.getCurrentWeatherData(java.lang.Double.toString(mLocation!!.latitude), java.lang.Double.toString(mLocation!!.longitude), API_KEY)
-        callCurrentWeather.enqueue(object : Callback<WeatherResponse?> {
-            override fun onResponse(call: Call<WeatherResponse?>, response: Response<WeatherResponse?>) {
-                if (response.code() == 200) {
-                    val weatherResponse = response.body()!!
+    override fun onCurrentWeatherDataUpdated(weatherResponse: WeatherResponse?) {
+        if (weatherResponse == null) {
+            if (DEBUG) Log.d(TAG, "Current weather data is null !")
+            return
+        }
 
-                    mCurrentTime = weatherResponse.dt
+        mCurrentTime = weatherResponse.dt
 
-                    val temperature = getFormattedTemperature(weatherResponse.main.temp)
-                    currentTemp.text = temperature
-                    currentTempEnd.text = temperature
-                    currentLocation.text = weatherResponse.name
-                    currentLocationEnd.text = weatherResponse.name
-                    val feelsLikeText = getFeelsLikeFormattedTemp(context!!, weatherResponse.main.feels_like)
-                    currentTempFeelsLike.text = feelsLikeText
-                    currentTempFeelsLikeEnd.text = feelsLikeText
-                    currentData.updateData(weatherResponse.sys.sunrise, weatherResponse.sys.sunset, weatherResponse.timezone,
-                            weatherResponse.main.pressure, weatherResponse.main.humidity, weatherResponse.wind.deg,
-                            weatherResponse.wind.speed, weatherResponse.visibility, weatherResponse.main.temp_min, weatherResponse.main.temp_max)
-                    val state = mapConditionIconToCode(weatherResponse.weather[0].id,
-                            weatherResponse.sys.sunrise, weatherResponse.sys.sunset)
-                    currentIcon.setImageDrawable(resources.getDrawable(getDrawable(state, context!!)!!))
-                }
-            }
+        val temperature = getFormattedTemperature(weatherResponse.main.temp)
+        currentTemp.text = temperature
+        currentTempEnd.text = temperature
+        currentLocation.text = weatherResponse.name
+        currentLocationEnd.text = weatherResponse.name
+        val feelsLikeText = getFeelsLikeFormattedTemp(requireContext(), weatherResponse.main.feels_like)
+        currentTempFeelsLike.text = feelsLikeText
+        currentTempFeelsLikeEnd.text = feelsLikeText
+        currentData.updateData(weatherResponse.sys.sunrise, weatherResponse.sys.sunset, weatherResponse.timezone,
+                weatherResponse.main.pressure, weatherResponse.main.humidity, weatherResponse.wind.deg,
+                weatherResponse.wind.speed, weatherResponse.visibility, weatherResponse.main.temp_min, weatherResponse.main.temp_max)
+        val state = mapConditionIconToCode(weatherResponse.weather[0].id,
+                weatherResponse.sys.sunrise, weatherResponse.sys.sunset)
+        currentIcon.setImageDrawable(resources.getDrawable(getDrawable(state, requireContext())!!))
+    }
 
-            override fun onFailure(call: Call<WeatherResponse?>, t: Throwable) {
-                Log.d(TAG, t.toString())
-            }
-        })
-        val callForecast = service.getOneCallData(java.lang.Double.toString(mLocation!!.latitude), java.lang.Double.toString(mLocation!!.longitude), API_KEY)
-        callForecast.enqueue(object : Callback<OneCallResponse?> {
-            override fun onResponse(call: Call<OneCallResponse?>, response: Response<OneCallResponse?>) {
-                if (response.code() == 200) {
-                    val oneCallResponse = response.body()!!
-                    var hourlyForecast = (oneCallResponse.hourly).subList(0, 25).toMutableList()
-                    if (hourlyForecast[0].dt < mCurrentTime) {
-                        hourlyForecast.removeAt(0)
-                    } else {
-                        hourlyForecast.removeAt(24)
-                    }
-                    val todayAdapter = HourlyAdapter(hourlyForecast)
-                    todayForecast.adapter = todayAdapter
-                }
-            }
+    override fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?) {
+        if (oneCallResponse == null) {
+            if (DEBUG) Log.d(TAG, "Onecall weather data is null !")
+            return
+        }
 
-            override fun onFailure(call: Call<OneCallResponse?>, t: Throwable) {
-                Log.d(TAG, t.toString())
-            }
-        })
+        var hourlyForecast = (oneCallResponse.hourly).subList(0, 25).toMutableList()
+        if (hourlyForecast[0].dt < mCurrentTime) {
+            hourlyForecast.removeAt(0)
+        } else {
+            hourlyForecast.removeAt(24)
+        }
+        val todayAdapter = HourlyAdapter(hourlyForecast)
+        todayForecast.adapter = todayAdapter
     }
 
     companion object {
@@ -215,5 +219,4 @@ class FeedFragment : Fragment() {
                 FeedFragment().apply {
                     }
     }
-
 }
