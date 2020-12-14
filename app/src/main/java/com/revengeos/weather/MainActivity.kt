@@ -1,29 +1,24 @@
 package com.revengeos.weather
 
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
-import android.location.Criteria
+import android.content.Intent
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.revengeos.weather.response.OneCallResponse
+import com.yayandroid.locationmanager.configuration.DefaultProviderConfiguration
+import com.yayandroid.locationmanager.configuration.GooglePlayServicesConfiguration
+import com.yayandroid.locationmanager.configuration.LocationConfiguration
+import com.yayandroid.locationmanager.configuration.PermissionConfiguration
+import com.yayandroid.locationmanager.LocationManager
+import com.yayandroid.locationmanager.listener.LocationListener
 
 class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
 
     val TAG = javaClass.toString()
-
-    private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-    private val permissionsRequestCode = 420
 
     private lateinit var todayFragment: Fragment
     private lateinit var tomorrowFragment: Fragment
@@ -35,15 +30,33 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
     private lateinit var bottomNav : BottomNavigationView
 
     private val weatherData = WeatherData(this)
+    private lateinit var locationManager : LocationManager
 
-    val locationListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            updateWeatherUI(location, weatherData)
+    private val locationListener: LocationListener = object : LocationListener {
+        override fun onProcessTypeChanged(processType: Int) {
+
         }
 
-        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-        override fun onProviderEnabled(provider: String) {}
-        override fun onProviderDisabled(provider: String) {}
+        override fun onLocationChanged(location: Location?) {
+            if (location != null) {
+                updateWeatherUI(location, weatherData)
+            }
+        }
+
+        override fun onLocationFailed(type: Int) {
+        }
+
+        override fun onPermissionGranted(alreadyHadPermission: Boolean) {
+        }
+
+        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+        }
+
+        override fun onProviderEnabled(provider: String?) {
+        }
+
+        override fun onProviderDisabled(provider: String?) {
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,26 +101,18 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
             }
         }
 
-        var permissionsGranted = true
-        for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                permissionsGranted = false
-            }
-        }
-        if (permissionsGranted) {
-            val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val criteria = Criteria()
-            criteria.accuracy = Criteria.ACCURACY_FINE
-            val locationProvider = locationManager.getBestProvider(criteria, true)
-            val location = locationManager.getLastKnownLocation(locationProvider!!)
-            if (location != null) {
-                updateWeatherUI(location, weatherData)
-            } else {
-                locationManager.requestSingleUpdate(locationProvider, locationListener, null)
-            }
-        } else {
-            ActivityCompat.requestPermissions(this, permissions, permissionsRequestCode)
-        }
+        val awesomeConfiguration = LocationConfiguration.Builder()
+                .keepTracking(false)
+                .askForPermission(PermissionConfiguration.Builder().build())
+                .useGooglePlayServices(GooglePlayServicesConfiguration.Builder().build())
+                .useDefaultProviders(DefaultProviderConfiguration.Builder().build())
+                .build()
+        locationManager = LocationManager.Builder(applicationContext)
+                .activity(this) // Only required to ask permission and/or GoogleApi - SettingsApi
+                .configuration(awesomeConfiguration)
+                .notify(locationListener)
+                .build()
+        locationManager.get()
     }
 
     private fun setupFragment(fragment : Fragment, title : String) : Fragment {
@@ -121,35 +126,6 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
             activeFragment?.let { transaction.hide(it) }
             transaction.show(newFragment).commit()
             activeFragment = newFragment
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            permissionsRequestCode -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(this,
-                                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                        val criteria = Criteria()
-                        criteria.accuracy = Criteria.ACCURACY_FINE
-                        val locationProvider = locationManager.getBestProvider(criteria, true)
-                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            val location = locationManager.getLastKnownLocation(locationProvider!!)
-                            if (location != null) {
-                                updateWeatherUI(location, weatherData)
-                            } else {
-                                locationManager.requestSingleUpdate(locationProvider, locationListener, null)
-                            }
-                        }
-                    }
-                } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
-                }
-                return
-            }
         }
     }
 
@@ -168,6 +144,31 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         bottomNav.selectedItemId = savedInstanceState.getInt("selectedTab")
         super.onRestoreInstanceState(savedInstanceState)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        locationManager.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        locationManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        locationManager.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        locationManager.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        locationManager.onPause()
     }
 
     override fun onCurrentWeatherDataUpdated(weatherResponse: WeatherResponse?) {
