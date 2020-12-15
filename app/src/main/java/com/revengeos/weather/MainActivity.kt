@@ -8,9 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.revengeos.weather.fragment.FeedFragment
+import com.revengeos.weather.fragment.TodayFragment
+import com.revengeos.weather.fragment.TomorrowFragment
+import com.revengeos.weather.response.Daily
+import com.revengeos.weather.response.Hourly
 import com.revengeos.weather.response.OneCallResponse
 import com.revengeos.weather.response.current.CurrentWeatherResponse
+import com.revengeos.weather.util.WeatherUtils
 import com.yayandroid.locationmanager.configuration.DefaultProviderConfiguration
 import com.yayandroid.locationmanager.configuration.GooglePlayServicesConfiguration
 import com.yayandroid.locationmanager.configuration.LocationConfiguration
@@ -70,9 +74,9 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         if (savedInstanceState == null) {
-            todayFragment = setupFragment(FeedFragment.newInstance(), getString(R.string.today_title))
-            tomorrowFragment = setupFragment(FeedFragment.newInstance(), getString(R.string.tomorrow_title))
-            nextDaysFragment = setupFragment(FeedFragment.newInstance(), getString(R.string.next_days_title))
+            todayFragment = setupFragment(TodayFragment.newInstance(), getString(R.string.today_title))
+            tomorrowFragment = setupFragment(TomorrowFragment.newInstance(), getString(R.string.tomorrow_title))
+            nextDaysFragment = setupFragment(TomorrowFragment.newInstance(), getString(R.string.next_days_title))
             settingsFragment = setupFragment(SettingsFragment(), getString(R.string.nav_settings))
             switchActiveFragment(todayFragment)
         } else {
@@ -181,7 +185,8 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
             return
         }
         mCurrentTime = currentWeatherResponse.dt
-        (todayFragment as FeedFragment).updateCurrentWeather(currentWeatherResponse)
+        (todayFragment as TodayFragment).updateCurrentWeather(currentWeatherResponse)
+        (tomorrowFragment as TomorrowFragment).locationName = currentWeatherResponse.name
     }
 
     override fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?) {
@@ -192,10 +197,25 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
         // Update today's hourly forecast data
         var hourlyForecast = (oneCallResponse.hourly).subList(0, 25).toMutableList()
         if (hourlyForecast[0].dt < mCurrentTime!!) {
+            // Remove first element since it's time is earlier than current weather
             hourlyForecast.removeAt(0)
         } else {
-            hourlyForecast.removeAt(24)
+            hourlyForecast.removeLast()
         }
-        (todayFragment as FeedFragment).updateHourlyForecast(hourlyForecast)
+        (todayFragment as TodayFragment).updateHourlyForecast(hourlyForecast, oneCallResponse.timezoneOffset)
+
+        // Update tomorrow's hourly forecast data
+        val tomorrow : Daily = oneCallResponse.daily[1]
+        var tomorrowHourlyForecast = mutableListOf<Hourly>()
+
+        // Filter all the items oneCallResponse.hourly that have the same day of tomorrow
+        for (hourlyItem in oneCallResponse.hourly) {
+            if (WeatherUtils.getDateFromEpoch(hourlyItem.dt, oneCallResponse.timezoneOffset)
+                    == WeatherUtils.getDateFromEpoch(tomorrow.dt, oneCallResponse.timezoneOffset)) {
+                tomorrowHourlyForecast.add(hourlyItem)
+            }
+        }
+        (tomorrowFragment as TomorrowFragment).updateTomorrowWeather(tomorrow, oneCallResponse.timezoneOffset)
+        (tomorrowFragment as TomorrowFragment).updateHourlyForecast(tomorrowHourlyForecast, oneCallResponse.timezoneOffset)
     }
 }

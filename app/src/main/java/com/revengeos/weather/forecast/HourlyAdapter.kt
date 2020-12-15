@@ -16,8 +16,7 @@ import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weather.util.WeatherUtils.Companion.getTimeFromEpoch
 import com.revengeos.weathericons.WeatherIconsHelper
 
-class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : Int,
-                    private val sunrise : Long, private val sunset : Long) :
+class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : Int) :
         RecyclerView.Adapter<HourlyAdapter.ViewHolder>() {
 
     /**
@@ -25,7 +24,7 @@ class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : I
      * (custom ViewHolder).
      */
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(hourly: Hourly, timeShift: Int, sunrise : Long, sunset : Long) {
+        fun bind(hourly: Hourly, timeShift: Int) {
             view.findViewById<TextView>(R.id.temperature).text = getFormattedTemperature(hourly.temp)
             view.findViewById<TextView>(R.id.feels_like).text = getFeelsLikeFormattedTemp(view.context, hourly.feelsLike)
             view.findViewById<TextView>(R.id.time).text = getTimeFromEpoch(hourly.dt, timeShift)
@@ -47,7 +46,7 @@ class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : I
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(dataSet[position], timeShift, sunrise, sunset)
+        viewHolder.bind(dataSet[position], timeShift)
     }
 
     // Return the size of your dataset (invoked by the layout manager)

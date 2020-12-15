@@ -8,9 +8,9 @@ public class Daily {
     @SerializedName("dt")
     public long dt;
     @SerializedName("sunrise")
-    public int sunrise;
+    public long sunrise;
     @SerializedName("sunset")
-    public int sunset;
+    public long sunset;
     @SerializedName("temp")
     public DailyTemperature temp;
     @SerializedName("feels_like")

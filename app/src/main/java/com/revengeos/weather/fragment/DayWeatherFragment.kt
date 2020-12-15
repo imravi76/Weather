@@ -16,35 +16,24 @@ import com.revengeos.weather.R
 import com.revengeos.weather.WeatherDataGridView
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.response.Hourly
-import com.revengeos.weather.response.current.CurrentWeatherResponse
-import com.revengeos.weather.util.WeatherUtils.Companion.getFeelsLikeFormattedTemp
-import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
-import com.revengeos.weathericons.WeatherIconsHelper.Companion.getDrawable
-import com.revengeos.weathericons.WeatherIconsHelper.Companion.mapConditionIconToCode
 import rjsv.expframelayout.ExpandableFrameLayout
 
-class FeedFragment : Fragment() {
+open class DayWeatherFragment : Fragment() {
 
-    val TAG = javaClass.toString()
+    protected lateinit var currentTemp: TextView
+    protected lateinit var currentTempEnd: TextView
+    protected lateinit var currentLocation: TextView
+    protected lateinit var currentLocationEnd: TextView
+    protected lateinit var currentTempFeelsLike: TextView
+    protected lateinit var currentTempFeelsLikeEnd: TextView
+    protected lateinit var currentIcon: ImageView
 
-    private lateinit var currentTemp: TextView
-    private lateinit var currentTempEnd: TextView
-    private lateinit var currentLocation: TextView
-    private lateinit var currentLocationEnd: TextView
-    private lateinit var currentTempFeelsLike: TextView
-    private lateinit var currentTempFeelsLikeEnd: TextView
-    private lateinit var currentIcon: ImageView
-
-    private lateinit var currentData: WeatherDataGridView
+    protected lateinit var currentData: WeatherDataGridView
 
     private lateinit var currentMoreDataLayout: ExpandableFrameLayout
     private lateinit var currentTouchLayer: View
 
     private lateinit var todayForecast: RecyclerView
-
-    private var mCurrentTimeShift : Int = 0
-    private var mCurrentSunrise : Long = -1
-    private var mCurrentSunset : Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,37 +82,8 @@ class FeedFragment : Fragment() {
         return v
     }
 
-    fun updateCurrentWeather(currentWeatherResponse : CurrentWeatherResponse) {
-        mCurrentTimeShift = currentWeatherResponse.timezone
-        mCurrentSunrise = currentWeatherResponse.sys.sunrise
-        mCurrentSunset = currentWeatherResponse.sys.sunset
-
-        val temperature = getFormattedTemperature(currentWeatherResponse.main.temp)
-        currentTemp.text = temperature
-        currentTempEnd.text = temperature
-        currentLocation.text = currentWeatherResponse.name
-        currentLocationEnd.text = currentWeatherResponse.name
-        val feelsLikeText = getFeelsLikeFormattedTemp(requireContext(), currentWeatherResponse.main.feels_like)
-        currentTempFeelsLike.text = feelsLikeText
-        currentTempFeelsLikeEnd.text = feelsLikeText
-        currentData.updateData(currentWeatherResponse.sys.sunrise, currentWeatherResponse.sys.sunset, currentWeatherResponse.timezone,
-                currentWeatherResponse.main.pressure, currentWeatherResponse.main.humidity, currentWeatherResponse.wind.deg,
-                currentWeatherResponse.wind.speed, currentWeatherResponse.visibility, currentWeatherResponse.main.temp_min, currentWeatherResponse.main.temp_max)
-
-        val isDay = currentWeatherResponse.weather[0].icon.takeLast(1) == "d"
-        val state = mapConditionIconToCode(currentWeatherResponse.weather[0].id, isDay)
-        currentIcon.setImageResource(getDrawable(state, requireContext())!!)
-    }
-
-    fun updateHourlyForecast(hourlyForecast : List<Hourly>) {
-        val todayAdapter = HourlyAdapter(hourlyForecast, mCurrentTimeShift, mCurrentSunrise, mCurrentSunset)
+    fun updateHourlyForecast(hourlyForecast : List<Hourly>, timeZone : Int) {
+        val todayAdapter = HourlyAdapter(hourlyForecast, timeZone)
         todayForecast.adapter = todayAdapter
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-                FeedFragment().apply {
-                    }
     }
 }
