@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.revengeos.weather.fragment.FeedFragment
 import com.revengeos.weather.response.OneCallResponse
+import com.revengeos.weather.response.current.CurrentWeatherResponse
 import com.yayandroid.locationmanager.configuration.DefaultProviderConfiguration
 import com.yayandroid.locationmanager.configuration.GooglePlayServicesConfiguration
 import com.yayandroid.locationmanager.configuration.LocationConfiguration
@@ -173,13 +175,13 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
         locationManager.onPause()
     }
 
-    override fun onCurrentWeatherDataUpdated(weatherResponse: WeatherResponse?) {
-        if (weatherResponse == null) {
+    override fun onCurrentWeatherDataUpdated(currentWeatherResponse: CurrentWeatherResponse?) {
+        if (currentWeatherResponse == null) {
             if (BuildConfig.DEBUG) Log.d(TAG, "Current weather data is null !")
             return
         }
-        mCurrentTime = weatherResponse.dt
-        (todayFragment as FeedFragment).updateCurrentWeather(weatherResponse)
+        mCurrentTime = currentWeatherResponse.dt
+        (todayFragment as FeedFragment).updateCurrentWeather(currentWeatherResponse)
     }
 
     override fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?) {
@@ -188,7 +190,7 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
             return
         }
         // Update today's hourly forecast data
-        var hourlyForecast = (oneCallResponse!!.hourly).subList(0, 25).toMutableList()
+        var hourlyForecast = (oneCallResponse.hourly).subList(0, 25).toMutableList()
         if (hourlyForecast[0].dt < mCurrentTime!!) {
             hourlyForecast.removeAt(0)
         } else {

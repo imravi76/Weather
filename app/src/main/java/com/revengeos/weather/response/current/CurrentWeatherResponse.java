@@ -1,0 +1,36 @@
+package com.revengeos.weather.response.current;
+
+import com.google.gson.annotations.SerializedName;
+import com.revengeos.weather.response.Weather;
+
+import java.util.ArrayList;
+
+public class CurrentWeatherResponse {
+
+    @SerializedName("coord")
+    public Coord coord;
+    @SerializedName("sys")
+    public Sys sys;
+    @SerializedName("weather")
+    public ArrayList<Weather> weather = new ArrayList<Weather>();
+    @SerializedName("main")
+    public Main main;
+    @SerializedName("wind")
+    public Wind wind;
+    @SerializedName("rain")
+    public Rain rain;
+    @SerializedName("clouds")
+    public Clouds clouds;
+    @SerializedName("dt")
+    public long dt;
+    @SerializedName("id")
+    public int id;
+    @SerializedName("name")
+    public String name;
+    @SerializedName("cod")
+    public float cod;
+    @SerializedName("visibility")
+    public int visibility;
+    @SerializedName("timezone")
+    public int timezone;
+}

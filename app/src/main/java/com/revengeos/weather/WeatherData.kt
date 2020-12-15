@@ -3,6 +3,7 @@ package com.revengeos.weather
 import android.util.Log
 import com.revengeos.weather.BuildConfig.DEBUG
 import com.revengeos.weather.response.OneCallResponse
+import com.revengeos.weather.response.current.CurrentWeatherResponse
 import com.revengeos.weather.util.WeatherUtils
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,14 +39,14 @@ class WeatherData {
             listener.onCurrentWeatherDataUpdated(null)
         }
         val callCurrentWeather = service.getCurrentWeatherData(latitude.toString(), longitude.toString(), WeatherUtils.API_KEY)
-        callCurrentWeather.enqueue(object : Callback<WeatherResponse?> {
-            override fun onResponse(call: Call<WeatherResponse?>, response: Response<WeatherResponse?>) {
+        callCurrentWeather.enqueue(object : Callback<CurrentWeatherResponse?> {
+            override fun onResponse(call: Call<CurrentWeatherResponse?>, response: Response<CurrentWeatherResponse?>) {
                 if (response.code() == 200) {
                     listener.onCurrentWeatherDataUpdated(response.body()!!)
                 }
             }
 
-            override fun onFailure(call: Call<WeatherResponse?>, t: Throwable) {
+            override fun onFailure(call: Call<CurrentWeatherResponse?>, t: Throwable) {
                 Log.d(TAG, t.toString())
             }
         })
@@ -73,7 +74,7 @@ class WeatherData {
     }
 
     interface WeatherDataListener {
-        public fun onCurrentWeatherDataUpdated(weatherResponse : WeatherResponse?)
+        public fun onCurrentWeatherDataUpdated(currentWeatherResponse: CurrentWeatherResponse?)
         public fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?)
     }
 }

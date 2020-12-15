@@ -1,32 +1,22 @@
-package com.revengeos.weather
+package com.revengeos.weather.fragment
 
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
-import android.location.Criteria
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.revengeos.weather.BuildConfig.DEBUG
+import com.revengeos.weather.R
+import com.revengeos.weather.WeatherDataGridView
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.response.Hourly
-import com.revengeos.weather.response.OneCallResponse
+import com.revengeos.weather.response.current.CurrentWeatherResponse
 import com.revengeos.weather.util.WeatherUtils.Companion.getFeelsLikeFormattedTemp
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weathericons.WeatherIconsHelper.Companion.getDrawable
@@ -52,7 +42,6 @@ class FeedFragment : Fragment() {
 
     private lateinit var todayForecast: RecyclerView
 
-    private var mCurrentTime : Long = -1
     private var mCurrentTimeShift : Int = 0
     private var mCurrentSunrise : Long = -1
     private var mCurrentSunset : Long = -1
@@ -104,26 +93,25 @@ class FeedFragment : Fragment() {
         return v
     }
 
-    fun updateCurrentWeather(weatherResponse: WeatherResponse) {
-        mCurrentTime = weatherResponse.dt
-        mCurrentTimeShift = weatherResponse.timezone
-        mCurrentSunrise = weatherResponse.sys.sunrise
-        mCurrentSunset = weatherResponse.sys.sunset
+    fun updateCurrentWeather(currentWeatherResponse : CurrentWeatherResponse) {
+        mCurrentTimeShift = currentWeatherResponse.timezone
+        mCurrentSunrise = currentWeatherResponse.sys.sunrise
+        mCurrentSunset = currentWeatherResponse.sys.sunset
 
-        val temperature = getFormattedTemperature(weatherResponse.main.temp)
+        val temperature = getFormattedTemperature(currentWeatherResponse.main.temp)
         currentTemp.text = temperature
         currentTempEnd.text = temperature
-        currentLocation.text = weatherResponse.name
-        currentLocationEnd.text = weatherResponse.name
-        val feelsLikeText = getFeelsLikeFormattedTemp(requireContext(), weatherResponse.main.feels_like)
+        currentLocation.text = currentWeatherResponse.name
+        currentLocationEnd.text = currentWeatherResponse.name
+        val feelsLikeText = getFeelsLikeFormattedTemp(requireContext(), currentWeatherResponse.main.feels_like)
         currentTempFeelsLike.text = feelsLikeText
         currentTempFeelsLikeEnd.text = feelsLikeText
-        currentData.updateData(weatherResponse.sys.sunrise, weatherResponse.sys.sunset, weatherResponse.timezone,
-                weatherResponse.main.pressure, weatherResponse.main.humidity, weatherResponse.wind.deg,
-                weatherResponse.wind.speed, weatherResponse.visibility, weatherResponse.main.temp_min, weatherResponse.main.temp_max)
+        currentData.updateData(currentWeatherResponse.sys.sunrise, currentWeatherResponse.sys.sunset, currentWeatherResponse.timezone,
+                currentWeatherResponse.main.pressure, currentWeatherResponse.main.humidity, currentWeatherResponse.wind.deg,
+                currentWeatherResponse.wind.speed, currentWeatherResponse.visibility, currentWeatherResponse.main.temp_min, currentWeatherResponse.main.temp_max)
 
-        val isDay = weatherResponse.weather[0].icon.takeLast(1) == "d"
-        val state = mapConditionIconToCode(weatherResponse.weather[0].id, isDay)
+        val isDay = currentWeatherResponse.weather[0].icon.takeLast(1) == "d"
+        val state = mapConditionIconToCode(currentWeatherResponse.weather[0].id, isDay)
         currentIcon.setImageResource(getDrawable(state, requireContext())!!)
     }
 
