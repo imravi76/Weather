@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
     private val weatherData = WeatherData(this)
     private lateinit var locationManager : LocationManager
 
+    private var mCurrentTime : Long? = null
+
     private val locationListener: LocationListener = object : LocationListener {
         override fun onProcessTypeChanged(processType: Int) {
 
@@ -176,14 +178,22 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
             if (BuildConfig.DEBUG) Log.d(TAG, "Current weather data is null !")
             return
         }
+        mCurrentTime = weatherResponse.dt
         (todayFragment as FeedFragment).updateCurrentWeather(weatherResponse)
     }
 
     override fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?) {
-        if (oneCallResponse == null) {
+        if (oneCallResponse == null || mCurrentTime == null) {
             if (BuildConfig.DEBUG) Log.d(TAG, "Onecall weather data is null !")
             return
         }
-        (todayFragment as FeedFragment).updateForecastWeather(oneCallResponse)
+        // Update today's hourly forecast data
+        var hourlyForecast = (oneCallResponse!!.hourly).subList(0, 25).toMutableList()
+        if (hourlyForecast[0].dt < mCurrentTime!!) {
+            hourlyForecast.removeAt(0)
+        } else {
+            hourlyForecast.removeAt(24)
+        }
+        (todayFragment as FeedFragment).updateHourlyForecast(hourlyForecast)
     }
 }

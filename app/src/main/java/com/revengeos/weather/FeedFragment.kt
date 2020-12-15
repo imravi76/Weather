@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.revengeos.weather.BuildConfig.DEBUG
 import com.revengeos.weather.forecast.HourlyAdapter
+import com.revengeos.weather.response.Hourly
 import com.revengeos.weather.response.OneCallResponse
 import com.revengeos.weather.util.WeatherUtils.Companion.getFeelsLikeFormattedTemp
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
@@ -126,13 +127,7 @@ class FeedFragment : Fragment() {
         currentIcon.setImageResource(getDrawable(state, requireContext())!!)
     }
 
-    fun updateForecastWeather(oneCallResponse: OneCallResponse) {
-        var hourlyForecast = (oneCallResponse.hourly).subList(0, 25).toMutableList()
-        if (hourlyForecast[0].dt < mCurrentTime) {
-            hourlyForecast.removeAt(0)
-        } else {
-            hourlyForecast.removeAt(24)
-        }
+    fun updateHourlyForecast(hourlyForecast : List<Hourly>) {
         val todayAdapter = HourlyAdapter(hourlyForecast, mCurrentTimeShift, mCurrentSunrise, mCurrentSunset)
         todayForecast.adapter = todayAdapter
     }
