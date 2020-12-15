@@ -42,8 +42,16 @@ class WeatherUtils {
             }
         }
 
+        fun getDateFromEpoch(epoch: Long, shiftSeconds: Int) : String {
+            return formatDate(epoch, shiftSeconds, "yyyyMMdd")
+        }
+
         fun getTimeFromEpoch(epoch: Long, shiftSeconds: Int) : String {
-            val sdf = SimpleDateFormat("HH:mm")
+            return formatDate(epoch, shiftSeconds, "HH:mm")
+        }
+
+        fun formatDate(epoch : Long, shiftSeconds : Int, pattern : String) : String {
+            val sdf = SimpleDateFormat(pattern)
             sdf.timeZone = TimeZone.getTimeZone("UTC")
             val time = Date((epoch + shiftSeconds) * 1000)
             return sdf.format(time)
