@@ -120,7 +120,7 @@
         android:src="@drawable/sunny"
         app:layout_constraintBottom_toTopOf="@id/current_data"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/current_touch_layer"/>
+        app:layout_constraintTop_toTopOf="@id/current_touch_layer" />
 
     <com.revengeos.weather.WeatherDataGridView
         android:id="@+id/current_data"

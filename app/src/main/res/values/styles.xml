@@ -45,12 +45,12 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_marginBottom">5dp</item>
-        <item name="android:paddingStart">15dp</item>
-        <item name="android:paddingEnd">15dp</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center</item>
         <item name="layout_flexBasisPercent">25%</item>
-        <item name="iconSize">20dp</item>
+        <item name="iconSize">21dp</item>
         <item name="iconTextVerticalMargin">5dp</item>
         <item name="iconTintColor">?android:textColorPrimary</item>
     </style>
