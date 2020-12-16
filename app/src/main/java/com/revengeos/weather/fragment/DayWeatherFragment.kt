@@ -1,5 +1,6 @@
 package com.revengeos.weather.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,8 @@ open class DayWeatherFragment : Fragment() {
 
     private lateinit var currentMoreDataLayout: ExpandableFrameLayout
     private lateinit var currentTouchLayer: View
+
+    private lateinit var pageTitle : TextView
 
     private lateinit var todayForecast: RecyclerView
 
@@ -79,7 +82,17 @@ open class DayWeatherFragment : Fragment() {
                     return@setOnApplyWindowInsetsListener inset
         }
 
+        pageTitle = v.findViewById(R.id.today_title)
+        val newTitle = getWeatherPageTitle(v.context)
+        if (newTitle != null) {
+            pageTitle.text = newTitle
+        }
+
         return v
+    }
+
+    open fun getWeatherPageTitle(context : Context) : String? {
+        return null
     }
 
     fun updateHourlyForecast(hourlyForecast : List<Hourly>, timeZone : Int) {

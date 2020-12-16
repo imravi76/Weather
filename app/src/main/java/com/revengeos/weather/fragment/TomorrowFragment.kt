@@ -1,5 +1,7 @@
 package com.revengeos.weather.fragment
 
+import android.content.Context
+import com.revengeos.weather.R
 import com.revengeos.weather.response.Daily
 import com.revengeos.weather.util.WeatherUtils
 import com.revengeos.weathericons.WeatherIconsHelper
@@ -26,6 +28,10 @@ class TomorrowFragment : DayWeatherFragment() {
         val isDay = daily.weather[0].icon.takeLast(1) == "d"
         val state = WeatherIconsHelper.mapConditionIconToCode(daily.weather[0].id, isDay)
         currentIcon.setImageResource(WeatherIconsHelper.getDrawable(state, requireContext())!!)
+    }
+
+    override fun getWeatherPageTitle(context : Context) : String? {
+        return context.getString(R.string.tomorrow_title)
     }
 
     companion object {
