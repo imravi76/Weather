@@ -50,7 +50,7 @@
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center</item>
         <item name="layout_flexBasisPercent">25%</item>
-        <item name="iconSize">24dp</item>
+        <item name="iconSize">20dp</item>
         <item name="iconTextVerticalMargin">5dp</item>
         <item name="iconTintColor">?android:textColorPrimary</item>
     </style>

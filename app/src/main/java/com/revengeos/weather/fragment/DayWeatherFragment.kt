@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.revengeos.revengeui.view.ExpandableIndicator
 import com.revengeos.weather.R
 import com.revengeos.weather.WeatherDataGridView
 import com.revengeos.weather.forecast.HourlyAdapter
@@ -31,7 +32,6 @@ open class DayWeatherFragment : Fragment() {
 
     protected lateinit var currentData: WeatherDataGridView
 
-    private lateinit var currentMoreDataLayout: ExpandableFrameLayout
     private lateinit var currentTouchLayer: View
 
     private lateinit var pageTitle : TextView
@@ -56,14 +56,9 @@ open class DayWeatherFragment : Fragment() {
         currentTempFeelsLikeEnd = v.findViewById(R.id.current_temp_feels_like_end)
         currentIcon = v.findViewById(R.id.current_icon)
 
-        currentMoreDataLayout = v.findViewById(R.id.current_more)
-        currentMoreDataLayout.collapse()
-        currentMoreDataLayout.animationDuration = 700
-
         currentData = v.findViewById(R.id.current_data)
 
         currentTouchLayer = v.findViewById(R.id.current_touch_layer)
-        currentTouchLayer.setOnClickListener { currentMoreDataLayout.toggle() }
 
         todayForecast = v.findViewById(R.id.today_forecast)
         var itemDecoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)

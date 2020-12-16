@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="current_weather_top_margin">80dp</dimen>
+    <dimen name="current_weather_top_margin">50dp</dimen>
     <dimen name="current_weather_bottom_margin">30dp</dimen>
     <dimen name="current_weather_vertical_margin_collapsed">15dp</dimen>
 
