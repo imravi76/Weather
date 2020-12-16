@@ -102,5 +102,31 @@
             app:touchAnchorId="@id/today_forecast"
             app:touchAnchorSide="top"
             app:dragDirection="dragUp" />
+        <KeyFrameSet >
+            <KeyAttribute
+                android:alpha="0"
+                app:motionTarget="@id/current_location"
+                app:framePosition="60" />
+            <KeyAttribute
+                android:alpha="0"
+                app:motionTarget="@id/current_temperature"
+                app:framePosition="60" />
+            <KeyAttribute
+                android:alpha="0"
+                app:motionTarget="@id/current_temp_feels_like"
+                app:framePosition="60" />
+            <KeyAttribute
+                android:alpha="0"
+                app:motionTarget="@id/current_location_end"
+                app:framePosition="20" />
+            <KeyAttribute
+                android:alpha="0"
+                app:motionTarget="@id/current_temperature_end"
+                app:framePosition="20" />
+            <KeyAttribute
+                android:alpha="0"
+                app:motionTarget="@id/current_temp_feels_like_end"
+                app:framePosition="20" />
+        </KeyFrameSet>
     </Transition>
 </MotionScene>
