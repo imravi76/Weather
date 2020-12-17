@@ -16,6 +16,8 @@ import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedSpeed
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weather.util.WeatherUtils.Companion.getTimeFromEpoch
 import rjsv.expframelayout.ExpandableFrameLayout
+import rjsv.expframelayout.ExpandableFrameLayoutListener
+import rjsv.expframelayout.enumerators.ExpandableFrameLayoutStatus
 
 class WeatherDataGridView : ConstraintLayout {
 
@@ -52,13 +54,35 @@ class WeatherDataGridView : ConstraintLayout {
         minTempView = findViewById(R.id.current_min_temp)
         maxTempView = findViewById(R.id.current_max_temp)
 
+        expandableIndicator = findViewById(R.id.expandable_indicator)
+
         additionalData = findViewById(R.id.additional_data)
         additionalData.collapse()
         additionalData.animationDuration = 700
+        additionalData.setAnimationListener(object : ExpandableFrameLayoutListener {
+            override fun onAnimationEnd(status: ExpandableFrameLayoutStatus) {
+            }
 
-        expandableIndicator = findViewById(R.id.expandable_indicator)
-        expandableIndicator.setOnClickListener { view ->
-            expandableIndicator.toggleExpansion()
+            override fun onAnimationStart(status: ExpandableFrameLayoutStatus) {
+            }
+
+            override fun onClosed() {
+            }
+
+            override fun onOpened() {
+            }
+
+            override fun onPreClose() {
+                expandableIndicator.setExpanded(false)
+            }
+
+            override fun onPreOpen() {
+                expandableIndicator.setExpanded(true)
+            }
+
+        })
+
+        setOnClickListener { view ->
             additionalData.toggle()
         }
     }
