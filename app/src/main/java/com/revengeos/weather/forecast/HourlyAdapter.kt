@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.revengeos.weather.IconTextView
 import com.revengeos.weather.R
 import com.revengeos.weather.response.Hourly
 import com.revengeos.weather.util.WeatherUtils
@@ -32,6 +33,11 @@ class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : I
             val isDay = hourly.weather[0].icon.takeLast(1) == "d"
             val state = WeatherIconsHelper.mapConditionIconToCode(hourly.weather[0].id, isDay)
             view.findViewById<ImageView>(R.id.condition_icon).setImageResource(WeatherIconsHelper.getDrawable(state, view.context)!!)
+
+            view.findViewById<IconTextView>(R.id.hourly_humidity).textView.text = "${hourly.humidity} %"
+            val windView = view.findViewById<IconTextView>(R.id.hourly_wind)
+            windView.iconView.rotation = hourly.windDeg.toFloat()
+            windView.textView.text = WeatherUtils.getFormattedSpeed(hourly.windSpeed)
         }
     }
 

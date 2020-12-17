@@ -9,13 +9,26 @@
     android:paddingStart="@dimen/forecast_item_horizontal_margin"
     android:paddingEnd="@dimen/forecast_item_horizontal_margin">
 
+    <ImageView
+        android:id="@+id/condition_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/forecast_item_icon_margin"
+        android:layout_marginBottom="@dimen/forecast_item_icon_margin"
+        android:adjustViewBounds="true"
+        android:src="@drawable/sunny"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/time"
         style="@style/TextAppearance.AppTheme.ForecastItemHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         android:text="--:--"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/condition_icon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="13:00" />
 
@@ -38,16 +51,24 @@
         app:layout_constraintTop_toBottomOf="@id/time"
         tools:text="Feels like 24 gradi" />
 
-    <ImageView
-        android:id="@+id/condition_icon"
+    <com.revengeos.weather.IconTextView
+        android:id="@+id/hourly_wind"
+        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/forecast_item_icon_margin"
-        android:layout_marginBottom="@dimen/forecast_item_icon_margin"
-        android:layout_marginStart="@dimen/forecast_item_icon_margin"
-        android:adjustViewBounds="true"
-        android:src="@drawable/sunny"
-        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/AppTheme.TextIconView.HourlyExtraData"
+        tools:text="3 m/s"
+        app:src="@drawable/ic_arrow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/time"/>
+
+    <com.revengeos.weather.IconTextView
+        android:id="@+id/hourly_humidity"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        style="@style/AppTheme.TextIconView.HourlyExtraData"
+        tools:text="75 %"
+        app:src="@drawable/water_percent"
+        app:layout_constraintTop_toBottomOf="@id/hourly_wind"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/feels_like" />
 </androidx.constraintlayout.widget.ConstraintLayout>

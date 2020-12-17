@@ -64,16 +64,12 @@
         <item name="iconTintColor">?android:textColorPrimary</item>
     </style>
 
-    <style name="AppTheme.TextIconView.ExtraTemp">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:orientation">horizontal</item>
+    <style name="AppTheme.TextIconView.HourlyExtraData">
+        <item name="iconSize">19dp</item>
+        <item name="iconTextHorizontalMargin">4dp</item>
         <item name="android:gravity">center</item>
-        <item name="iconSize">16sp</item>
-        <item name="iconTextHorizontalMargin">5sp</item>
         <item name="iconTintColor">?android:textColorPrimary</item>
-        <item name="textAppearance">@style/TextAppearance.AppTheme.CurrentExtraTempInfo</item>
+        <item name="textAppearance">@style/TextAppearance.AppTheme.ForecastItemSubhead</item>
     </style>
 
 </resources>
