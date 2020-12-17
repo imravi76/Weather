@@ -4,11 +4,11 @@
 
     <item
         android:id="@+id/today"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_sun"
         android:title="@string/today_title" />
     <item
         android:id="@+id/tomorrow"
-        android:icon="@drawable/ic_city"
+        android:icon="@drawable/ic_wi_cloudy"
         android:title="@string/tomorrow_title" />
     <item
         android:id="@+id/next_days"
