@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="@dimen/forecast_item_vertical_margin"
     android:paddingBottom="@dimen/forecast_item_vertical_margin"
     android:paddingStart="@dimen/forecast_item_horizontal_margin"
@@ -11,42 +11,32 @@
 
     <TextView
         android:id="@+id/time"
-        style="@style/TextAppearance.AppTheme.CurrentExtraTempInfo"
+        style="@style/TextAppearance.AppTheme.ForecastItemHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="--:--"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/condition"
-        style="@style/TextAppearance.AppTheme.CurrentExtraTempInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6sp"
-        android:text="Unknown"
-        app:layout_constraintStart_toEndOf="@id/time"
-        app:layout_constraintTop_toTopOf="@id/time"
-        app:layout_constraintBottom_toBottomOf="@id/time"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="13:00" />
 
     <TextView
         android:id="@+id/temperature"
-        style="@style/TextAppearance.AppTheme.CurrentExtraTempInfoCollapsed"
+        style="@style/TextAppearance.AppTheme.ForecastItemHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="25 gradi"
-        app:layout_constraintStart_toStartOf="@id/time"
-        app:layout_constraintTop_toBottomOf="@id/time" />
+        android:layout_marginStart="6sp"
+        tools:text="25 gradi"
+        app:layout_constraintStart_toEndOf="@id/time"
+        app:layout_constraintTop_toTopOf="@id/time" />
 
     <TextView
         android:id="@+id/feels_like"
-        style="@style/TextAppearance.AppTheme.CurrentExtraTempInfoCollapsed"
+        style="@style/TextAppearance.AppTheme.ForecastItemSubhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4sp"
-        app:layout_constraintStart_toEndOf="@id/temperature"
-        app:layout_constraintTop_toTopOf="@id/temperature"
-        app:layout_constraintBottom_toBottomOf="@id/temperature" />
+        app:layout_constraintStart_toStartOf="@id/time"
+        app:layout_constraintTop_toBottomOf="@id/time"
+        tools:text="Feels like 24 gradi" />
 
     <ImageView
         android:id="@+id/condition_icon"

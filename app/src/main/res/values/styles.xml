@@ -30,6 +30,16 @@
     <style name="TextAppearance.AppTheme.CurrentExtraTempInfoCollapsed" parent="TextAppearance.AppTheme.CurrentExtraTempInfo">
         <item name="android:textSize">14sp</item>
     </style>
+    
+    <style name="TextAppearance.AppTheme.ForecastItemHeader" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/urbanist_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.ForecastItemSubhead" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/urbanist_regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 
     <style name="TextAppearance.AppTheme.ForecastHeader" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:fontFamily">@font/urbanist_bold</item>
