@@ -43,8 +43,7 @@
 
     <style name="TextAppearance.AppTheme.ForecastHeader" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:fontFamily">@font/urbanist_bold</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">21sp</item>
     </style>
 
     <style name="AppTheme.TextIconView"/>

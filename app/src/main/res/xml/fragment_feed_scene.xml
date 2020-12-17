@@ -14,7 +14,7 @@
             android:layout_width="@dimen/current_weather_icon_size_collapsed"
             android:layout_height="@dimen/current_weather_icon_size_collapsed"
             android:layout_marginBottom="@dimen/current_weather_vertical_margin_collapsed"
-            app:layout_constraintBottom_toTopOf="@+id/current_data"
+            app:layout_constraintBottom_toTopOf="@+id/current_data_container"
             android:layout_marginEnd="@dimen/current_weather_horizontal_margin_collapsed"
             app:layout_constraintTop_toTopOf="@id/current_touch_layer"
             android:layout_marginTop="@dimen/current_weather_vertical_margin_collapsed" />

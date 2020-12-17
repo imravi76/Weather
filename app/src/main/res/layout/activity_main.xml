@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@android:color/transparent"
-        app:labelVisibilityMode="selected"
+        app:labelVisibilityMode="labeled"
         app:elevation="0dp"
         app:menu="@menu/nav_items">
 

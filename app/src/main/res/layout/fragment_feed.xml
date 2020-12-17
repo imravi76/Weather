@@ -36,7 +36,7 @@
         android:id="@+id/current_touch_layer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/current_data"
+        app:layout_constraintBottom_toTopOf="@+id/current_data_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_inset_container" />
@@ -118,18 +118,24 @@
         android:layout_marginEnd="@dimen/current_weather_horizontal_margin"
         android:layout_marginBottom="@dimen/current_weather_bottom_margin"
         android:src="@drawable/sunny"
-        app:layout_constraintBottom_toTopOf="@id/current_data"
+        app:layout_constraintBottom_toTopOf="@id/current_data_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/current_touch_layer" />
 
-    <com.revengeos.weather.WeatherDataGridView
-        android:id="@+id/current_data"
-        android:layout_width="0dp"
+    <FrameLayout
+        android:id="@+id/current_data_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/today_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/current_icon"/>
+        app:layout_constraintTop_toBottomOf="@id/current_icon">
+
+        <com.revengeos.weather.WeatherDataGridView
+            android:id="@+id/current_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/today_title"
@@ -139,7 +145,7 @@
         android:layout_marginStart="@dimen/forecast_container_title_start_margin"
         android:text="Day"
         android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"
-        app:layout_constraintTop_toBottomOf="@id/current_data"
+        app:layout_constraintTop_toBottomOf="@id/current_data_container"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <View

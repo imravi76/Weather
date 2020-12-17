@@ -13,12 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.revengeos.revengeui.view.ExpandableIndicator
 import com.revengeos.weather.R
 import com.revengeos.weather.WeatherDataGridView
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.response.Hourly
-import rjsv.expframelayout.ExpandableFrameLayout
 
 open class DayWeatherFragment : Fragment() {
 

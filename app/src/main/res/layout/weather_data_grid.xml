@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/current_data"
+        android:id="@+id/current_data_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -35,10 +35,10 @@
         android:id="@+id/additional_data"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/current_data"
+        app:layout_constraintTop_toBottomOf="@id/current_data_container"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/current_data">
+        app:layout_constraintEnd_toEndOf="@id/current_data_container">
 
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
         android:layout_height="24dp"
         android:layout_gravity="center"
         android:tint="?android:textColorPrimary"
-        app:layout_constraintTop_toTopOf="@id/current_data"
-        app:layout_constraintBottom_toBottomOf="@id/current_data"
+        app:layout_constraintTop_toTopOf="@id/current_data_container"
+        app:layout_constraintBottom_toBottomOf="@id/current_data_container"
         app:layout_constraintEnd_toEndOf="parent"/>
 </merge>
