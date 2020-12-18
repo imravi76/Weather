@@ -17,6 +17,7 @@ import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weather.util.WeatherUtils.Companion.getTimeFromEpoch
 import com.revengeos.weathericons.WeatherIconsHelper
 import rjsv.expframelayout.ExpandableFrameLayout
+import kotlin.math.roundToInt
 
 class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : Int) :
         RecyclerView.Adapter<HourlyAdapter.ViewHolder>() {
@@ -49,8 +50,15 @@ class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : I
 
             val visibilityDistanceView = view.findViewById<IconTextView>(R.id.visibility)
             val pressureView = view.findViewById<IconTextView>(R.id.pressure)
+            val precipitations = view.findViewById<IconTextView>(R.id.precipitations)
             pressureView.textView.text = "${hourly.pressure} hPa"
             visibilityDistanceView.textView.text = WeatherUtils.getFormattedDistance(hourly.visibility.toFloat())
+            if (hourly.pop > 0.15f) {
+                precipitations.iconView.setImageResource(R.drawable.ic_umbrella_outline)
+            } else {
+                precipitations.iconView.setImageResource(R.drawable.ic_umbrella_closed_outline)
+            }
+            precipitations.textView.text = "${(hourly.pop * 100).roundToInt()} %"
         }
     }
 
