@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
 
     private lateinit var bottomNav : BottomNavigationView
 
-    private val weatherData = WeatherData(this)
+    private lateinit var weatherData : WeatherData
     private lateinit var locationManager : LocationManager
 
     private var mCurrentTime : Long? = null
@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        weatherData = WeatherData(applicationContext, this)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
