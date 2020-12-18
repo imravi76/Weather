@@ -2,6 +2,7 @@ package com.revengeos.weather.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.revengeos.weather.IconTextView
 import com.revengeos.weather.R
 import com.revengeos.weather.WeatherDataGridView
 import com.revengeos.weather.forecast.HourlyAdapter
@@ -33,6 +35,7 @@ open class DayWeatherFragment : Fragment() {
     private lateinit var currentTouchLayer: View
 
     private lateinit var pageTitle : TextView
+    private lateinit var offlineModeIndicator : IconTextView
 
     private lateinit var todayForecast: RecyclerView
 
@@ -80,12 +83,17 @@ open class DayWeatherFragment : Fragment() {
         if (newTitle != null) {
             pageTitle.text = newTitle
         }
+        offlineModeIndicator = v.findViewById(R.id.offline_mode)
 
         return v
     }
 
     open fun getWeatherPageTitle(context : Context) : String? {
         return null
+    }
+
+    fun setOfflineMode(value : Boolean) {
+        offlineModeIndicator.alpha = if (value) 1f else 0f
     }
 
     fun updateHourlyForecast(hourlyForecast : List<Hourly>, timeZone : Int) {

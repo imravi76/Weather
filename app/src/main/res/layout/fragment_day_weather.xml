@@ -148,6 +148,20 @@
         app:layout_constraintTop_toBottomOf="@id/current_data_container"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <com.revengeos.weather.IconTextView
+        android:id="@+id/offline_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/forecast_container_title_start_margin"
+        android:gravity="center_vertical"
+        android:alpha="0"
+        app:iconSize="22dp"
+        app:src="@drawable/ic_outline_cloud_off"
+        app:iconTintColor="?android:textColorSecondary"
+        app:layout_constraintTop_toTopOf="@id/today_title"
+        app:layout_constraintBottom_toBottomOf="@id/today_title"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <View
         android:id="@+id/forecast_title_separator"
         android:layout_width="0dp"

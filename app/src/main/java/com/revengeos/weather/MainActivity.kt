@@ -180,17 +180,20 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
         locationManager.onPause()
     }
 
-    override fun onCurrentWeatherDataUpdated(currentWeatherResponse: CurrentWeatherResponse?) {
+    override fun onCurrentWeatherDataUpdated(currentWeatherResponse: CurrentWeatherResponse?, cached : Boolean) {
         if (currentWeatherResponse == null) {
             if (BuildConfig.DEBUG) Log.d(TAG, "Current weather data is null !")
             return
         }
         mCurrentTime = currentWeatherResponse.dt
         (todayFragment as TodayFragment).updateCurrentWeather(currentWeatherResponse)
+        (todayFragment as TodayFragment).setOfflineMode(cached)
         (tomorrowFragment as TomorrowFragment).locationName = currentWeatherResponse.name
+        (tomorrowFragment as TomorrowFragment).setOfflineMode(cached)
+
     }
 
-    override fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?) {
+    override fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?, cached : Boolean) {
         if (oneCallResponse == null || mCurrentTime == null) {
             if (BuildConfig.DEBUG) Log.d(TAG, "Onecall weather data is null !")
             return
@@ -218,5 +221,8 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
         }
         (tomorrowFragment as TomorrowFragment).updateTomorrowWeather(tomorrow, oneCallResponse.timezoneOffset)
         (tomorrowFragment as TomorrowFragment).updateHourlyForecast(tomorrowHourlyForecast, oneCallResponse.timezoneOffset)
+
+        (todayFragment as TodayFragment).setOfflineMode(cached)
+        (tomorrowFragment as TomorrowFragment).setOfflineMode(cached)
     }
 }

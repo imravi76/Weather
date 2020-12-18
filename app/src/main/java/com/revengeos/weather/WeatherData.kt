@@ -3,7 +3,6 @@ package com.revengeos.weather
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
 import android.os.Build
 import android.util.Log
 import com.revengeos.weather.BuildConfig.DEBUG
@@ -41,7 +40,7 @@ class WeatherData {
                 .addInterceptor { chain ->
                     var request = chain.request()
                     request = if (isInternetAvailable(context))
-                        request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
+                        request.newBuilder().header("Cache-Control", "public, max-age=" + 0).build()
                     else
                         request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()
                     chain.proceed(request)
@@ -92,13 +91,14 @@ class WeatherData {
             if (DEBUG) {
                 Log.d(TAG, "Location coordinates are not set")
             }
-            listener.onCurrentWeatherDataUpdated(null)
+            listener.onCurrentWeatherDataUpdated(null, false)
         }
         val callCurrentWeather = service.getCurrentWeatherData(latitude.toString(), longitude.toString(), WeatherUtils.API_KEY)
         callCurrentWeather.enqueue(object : Callback<CurrentWeatherResponse?> {
             override fun onResponse(call: Call<CurrentWeatherResponse?>, response: Response<CurrentWeatherResponse?>) {
                 if (response.code() == 200) {
-                    listener.onCurrentWeatherDataUpdated(response.body()!!)
+                    listener.onCurrentWeatherDataUpdated(response.body()!!, response.raw().networkResponse() == null)
+
                 }
             }
 
@@ -113,13 +113,13 @@ class WeatherData {
             if (DEBUG) {
                 Log.d(TAG, "Location coordinates are not set")
             }
-            listener.onOneCallWeatherDataUpdated(null)
+            listener.onOneCallWeatherDataUpdated(null, false)
         }
         val callForecast = service.getOneCallData(latitude.toString(), longitude.toString(), WeatherUtils.API_KEY)
         callForecast.enqueue(object : Callback<OneCallResponse?> {
             override fun onResponse(call: Call<OneCallResponse?>, response: Response<OneCallResponse?>) {
                 if (response.code() == 200) {
-                    listener.onOneCallWeatherDataUpdated(response.body()!!)
+                    listener.onOneCallWeatherDataUpdated(response.body()!!, response.raw().networkResponse() == null)
                 }
             }
 
@@ -130,7 +130,7 @@ class WeatherData {
     }
 
     interface WeatherDataListener {
-        public fun onCurrentWeatherDataUpdated(currentWeatherResponse: CurrentWeatherResponse?)
-        public fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?)
+        public fun onCurrentWeatherDataUpdated(currentWeatherResponse: CurrentWeatherResponse?, cached : Boolean)
+        public fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?, cached : Boolean)
     }
 }
