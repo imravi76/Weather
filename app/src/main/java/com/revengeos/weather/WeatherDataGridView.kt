@@ -3,6 +3,7 @@ package com.revengeos.weather
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TableLayout
@@ -18,6 +19,7 @@ import com.revengeos.weather.util.WeatherUtils.Companion.getTimeFromEpoch
 import rjsv.expframelayout.ExpandableFrameLayout
 import rjsv.expframelayout.ExpandableFrameLayoutListener
 import rjsv.expframelayout.enumerators.ExpandableFrameLayoutStatus
+import kotlin.math.roundToInt
 
 class WeatherDataGridView : ConstraintLayout {
 
@@ -27,6 +29,7 @@ class WeatherDataGridView : ConstraintLayout {
     private val humidityView: IconTextView
     private val windView: IconTextView
     private val visibilityDistanceView : IconTextView
+    private val precipitationsView : IconTextView
     private val minTempView: IconTextView
     private val maxTempView: IconTextView
 
@@ -51,6 +54,7 @@ class WeatherDataGridView : ConstraintLayout {
         humidityView = findViewById(R.id.current_humidity)
         windView = findViewById(R.id.current_wind)
         visibilityDistanceView = findViewById(R.id.current_visibility)
+        precipitationsView = findViewById(R.id.current_precipitations)
         minTempView = findViewById(R.id.current_min_temp)
         maxTempView = findViewById(R.id.current_max_temp)
 
@@ -88,7 +92,7 @@ class WeatherDataGridView : ConstraintLayout {
     }
 
     fun updateData(sunrise: Long, sunset: Long, timeZone : Int, pressure: Int, humidity: Int, windDirection: Int,
-                   windSpeed: Float, visibility: Int, minTemp: Float, maxTemp: Float) {
+                   windSpeed: Float, visibility: Int?, minTemp: Float, maxTemp: Float, precipitations : Float?) {
 
         minTempView.textView.text = getFormattedTemperature(minTemp)
         maxTempView.textView.text = getFormattedTemperature(maxTemp)
@@ -99,7 +103,22 @@ class WeatherDataGridView : ConstraintLayout {
         humidityView.textView.text = "$humidity %"
         windView.iconView.rotation = windDirection.toFloat()
         windView.textView.text = getFormattedSpeed(windSpeed)
-        visibilityDistanceView.textView.text = getFormattedDistance(visibility.toFloat())
-
+        if (visibility == null) {
+            visibilityDistanceView.visibility = GONE
+        } else {
+            visibilityDistanceView.textView.text = getFormattedDistance(visibility.toFloat())
+            visibilityDistanceView.visibility = VISIBLE
+        }
+        if (precipitations == null) {
+            precipitationsView.visibility = GONE
+        } else {
+            if (precipitations > 0.15f) {
+                precipitationsView.iconView.setImageResource(R.drawable.ic_umbrella_outline)
+            } else {
+                precipitationsView.iconView.setImageResource(R.drawable.ic_umbrella_closed_outline)
+            }
+            precipitationsView.textView.text = "${(precipitations * 100).roundToInt()} %"
+            precipitationsView.visibility = View.VISIBLE
+        }
     }
 }

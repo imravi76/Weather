@@ -64,6 +64,11 @@
                 android:id="@+id/current_visibility"
                 style="@style/AppTheme.TextIconView.ExtraData"
                 app:src="@drawable/ic_outline_visibility_24" />
+
+            <com.revengeos.weather.IconTextView
+                android:id="@+id/current_precipitations"
+                style="@style/AppTheme.TextIconView.ExtraData"
+                app:src="@drawable/ic_umbrella_closed_outline" />
         </com.google.android.flexbox.FlexboxLayout>
     </rjsv.expframelayout.ExpandableFrameLayout>
 

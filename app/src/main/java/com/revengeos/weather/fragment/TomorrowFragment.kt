@@ -23,7 +23,7 @@ class TomorrowFragment : DayWeatherFragment() {
         currentTempFeelsLikeEnd.text = feelsLikeText
         currentData.updateData(daily.sunrise, daily.sunset, timeZone,
                 daily.pressure, daily.humidity, daily.windDeg,
-                daily.windSpeed, 0, daily.temp.min, daily.temp.max)
+                daily.windSpeed, null, daily.temp.min, daily.temp.max, daily.pop)
 
         val isDay = daily.weather[0].icon.takeLast(1) == "d"
         val state = WeatherIconsHelper.mapConditionIconToCode(daily.weather[0].id, isDay)

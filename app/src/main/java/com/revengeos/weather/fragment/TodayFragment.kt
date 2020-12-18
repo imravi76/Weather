@@ -22,7 +22,7 @@ class TodayFragment : DayWeatherFragment() {
         currentTempFeelsLikeEnd.text = feelsLikeText
         currentData.updateData(currentWeatherResponse.sys.sunrise, currentWeatherResponse.sys.sunset, currentWeatherResponse.timezone,
                 currentWeatherResponse.main.pressure, currentWeatherResponse.main.humidity, currentWeatherResponse.wind.deg,
-                currentWeatherResponse.wind.speed, currentWeatherResponse.visibility, currentWeatherResponse.main.temp_min, currentWeatherResponse.main.temp_max)
+                currentWeatherResponse.wind.speed, currentWeatherResponse.visibility, currentWeatherResponse.main.temp_min, currentWeatherResponse.main.temp_max, null)
 
         val isDay = currentWeatherResponse.weather[0].icon.takeLast(1) == "d"
         val state = WeatherIconsHelper.mapConditionIconToCode(currentWeatherResponse.weather[0].id, isDay)
