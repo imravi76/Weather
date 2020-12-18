@@ -59,6 +59,8 @@ class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : I
                 precipitations.iconView.setImageResource(R.drawable.ic_umbrella_closed_outline)
             }
             precipitations.textView.text = "${(hourly.pop * 100).roundToInt()} %"
+
+            view.findViewById<IconTextView>(R.id.uv).textView.text = "${hourly.uvi}"
         }
     }
 

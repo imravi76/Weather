@@ -101,6 +101,11 @@
                 android:id="@+id/precipitations"
                 style="@style/AppTheme.TextIconView.ExtraData"
                 app:src="@drawable/ic_umbrella_closed_outline" />
+
+            <com.revengeos.weather.IconTextView
+                android:id="@+id/uv"
+                style="@style/AppTheme.TextIconView.ExtraData"
+                app:src="@drawable/ic_ultraviolet" />
         </com.google.android.flexbox.FlexboxLayout>
     </rjsv.expframelayout.ExpandableFrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
