@@ -45,7 +45,7 @@ open class DayWeatherFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val v = inflater.inflate(R.layout.fragment_feed, container, false)
+        val v = inflater.inflate(R.layout.fragment_day_weather, container, false)
         currentTemp = v.findViewById(R.id.current_temperature)
         currentTempEnd = v.findViewById(R.id.current_temperature_end)
         currentLocation = v.findViewById(R.id.current_location)
