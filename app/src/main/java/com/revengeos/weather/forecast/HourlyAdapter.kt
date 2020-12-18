@@ -16,6 +16,7 @@ import com.revengeos.weather.util.WeatherUtils.Companion.getFeelsLikeFormattedTe
 import com.revengeos.weather.util.WeatherUtils.Companion.getFormattedTemperature
 import com.revengeos.weather.util.WeatherUtils.Companion.getTimeFromEpoch
 import com.revengeos.weathericons.WeatherIconsHelper
+import rjsv.expframelayout.ExpandableFrameLayout
 
 class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : Int) :
         RecyclerView.Adapter<HourlyAdapter.ViewHolder>() {
@@ -38,6 +39,18 @@ class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : I
             val windView = view.findViewById<IconTextView>(R.id.hourly_wind)
             windView.iconView.rotation = hourly.windDeg.toFloat()
             windView.textView.text = WeatherUtils.getFormattedSpeed(hourly.windSpeed)
+
+            val additionalData = view.findViewById<ExpandableFrameLayout>(R.id.additional_data)
+            additionalData.collapse()
+            additionalData.animationDuration = 700
+            view.setOnClickListener { view ->
+                additionalData.toggle()
+            }
+
+            val visibilityDistanceView = view.findViewById<IconTextView>(R.id.visibility)
+            val pressureView = view.findViewById<IconTextView>(R.id.pressure)
+            pressureView.textView.text = "${hourly.pressure} hPa"
+            visibilityDistanceView.textView.text = WeatherUtils.getFormattedDistance(hourly.visibility.toFloat())
         }
     }
 
