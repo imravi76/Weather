@@ -180,11 +180,7 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
         locationManager.onPause()
     }
 
-    override fun onCurrentWeatherDataUpdated(currentWeatherResponse: CurrentWeatherResponse?, cached : Boolean) {
-        if (currentWeatherResponse == null) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "Current weather data is null !")
-            return
-        }
+    override fun onCurrentWeatherUpdateSuccess(currentWeatherResponse: CurrentWeatherResponse, cached : Boolean) {
         mCurrentTime = currentWeatherResponse.dt
         (todayFragment as TodayFragment).updateCurrentWeather(currentWeatherResponse)
         (todayFragment as TodayFragment).setOfflineMode(cached)
@@ -193,11 +189,12 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
 
     }
 
-    override fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?, cached : Boolean) {
-        if (oneCallResponse == null || mCurrentTime == null) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "Onecall weather data is null !")
+    override fun onOneCallWeatherUpdateSuccess(oneCallResponse: OneCallResponse, cached : Boolean) {
+        if (mCurrentTime == null) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "Current time is not available !")
             return
         }
+
         // Update today's hourly forecast data
         var hourlyForecast = (oneCallResponse.hourly).subList(0, 25).toMutableList()
         if (hourlyForecast[0].dt < mCurrentTime!!) {
@@ -224,5 +221,13 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
 
         (todayFragment as TodayFragment).setOfflineMode(cached)
         (tomorrowFragment as TomorrowFragment).setOfflineMode(cached)
+    }
+
+    override fun onCurrentWeatherUpdateFailed(errorMessage : String) {
+        Log.d(TAG, "Current weather data cannot be updated : $errorMessage")
+    }
+
+    override fun onOneCallWeatherUpdateFailed(errorMessage : String) {
+        Log.d(TAG, "Onecall weather data cannot be updated : $errorMessage")
     }
 }

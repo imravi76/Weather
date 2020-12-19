@@ -1,4 +1,6 @@
 <resources>
+    <string name="unknown_value">--</string>
+    <string name="unknown_text">Unknown</string>
     <string name="app_name">Weather</string>
     <string name="nav_feed">Feed</string>
     <string name="nav_cities">Cities</string>

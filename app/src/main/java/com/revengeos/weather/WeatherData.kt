@@ -88,49 +88,48 @@ class WeatherData {
 
     fun updateCurrentWeatherData() {
         if (latitude == Double.MAX_VALUE || longitude == Double.MAX_VALUE) {
-            if (DEBUG) {
-                Log.d(TAG, "Location coordinates are not set")
-            }
-            listener.onCurrentWeatherDataUpdated(null, false)
+            listener.onCurrentWeatherUpdateFailed("Invalid location coordinates")
         }
         val callCurrentWeather = service.getCurrentWeatherData(latitude.toString(), longitude.toString(), WeatherUtils.API_KEY)
         callCurrentWeather.enqueue(object : Callback<CurrentWeatherResponse?> {
             override fun onResponse(call: Call<CurrentWeatherResponse?>, response: Response<CurrentWeatherResponse?>) {
                 if (response.code() == 200) {
-                    listener.onCurrentWeatherDataUpdated(response.body()!!, response.raw().networkResponse() == null)
-
+                    listener.onCurrentWeatherUpdateSuccess(response.body()!!, response.raw().networkResponse() == null)
+                } else {
+                    listener.onCurrentWeatherUpdateFailed("Response code ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<CurrentWeatherResponse?>, t: Throwable) {
-                Log.d(TAG, t.toString())
+                listener.onCurrentWeatherUpdateFailed(t.toString())
             }
         })
     }
 
     fun updateOneCallWeatherData() {
         if (latitude == Double.MAX_VALUE || longitude == Double.MAX_VALUE) {
-            if (DEBUG) {
-                Log.d(TAG, "Location coordinates are not set")
-            }
-            listener.onOneCallWeatherDataUpdated(null, false)
+            listener.onOneCallWeatherUpdateFailed("Invalid location coordinates")
         }
         val callForecast = service.getOneCallData(latitude.toString(), longitude.toString(), WeatherUtils.API_KEY)
         callForecast.enqueue(object : Callback<OneCallResponse?> {
             override fun onResponse(call: Call<OneCallResponse?>, response: Response<OneCallResponse?>) {
                 if (response.code() == 200) {
-                    listener.onOneCallWeatherDataUpdated(response.body()!!, response.raw().networkResponse() == null)
+                    listener.onOneCallWeatherUpdateSuccess(response.body()!!, response.raw().networkResponse() == null)
+                } else {
+                    listener.onOneCallWeatherUpdateFailed("Response code ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<OneCallResponse?>, t: Throwable) {
-                Log.d(TAG, t.toString())
+                listener.onOneCallWeatherUpdateFailed(t.toString())
             }
         })
     }
 
     interface WeatherDataListener {
-        public fun onCurrentWeatherDataUpdated(currentWeatherResponse: CurrentWeatherResponse?, cached : Boolean)
-        public fun onOneCallWeatherDataUpdated(oneCallResponse: OneCallResponse?, cached : Boolean)
+        fun onCurrentWeatherUpdateSuccess(currentWeatherResponse: CurrentWeatherResponse, cached : Boolean)
+        fun onOneCallWeatherUpdateSuccess(oneCallResponse: OneCallResponse, cached : Boolean)
+        fun onCurrentWeatherUpdateFailed(errorMessage : String)
+        fun onOneCallWeatherUpdateFailed(errorMessage : String)
     }
 }

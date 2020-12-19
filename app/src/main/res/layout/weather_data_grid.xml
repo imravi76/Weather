@@ -66,6 +66,7 @@
                 app:src="@drawable/ic_outline_visibility_24" />
 
             <com.revengeos.weather.IconTextView
+                android:visibility="gone"
                 android:id="@+id/current_precipitations"
                 style="@style/AppTheme.TextIconView.ExtraData"
                 app:src="@drawable/ic_umbrella_closed_outline" />
