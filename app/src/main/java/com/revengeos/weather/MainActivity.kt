@@ -1,10 +1,8 @@
 package com.revengeos.weather
 
-import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,14 +13,12 @@ import com.revengeos.weather.response.Hourly
 import com.revengeos.weather.response.OneCallResponse
 import com.revengeos.weather.response.current.CurrentWeatherResponse
 import com.revengeos.weather.util.WeatherUtils
-import com.yayandroid.locationmanager.configuration.DefaultProviderConfiguration
-import com.yayandroid.locationmanager.configuration.GooglePlayServicesConfiguration
-import com.yayandroid.locationmanager.configuration.LocationConfiguration
-import com.yayandroid.locationmanager.configuration.PermissionConfiguration
 import com.yayandroid.locationmanager.LocationManager
+import com.yayandroid.locationmanager.base.LocationBaseActivity
+import com.yayandroid.locationmanager.configuration.*
 import com.yayandroid.locationmanager.listener.LocationListener
 
-class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
+class MainActivity : LocationBaseActivity(), WeatherData.WeatherDataListener {
 
     val TAG = javaClass.toString()
 
@@ -36,36 +32,8 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
     private lateinit var bottomNav : BottomNavigationView
 
     private lateinit var weatherData : WeatherData
-    private lateinit var locationManager : LocationManager
 
     private var mCurrentTime : Long? = null
-
-    private val locationListener: LocationListener = object : LocationListener {
-        override fun onProcessTypeChanged(processType: Int) {
-
-        }
-
-        override fun onLocationChanged(location: Location?) {
-            if (location != null) {
-                updateWeatherUI(location, weatherData)
-            }
-        }
-
-        override fun onLocationFailed(type: Int) {
-        }
-
-        override fun onPermissionGranted(alreadyHadPermission: Boolean) {
-        }
-
-        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-        }
-
-        override fun onProviderEnabled(provider: String?) {
-        }
-
-        override fun onProviderDisabled(provider: String?) {
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,27 +77,15 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
                 else -> false
             }
         }
-
-        val awesomeConfiguration = LocationConfiguration.Builder()
-                .keepTracking(false)
-                .askForPermission(PermissionConfiguration.Builder().build())
-                .useGooglePlayServices(GooglePlayServicesConfiguration.Builder().build())
-                .useDefaultProviders(DefaultProviderConfiguration.Builder().build())
-                .build()
-        locationManager = LocationManager.Builder(applicationContext)
-                .activity(this) // Only required to ask permission and/or GoogleApi - SettingsApi
-                .configuration(awesomeConfiguration)
-                .notify(locationListener)
-                .build()
-        locationManager.get()
+        getLocation()
     }
 
-    private fun setupFragment(fragment : Fragment, title : String) : Fragment {
+    private fun setupFragment(fragment: Fragment, title: String) : Fragment {
         supportFragmentManager.beginTransaction().add(R.id.main_content, fragment, title).hide(fragment).commit()
         return fragment
     }
 
-    private fun switchActiveFragment(newFragment : Fragment) {
+    private fun switchActiveFragment(newFragment: Fragment) {
         if (newFragment != activeFragment) {
             val transaction = supportFragmentManager.beginTransaction()
             activeFragment?.let { transaction.hide(it) }
@@ -138,11 +94,20 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
         }
     }
 
-    private fun updateWeatherUI(location : Location, weatherData : WeatherData) {
+    private fun updateWeatherUI(location: Location, weatherData: WeatherData) {
         weatherData.latitude = location.latitude
         weatherData.longitude = location.longitude
         weatherData.updateCurrentWeatherData()
         weatherData.updateOneCallWeatherData()
+    }
+
+    override fun onLocationChanged(location: Location?) {
+        if (location != null) {
+            updateWeatherUI(location, weatherData)
+        }
+    }
+
+    override fun onLocationFailed(type: Int) {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -155,32 +120,17 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
         super.onRestoreInstanceState(savedInstanceState)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        locationManager.onActivityResult(requestCode, resultCode, data)
+    override fun getLocationConfiguration(): LocationConfiguration? {
+        return LocationConfiguration.Builder()
+                .keepTracking(false)
+                .askForPermission(PermissionConfiguration.Builder().build())
+                .useGooglePlayServices(GooglePlayServicesConfiguration.Builder().build())
+                .useGooglePlayServices(GooglePlayServicesConfiguration.Builder().build())
+                .useDefaultProviders(DefaultProviderConfiguration.Builder().build())
+                .build()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        locationManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        locationManager.onDestroy()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        locationManager.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        locationManager.onPause()
-    }
-
-    override fun onCurrentWeatherUpdateSuccess(currentWeatherResponse: CurrentWeatherResponse, cached : Boolean) {
+    override fun onCurrentWeatherUpdateSuccess(currentWeatherResponse: CurrentWeatherResponse, cached: Boolean) {
         mCurrentTime = currentWeatherResponse.dt
         (todayFragment as TodayFragment).updateCurrentWeather(currentWeatherResponse)
         (todayFragment as TodayFragment).setOfflineMode(cached)
@@ -189,7 +139,7 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
 
     }
 
-    override fun onOneCallWeatherUpdateSuccess(oneCallResponse: OneCallResponse, cached : Boolean) {
+    override fun onOneCallWeatherUpdateSuccess(oneCallResponse: OneCallResponse, cached: Boolean) {
         if (mCurrentTime == null) {
             if (BuildConfig.DEBUG) Log.d(TAG, "Current time is not available !")
             return
@@ -223,11 +173,11 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
         (tomorrowFragment as TomorrowFragment).setOfflineMode(cached)
     }
 
-    override fun onCurrentWeatherUpdateFailed(errorMessage : String) {
+    override fun onCurrentWeatherUpdateFailed(errorMessage: String) {
         Log.d(TAG, "Current weather data cannot be updated : $errorMessage")
     }
 
-    override fun onOneCallWeatherUpdateFailed(errorMessage : String) {
+    override fun onOneCallWeatherUpdateFailed(errorMessage: String) {
         Log.d(TAG, "Onecall weather data cannot be updated : $errorMessage")
         (todayFragment as TodayFragment).weatherDataUpdateFailed()
         (tomorrowFragment as TomorrowFragment).weatherDataUpdateFailed()
