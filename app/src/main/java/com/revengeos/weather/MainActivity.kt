@@ -229,5 +229,7 @@ class MainActivity : AppCompatActivity(), WeatherData.WeatherDataListener {
 
     override fun onOneCallWeatherUpdateFailed(errorMessage : String) {
         Log.d(TAG, "Onecall weather data cannot be updated : $errorMessage")
+        (todayFragment as TodayFragment).weatherDataUpdateFailed()
+        (tomorrowFragment as TomorrowFragment).weatherDataUpdateFailed()
     }
 }

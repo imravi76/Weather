@@ -38,6 +38,9 @@ open class DayWeatherFragment : Fragment() {
     private lateinit var offlineModeIndicator : IconTextView
 
     private lateinit var todayForecast: RecyclerView
+    private lateinit var updateFailedView : View
+
+    private var weatherDataAvailable = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +64,7 @@ open class DayWeatherFragment : Fragment() {
 
         currentTouchLayer = v.findViewById(R.id.current_touch_layer)
 
+        updateFailedView = v.findViewById(R.id.weather_data_updated_failed)
         todayForecast = v.findViewById(R.id.today_forecast)
         var itemDecoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
         itemDecoration.setDrawable(resources.getDrawable(R.drawable.forecast_container_separator, v.context.theme))
@@ -96,7 +100,26 @@ open class DayWeatherFragment : Fragment() {
         offlineModeIndicator.alpha = if (value) 1f else 0f
     }
 
+    fun weatherDataUpdateFailed() {
+        if (weatherDataAvailable) {
+            // Since weather data has already been loaded let's just show the offline indicator
+            setOfflineMode(true)
+        } else {
+            setForecastVisible(false)
+        }
+    }
+
+    fun setForecastVisible(value : Boolean) {
+        todayForecast.visibility = if (value) View.VISIBLE else View.GONE
+        updateFailedView.visibility = if (value) View.GONE else View.VISIBLE
+
+    }
+
     fun updateHourlyForecast(hourlyForecast : List<Hourly>, timeZone : Int) {
+        if (!weatherDataAvailable) {
+            setForecastVisible(true)
+            weatherDataAvailable = true
+        }
         val todayAdapter = HourlyAdapter(hourlyForecast, timeZone)
         todayForecast.adapter = todayAdapter
     }

@@ -172,19 +172,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/today_forecast"
+    <FrameLayout
+        android:id="@+id/forecast_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/forecast_container_vertical_margin"
-        android:paddingStart="@dimen/forecast_container_horizontal_margin"
-        android:paddingEnd="@dimen/forecast_container_horizontal_margin"
-        android:splitMotionEvents="false"
         app:layout_constraintBottom_toTopOf="@id/bottom_inset_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/forecast_title_separator"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/weather_data_updated_failed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="@dimen/current_weather_icon_size"
+                android:layout_height="@dimen/current_weather_icon_size"
+                android:src="@drawable/ic_outline_cloud_off"
+                app:tint="?android:textColorSecondary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:textAlignment="center"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="17sp"
+                android:text="@string/weather_data_failed_update_text"/>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/today_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/forecast_container_vertical_margin"
+            android:paddingStart="@dimen/forecast_container_horizontal_margin"
+            android:paddingEnd="@dimen/forecast_container_horizontal_margin"
+            android:splitMotionEvents="false"/>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/bottom_inset_container"

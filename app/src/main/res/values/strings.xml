@@ -14,4 +14,6 @@
     <string name="today_title">Today</string>
     <string name="tomorrow_title">Tomorrow</string>
     <string name="next_days_title">Next days</string>
+
+    <string name="weather_data_failed_update_text">Weather information cannot be retrieved, please check your connection or try again later</string>
 </resources>
