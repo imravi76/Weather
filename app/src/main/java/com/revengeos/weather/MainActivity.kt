@@ -13,12 +13,10 @@ import com.revengeos.weather.response.Hourly
 import com.revengeos.weather.response.OneCallResponse
 import com.revengeos.weather.response.current.CurrentWeatherResponse
 import com.revengeos.weather.util.WeatherUtils
-import com.yayandroid.locationmanager.LocationManager
 import com.yayandroid.locationmanager.base.LocationBaseActivity
 import com.yayandroid.locationmanager.configuration.*
-import com.yayandroid.locationmanager.listener.LocationListener
 
-class MainActivity : LocationBaseActivity(), WeatherData.WeatherDataListener {
+class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListener {
 
     val TAG = javaClass.toString()
 
@@ -31,14 +29,14 @@ class MainActivity : LocationBaseActivity(), WeatherData.WeatherDataListener {
 
     private lateinit var bottomNav : BottomNavigationView
 
-    private lateinit var weatherData : WeatherData
+    private lateinit var weatherDataService : WeatherDataService
 
     private var mCurrentTime : Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        weatherData = WeatherData(applicationContext, this)
+        weatherDataService = WeatherDataService(applicationContext, this)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -94,16 +92,16 @@ class MainActivity : LocationBaseActivity(), WeatherData.WeatherDataListener {
         }
     }
 
-    private fun updateWeatherUI(location: Location, weatherData: WeatherData) {
-        weatherData.latitude = location.latitude
-        weatherData.longitude = location.longitude
-        weatherData.updateCurrentWeatherData()
-        weatherData.updateOneCallWeatherData()
+    private fun updateWeatherUI(location: Location, weatherDataService: WeatherDataService) {
+        weatherDataService.latitude = location.latitude
+        weatherDataService.longitude = location.longitude
+        weatherDataService.updateCurrentWeatherData()
+        weatherDataService.updateOneCallWeatherData()
     }
 
     override fun onLocationChanged(location: Location?) {
         if (location != null) {
-            updateWeatherUI(location, weatherData)
+            updateWeatherUI(location, weatherDataService)
         }
     }
 

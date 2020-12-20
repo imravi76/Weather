@@ -17,7 +17,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class WeatherData {
+class WeatherDataService {
     val TAG = this.javaClass.toString()
 
     private val retrofit : Retrofit
