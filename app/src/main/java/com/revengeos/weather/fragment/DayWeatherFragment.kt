@@ -1,16 +1,13 @@
 package com.revengeos.weather.fragment
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -22,7 +19,6 @@ import com.revengeos.weather.R
 import com.revengeos.weather.WeatherDataGridView
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.response.Hourly
-
 
 open class DayWeatherFragment : Fragment() {
 
@@ -113,33 +109,25 @@ open class DayWeatherFragment : Fragment() {
         setFragmentVisibility(false)
     }
 
-    private fun setFragmentVisibility(value: Boolean) {
+    private fun setFragmentVisibility(value : Boolean) {
         fragmentVisible = value
         setBackground(backgroundDrawableId)
     }
 
-    protected fun setBackground(drawableId: Int) {
+    protected fun setBackground(drawableId : Int) {
         backgroundDrawableId = drawableId
         if (fragmentVisible && backgroundDrawableId != 0) {
             activity?.findViewById<ImageView>(R.id.background)?.let {
-                val currentImage = if (it.drawable == null) ColorDrawable(Color.TRANSPARENT) else {
-                    it.drawable
-                }
-                val transitionDrawable = TransitionDrawable(arrayOf(
-                        currentImage,
-                        ContextCompat.getDrawable(it.context, drawableId))
-                )
-                it.setImageDrawable(transitionDrawable)
-                transitionDrawable.startTransition(750)
+                it.setImageResource(drawableId)
             }
         }
     }
 
-    open fun getWeatherPageTitle(context: Context) : String? {
+    open fun getWeatherPageTitle(context : Context) : String? {
         return null
     }
 
-    fun setOfflineMode(value: Boolean) {
+    fun setOfflineMode(value : Boolean) {
         offlineModeIndicator.alpha = if (value) 1f else 0f
     }
 
@@ -152,13 +140,13 @@ open class DayWeatherFragment : Fragment() {
         }
     }
 
-    fun setForecastVisible(value: Boolean) {
+    fun setForecastVisible(value : Boolean) {
         todayForecast.visibility = if (value) View.VISIBLE else View.GONE
         updateFailedView.visibility = if (value) View.GONE else View.VISIBLE
 
     }
 
-    fun updateHourlyForecast(hourlyForecast: List<Hourly>, timeZone: Int) {
+    fun updateHourlyForecast(hourlyForecast : List<Hourly>, timeZone : Int) {
         if (!weatherDataAvailable) {
             setForecastVisible(true)
             weatherDataAvailable = true
