@@ -31,8 +31,6 @@ open class DayWeatherFragment : Fragment() {
 
     private lateinit var currentData: WeatherDataGridView
 
-    private lateinit var currentTouchLayer: View
-
     private lateinit var pageTitleView : TextView
     private var pageTitle : String? = null
     private lateinit var offlineModeIndicator : IconTextView
@@ -62,14 +60,9 @@ open class DayWeatherFragment : Fragment() {
 
         currentData = v.findViewById(R.id.current_data)
 
-        currentTouchLayer = v.findViewById(R.id.current_touch_layer)
-
         updateFailedView = v.findViewById(R.id.weather_data_updated_failed)
         todayForecast = v.findViewById(R.id.today_forecast)
-        var itemDecoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
-        itemDecoration.setDrawable(resources.getDrawable(R.drawable.forecast_container_separator, v.context.theme))
-        todayForecast.addItemDecoration(itemDecoration)
-        todayForecast.layoutManager = LinearLayoutManager(v.context)
+        todayForecast.layoutManager = LinearLayoutManager(v.context, LinearLayoutManager.HORIZONTAL, false)
 
         ViewCompat.setOnApplyWindowInsetsListener(v) { view, inset ->
             val topInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).top
