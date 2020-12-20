@@ -41,8 +41,6 @@ open class DayWeatherFragment : Fragment() {
     private lateinit var updateFailedView : View
 
     private var weatherDataAvailable = false
-    private var fragmentVisible = false
-    private var backgroundDrawableId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,35 +90,6 @@ open class DayWeatherFragment : Fragment() {
         offlineModeIndicator = v.findViewById(R.id.offline_mode)
 
         return v
-    }
-
-    override fun onStart() {
-        super.onStart()
-        setForecastVisible(isVisible)
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        setFragmentVisibility(!hidden)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        setFragmentVisibility(false)
-    }
-
-    private fun setFragmentVisibility(value : Boolean) {
-        fragmentVisible = value
-        setBackground(backgroundDrawableId)
-    }
-
-    protected fun setBackground(drawableId : Int) {
-        backgroundDrawableId = drawableId
-        if (fragmentVisible && backgroundDrawableId != 0) {
-            activity?.findViewById<ImageView>(R.id.background)?.let {
-                it.setImageResource(drawableId)
-            }
-        }
     }
 
     open fun getWeatherPageTitle(context : Context) : String? {

@@ -13,8 +13,6 @@ class TomorrowFragment : DayWeatherFragment() {
 
     fun updateTomorrowWeather(daily : Daily, timeZone : Int) {
 
-        setBackground(R.drawable.demo)
-
         val temperature = WeatherUtils.getFormattedTemperature(daily.temp.day)
         currentTemp.text = temperature
         currentTempEnd.text = temperature
