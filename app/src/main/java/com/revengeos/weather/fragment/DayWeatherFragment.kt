@@ -113,12 +113,21 @@ open class DayWeatherFragment : Fragment() {
         }
     }
 
-    fun setWeatherHeaderData(weatherHeaderData: WeatherHeaderData) {
+    fun setFragmentData(dayWeatherFragmentData: DayWeatherFragmentData) {
+        setWeatherHeaderData(dayWeatherFragmentData.weatherHeaderData)
+        setWeatherDataGrid(dayWeatherFragmentData.weatherGridData)
+        setHourlyForecastAdapter(dayWeatherFragmentData.hourlyAdapter)
+    }
+
+    fun setLocation(name : String) {
+        currentLocation.text = name
+        currentLocationEnd.text = name
+    }
+
+    private fun setWeatherHeaderData(weatherHeaderData: WeatherHeaderData) {
         val temperature = WeatherUtils.getFormattedTemperature(weatherHeaderData.temp)
         currentTemp.text = temperature
         currentTempEnd.text = temperature
-        currentLocation.text = weatherHeaderData.location
-        currentLocationEnd.text = weatherHeaderData.location
         val feelsLikeText = WeatherUtils.getFeelsLikeFormattedTemp(requireContext(), weatherHeaderData.tempFeelsLike)
         currentTempFeelsLike.text = feelsLikeText
         currentTempFeelsLikeEnd.text = feelsLikeText
@@ -128,11 +137,11 @@ open class DayWeatherFragment : Fragment() {
         currentIcon.setImageResource(WeatherIconsHelper.getDrawable(state, requireContext())!!)
     }
 
-    fun setWeatherDataGrid(weatherGridData: WeatherGridData) {
+    private fun setWeatherDataGrid(weatherGridData: WeatherGridData) {
         currentData.updateData(weatherGridData)
     }
 
-    fun setHourlyForecastAdapter(hourlyAdapter: HourlyAdapter) {
+    private fun setHourlyForecastAdapter(hourlyAdapter: HourlyAdapter) {
         if (!weatherDataAvailable) {
             setForecastVisible(true)
             weatherDataAvailable = true

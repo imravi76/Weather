@@ -13,9 +13,9 @@ public class OneCallResponse {
     public String timezone;
     @SerializedName("timezone_offset")
     public int timezoneOffset;
-   /* @SerializedName("current")
+    @SerializedName("current")
     public Current current;
-    @SerializedName("minutely")
+    /* @SerializedName("minutely")
     public List<Minutely> minutely = null;*/
     @SerializedName("hourly")
     public List<Hourly> hourly = null;
