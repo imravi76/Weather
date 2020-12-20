@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.fragment.DayWeatherFragment
-import com.revengeos.weather.fragment.TodayFragment
-import com.revengeos.weather.fragment.TomorrowFragment
 import com.revengeos.weather.response.Daily
 import com.revengeos.weather.response.Hourly
 import com.revengeos.weather.response.OneCallResponse
@@ -51,9 +49,11 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         if (savedInstanceState == null) {
-            todayFragment = setupFragment(TodayFragment.newInstance(), getString(R.string.today_title))
-            tomorrowFragment = setupFragment(TomorrowFragment.newInstance(), getString(R.string.tomorrow_title))
-            nextDaysFragment = setupFragment(TomorrowFragment.newInstance(), getString(R.string.next_days_title))
+            todayFragment = setupFragment(DayWeatherFragment.newInstance(), getString(R.string.today_title))
+            (todayFragment as DayWeatherFragment).setPageTitle(getString(R.string.today_title))
+            tomorrowFragment = setupFragment(DayWeatherFragment.newInstance(), getString(R.string.tomorrow_title))
+            (tomorrowFragment as DayWeatherFragment).setPageTitle(getString(R.string.tomorrow_title))
+            nextDaysFragment = setupFragment(SettingsFragment(), getString(R.string.next_days_title))
             settingsFragment = setupFragment(SettingsFragment(), getString(R.string.nav_settings))
             switchActiveFragment(todayFragment)
         } else {
@@ -207,7 +207,7 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
 
     override fun onOneCallWeatherUpdateFailed(errorMessage: String) {
         Log.d(TAG, "Onecall weather data cannot be updated : $errorMessage")
-        (todayFragment as TodayFragment).weatherDataUpdateFailed()
-        (tomorrowFragment as TomorrowFragment).weatherDataUpdateFailed()
+        (todayFragment as DayWeatherFragment).weatherDataUpdateFailed()
+        (tomorrowFragment as DayWeatherFragment).weatherDataUpdateFailed()
     }
 }

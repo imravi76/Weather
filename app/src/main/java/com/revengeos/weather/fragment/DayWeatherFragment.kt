@@ -32,7 +32,8 @@ open class DayWeatherFragment : Fragment() {
 
     private lateinit var currentTouchLayer: View
 
-    private lateinit var pageTitle : TextView
+    private lateinit var pageTitleView : TextView
+    private var pageTitle : String? = null
     private lateinit var offlineModeIndicator : IconTextView
 
     private lateinit var todayForecast: RecyclerView
@@ -80,18 +81,11 @@ open class DayWeatherFragment : Fragment() {
                     return@setOnApplyWindowInsetsListener inset
         }
 
-        pageTitle = v.findViewById(R.id.today_title)
-        val newTitle = getWeatherPageTitle(v.context)
-        if (newTitle != null) {
-            pageTitle.text = newTitle
-        }
+        pageTitleView = v.findViewById(R.id.today_title)
+        pageTitle?.let { pageTitleView.text = it }
         offlineModeIndicator = v.findViewById(R.id.offline_mode)
 
         return v
-    }
-
-    open fun getWeatherPageTitle(context : Context) : String? {
-        return null
     }
 
     fun setOfflineMode(value : Boolean) {
@@ -110,7 +104,13 @@ open class DayWeatherFragment : Fragment() {
     fun setForecastVisible(value : Boolean) {
         todayForecast.visibility = if (value) View.VISIBLE else View.GONE
         updateFailedView.visibility = if (value) View.GONE else View.VISIBLE
+    }
 
+    fun setPageTitle(title : String) {
+        pageTitle = title
+        if (this::pageTitleView.isInitialized) {
+            pageTitleView?.text = pageTitle
+        }
     }
 
     fun setWeatherHeaderData(weatherHeaderData: WeatherHeaderData) {
@@ -138,5 +138,12 @@ open class DayWeatherFragment : Fragment() {
             weatherDataAvailable = true
         }
         todayForecast.adapter = hourlyAdapter
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+                DayWeatherFragment().apply {
+                }
     }
 }
