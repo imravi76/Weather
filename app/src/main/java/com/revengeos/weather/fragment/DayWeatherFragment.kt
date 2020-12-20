@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -72,8 +73,8 @@ open class DayWeatherFragment : Fragment() {
 
         ViewCompat.setOnApplyWindowInsetsListener(v) { view, inset ->
             val topInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).top
-            val topInsetView = v.findViewById<View>(R.id.top_inset)
-            topInsetView.layoutParams.height = topInset
+            val content = v.findViewById<View>(R.id.content_container)
+            (content.layoutParams as ViewGroup.MarginLayoutParams).topMargin = topInset
 
             val bottomInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).bottom
             val bottomInsetView = v.findViewById<View>(R.id.bottom_inset)
