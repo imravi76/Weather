@@ -8,17 +8,6 @@
     tools:context=".fragment.DayWeatherFragment"
     app:layoutDescription="@xml/fragment_feed_scene">
 
-    <ImageView
-        android:id="@+id/page_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/demo"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <FrameLayout
         android:id="@+id/top_inset_container"
         android:layout_width="0dp"

@@ -12,6 +12,8 @@ class TodayFragment : DayWeatherFragment() {
 
     fun updateCurrentWeather(currentWeatherResponse : CurrentWeatherResponse) {
 
+        setBackground(R.drawable.demo)
+
         val temperature = WeatherUtils.getFormattedTemperature(currentWeatherResponse.main.temp)
         currentTemp.text = temperature
         currentTempEnd.text = temperature
