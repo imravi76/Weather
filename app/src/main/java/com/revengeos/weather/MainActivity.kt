@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.revengeos.weather.forecast.HourlyAdapter
+import com.revengeos.weather.fragment.DayWeatherFragment
 import com.revengeos.weather.fragment.TodayFragment
 import com.revengeos.weather.fragment.TomorrowFragment
 import com.revengeos.weather.response.Daily
@@ -24,6 +26,14 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
     private lateinit var tomorrowFragment: Fragment
     private lateinit var nextDaysFragment: Fragment
     private lateinit var settingsFragment: Fragment
+
+    private lateinit var todayWeatherGridData : WeatherGridData
+    private lateinit var tomorrowWeatherGridData: WeatherGridData
+    private lateinit var todayHourlyAdapter: HourlyAdapter
+    private lateinit var tomorrowHourlyAdapter: HourlyAdapter
+    private lateinit var todayWeatherHeaderData: WeatherHeaderData
+    private lateinit var tomorrowWeatherHeaderData: WeatherHeaderData
+
 
     private var activeFragment : Fragment? = null
 
@@ -130,10 +140,17 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
 
     override fun onCurrentWeatherUpdateSuccess(currentWeatherResponse: CurrentWeatherResponse, cached: Boolean) {
         mCurrentTime = currentWeatherResponse.dt
-        (todayFragment as TodayFragment).updateCurrentWeather(currentWeatherResponse)
-        (todayFragment as TodayFragment).setOfflineMode(cached)
-        (tomorrowFragment as TomorrowFragment).locationName = currentWeatherResponse.name
-        (tomorrowFragment as TomorrowFragment).setOfflineMode(cached)
+
+        todayWeatherHeaderData = WeatherHeaderData(currentWeatherResponse.main.temp,
+                currentWeatherResponse.main.feels_like, currentWeatherResponse.name,
+                currentWeatherResponse.weather[0].icon,
+                currentWeatherResponse.weather[0].id)
+        (todayFragment as DayWeatherFragment).setWeatherHeaderData(todayWeatherHeaderData)
+
+        todayWeatherGridData = WeatherGridData(currentWeatherResponse.sys.sunrise, currentWeatherResponse.sys.sunset, currentWeatherResponse.timezone,
+                currentWeatherResponse.main.pressure, currentWeatherResponse.main.humidity, currentWeatherResponse.wind.deg,
+                currentWeatherResponse.wind.speed, currentWeatherResponse.visibility, currentWeatherResponse.main.temp_min, currentWeatherResponse.main.temp_max, null)
+        (todayFragment as DayWeatherFragment).setWeatherDataGrid(todayWeatherGridData)
 
     }
 
@@ -144,17 +161,24 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
         }
 
         // Update today's hourly forecast data
-        var hourlyForecast = (oneCallResponse.hourly).subList(0, 25).toMutableList()
-        if (hourlyForecast[0].dt < mCurrentTime!!) {
+        var todayHourlyForecast = (oneCallResponse.hourly).subList(0, 25).toMutableList()
+        if (todayHourlyForecast[0].dt < mCurrentTime!!) {
             // Remove first element since it's time is earlier than current weather
-            hourlyForecast.removeAt(0)
+            todayHourlyForecast.removeAt(0)
         } else {
-            hourlyForecast.removeLast()
+            todayHourlyForecast.removeLast()
         }
-        (todayFragment as TodayFragment).updateHourlyForecast(hourlyForecast, oneCallResponse.timezoneOffset)
+
+        todayHourlyAdapter = HourlyAdapter(todayHourlyForecast, oneCallResponse.timezoneOffset)
+        (todayFragment as DayWeatherFragment).setHourlyForecastAdapter(todayHourlyAdapter)
 
         // Update tomorrow's hourly forecast data
         val tomorrow : Daily = oneCallResponse.daily[1]
+
+        tomorrowWeatherHeaderData = WeatherHeaderData(tomorrow.temp.day, tomorrow.feels_like.day,
+                todayWeatherHeaderData.location, tomorrow.weather[0].icon, tomorrow.weather[0].id)
+        (tomorrowFragment as DayWeatherFragment).setWeatherHeaderData(tomorrowWeatherHeaderData)
+
         var tomorrowHourlyForecast = mutableListOf<Hourly>()
 
         // Filter all the items oneCallResponse.hourly that have the same day of tomorrow
@@ -164,11 +188,17 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
                 tomorrowHourlyForecast.add(hourlyItem)
             }
         }
-        (tomorrowFragment as TomorrowFragment).updateTomorrowWeather(tomorrow, oneCallResponse.timezoneOffset)
-        (tomorrowFragment as TomorrowFragment).updateHourlyForecast(tomorrowHourlyForecast, oneCallResponse.timezoneOffset)
 
-        (todayFragment as TodayFragment).setOfflineMode(cached)
-        (tomorrowFragment as TomorrowFragment).setOfflineMode(cached)
+        tomorrowWeatherGridData = WeatherGridData(tomorrow.sunrise, tomorrow.sunset, oneCallResponse.timezoneOffset,
+                tomorrow.pressure, tomorrow.humidity, tomorrow.windDeg,
+                tomorrow.windSpeed, null, tomorrow.temp.min, tomorrow.temp.max, tomorrow.pop)
+        (tomorrowFragment as DayWeatherFragment).setWeatherDataGrid(tomorrowWeatherGridData)
+
+        tomorrowHourlyAdapter = HourlyAdapter(tomorrowHourlyForecast, oneCallResponse.timezoneOffset)
+        (tomorrowFragment as DayWeatherFragment).setHourlyForecastAdapter(tomorrowHourlyAdapter)
+
+        (todayFragment as DayWeatherFragment).setOfflineMode(cached)
+        (tomorrowFragment as DayWeatherFragment).setOfflineMode(cached)
     }
 
     override fun onCurrentWeatherUpdateFailed(errorMessage: String) {

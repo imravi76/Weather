@@ -2,7 +2,6 @@ package com.revengeos.weather.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,23 +13,22 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.revengeos.weather.IconTextView
-import com.revengeos.weather.R
-import com.revengeos.weather.WeatherDataGridView
+import com.revengeos.weather.*
 import com.revengeos.weather.forecast.HourlyAdapter
-import com.revengeos.weather.response.Hourly
+import com.revengeos.weather.util.WeatherUtils
+import com.revengeos.weathericons.WeatherIconsHelper
 
 open class DayWeatherFragment : Fragment() {
 
-    protected lateinit var currentTemp: TextView
-    protected lateinit var currentTempEnd: TextView
-    protected lateinit var currentLocation: TextView
-    protected lateinit var currentLocationEnd: TextView
-    protected lateinit var currentTempFeelsLike: TextView
-    protected lateinit var currentTempFeelsLikeEnd: TextView
-    protected lateinit var currentIcon: ImageView
+    private lateinit var currentTemp: TextView
+    private lateinit var currentTempEnd: TextView
+    private lateinit var currentLocation: TextView
+    private lateinit var currentLocationEnd: TextView
+    private lateinit var currentTempFeelsLike: TextView
+    private lateinit var currentTempFeelsLikeEnd: TextView
+    private lateinit var currentIcon: ImageView
 
-    protected lateinit var currentData: WeatherDataGridView
+    private lateinit var currentData: WeatherDataGridView
 
     private lateinit var currentTouchLayer: View
 
@@ -115,12 +113,30 @@ open class DayWeatherFragment : Fragment() {
 
     }
 
-    fun updateHourlyForecast(hourlyForecast : List<Hourly>, timeZone : Int) {
+    fun setWeatherHeaderData(weatherHeaderData: WeatherHeaderData) {
+        val temperature = WeatherUtils.getFormattedTemperature(weatherHeaderData.temp)
+        currentTemp.text = temperature
+        currentTempEnd.text = temperature
+        currentLocation.text = weatherHeaderData.location
+        currentLocationEnd.text = weatherHeaderData.location
+        val feelsLikeText = WeatherUtils.getFeelsLikeFormattedTemp(requireContext(), weatherHeaderData.tempFeelsLike)
+        currentTempFeelsLike.text = feelsLikeText
+        currentTempFeelsLikeEnd.text = feelsLikeText
+
+        val isDay = weatherHeaderData.weatherIcon.takeLast(1) == "d"
+        val state = WeatherIconsHelper.mapConditionIconToCode(weatherHeaderData.weatherId, isDay)
+        currentIcon.setImageResource(WeatherIconsHelper.getDrawable(state, requireContext())!!)
+    }
+
+    fun setWeatherDataGrid(weatherGridData: WeatherGridData) {
+        currentData.updateData(weatherGridData)
+    }
+
+    fun setHourlyForecastAdapter(hourlyAdapter: HourlyAdapter) {
         if (!weatherDataAvailable) {
             setForecastVisible(true)
             weatherDataAvailable = true
         }
-        val todayAdapter = HourlyAdapter(hourlyForecast, timeZone)
-        todayForecast.adapter = todayAdapter
+        todayForecast.adapter = hourlyAdapter
     }
 }
