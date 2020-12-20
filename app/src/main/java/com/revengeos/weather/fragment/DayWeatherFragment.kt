@@ -100,7 +100,6 @@ open class DayWeatherFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        setForecastVisible(isVisible)
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -152,7 +151,7 @@ open class DayWeatherFragment : Fragment() {
         }
     }
 
-    fun setForecastVisible(value: Boolean) {
+    private fun setForecastVisible(value: Boolean) {
         todayForecast.visibility = if (value) View.VISIBLE else View.GONE
         updateFailedView.visibility = if (value) View.GONE else View.VISIBLE
 
