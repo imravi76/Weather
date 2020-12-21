@@ -69,8 +69,6 @@ open class DayWeatherFragment : Fragment() {
 
         ViewCompat.setOnApplyWindowInsetsListener(v) { view, inset ->
             val topInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).top
-            val topInsetView = v.findViewById<View>(R.id.top_inset)
-            topInsetView.layoutParams.height = topInset
 
             val bottomInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).bottom
             val bottomInsetView = v.findViewById<View>(R.id.bottom_inset)
