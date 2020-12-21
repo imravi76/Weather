@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="@dimen/forecast_item_vertical_margin"
+    android:paddingBottom="@dimen/forecast_item_vertical_margin"
+    android:paddingStart="@dimen/forecast_item_horizontal_margin"
+    android:paddingEnd="@dimen/forecast_item_horizontal_margin">
+
+    <ImageView
+        android:id="@+id/condition_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/sunny"
+        app:layout_constraintBottom_toBottomOf="@id/feels_like"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/temperature" />
+
+    <TextView
+        android:id="@+id/temperature"
+        style="@style/TextAppearance.AppTheme.ForecastItemHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6sp"
+        tools:text="25 °C"
+        app:layout_constraintStart_toEndOf="@id/condition_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/day"
+        style="@style/TextAppearance.AppTheme.ForecastItemHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        tools:text="Tuesday"
+        app:layout_constraintStart_toEndOf="@id/temperature"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/feels_like"
+        style="@style/TextAppearance.AppTheme.ForecastItemSubhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/temperature"
+        app:layout_constraintTop_toBottomOf="@id/temperature"
+        tools:text="Min 18 °C Max 27°C" />
+
+    <com.revengeos.weather.IconTextView
+        android:id="@+id/hourly_wind"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        style="@style/AppTheme.TextIconView.HourlyExtraData"
+        tools:text="3 m/s"
+        app:src="@drawable/ic_arrow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/temperature"/>
+
+    <com.revengeos.weather.IconTextView
+        android:id="@+id/hourly_humidity"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        style="@style/AppTheme.TextIconView.HourlyExtraData"
+        tools:text="75 %"
+        app:src="@drawable/water_percent"
+        app:layout_constraintTop_toBottomOf="@id/hourly_wind"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/feels_like" />
+</androidx.constraintlayout.widget.ConstraintLayout>
