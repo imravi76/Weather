@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.revengeos.weather.forecast.DailyAdapter
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.fragment.DayWeatherFragment
 import com.revengeos.weather.fragment.DayWeatherFragmentData
@@ -26,10 +27,6 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
     private lateinit var nextDaysFragment: Fragment
     private lateinit var settingsFragment: Fragment
 
-    private lateinit var todayWeatherFragmentData: DayWeatherFragmentData
-    private lateinit var tomorrowWeatherFragmentData: DayWeatherFragmentData
-    private var selectedFragmentData = 0
-
     private var activeFragment : Fragment? = null
 
     private lateinit var bottomNav : BottomNavigationView
@@ -48,7 +45,6 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
             nextDaysFragment = setupFragment(SettingsFragment(), getString(R.string.next_days_title))
             settingsFragment = setupFragment(SettingsFragment(), getString(R.string.nav_settings))
             switchActiveFragment(dayWeatherFragment)
-            dayWeatherFragment.setPageTitle(getString(R.string.today_title))
         } else {
             dayWeatherFragment = (supportFragmentManager.findFragmentByTag(getString(R.string.day_weather_fragment_tag))!! as DayWeatherFragment)
             nextDaysFragment = supportFragmentManager.findFragmentByTag(getString(R.string.next_days_title))!!
@@ -59,14 +55,6 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
         bottomNav.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.today -> {
-                    switchDayWeatherFragment(0)?.let { dayWeatherFragment.setFragmentData(it) }
-                    dayWeatherFragment.setPageTitle(getString(R.string.today_title))
-                    switchActiveFragment(dayWeatherFragment as Fragment)
-                    true
-                }
-                R.id.tomorrow -> {
-                    switchDayWeatherFragment(1)?.let { dayWeatherFragment.setFragmentData(it) }
-                    dayWeatherFragment.setPageTitle(getString(R.string.tomorrow_title))
                     switchActiveFragment(dayWeatherFragment as Fragment)
                     true
                 }
@@ -82,16 +70,6 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
             }
         }
         getLocation()
-    }
-
-    private fun switchDayWeatherFragment(value : Int) : DayWeatherFragmentData? {
-        selectedFragmentData = value
-        if (value == 0 && this::todayWeatherFragmentData.isInitialized) {
-            return todayWeatherFragmentData
-        } else if (value == 1 && this::tomorrowWeatherFragmentData.isInitialized) {
-            return tomorrowWeatherFragmentData
-        }
-        return null
     }
 
     private fun setupFragment(fragment: Fragment, title: String) : Fragment {
@@ -126,13 +104,11 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt("selectedTab", bottomNav.selectedItemId)
-        outState.putInt("selectedFragmentData", selectedFragmentData)
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         bottomNav.selectedItemId = savedInstanceState.getInt("selectedTab")
-        selectedFragmentData = savedInstanceState.getInt("selectedFragmentData")
         super.onRestoreInstanceState(savedInstanceState)
     }
 
@@ -171,35 +147,13 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
         }
         val todayHourlyAdapter = HourlyAdapter(todayHourlyForecast, oneCallResponse.timezoneOffset)
 
-        todayWeatherFragmentData = DayWeatherFragmentData(todayWeatherHeaderData,
-                todayWeatherGridData, todayHourlyAdapter)
+        val nextDaysAdapter = DailyAdapter(oneCallResponse.daily, oneCallResponse.timezoneOffset)
 
-        // Update tomorrow's hourly forecast data
-        val tomorrow : Daily = oneCallResponse.daily[1]
-
-        val tomorrowWeatherHeaderData = WeatherHeaderData(tomorrow.temp.day, tomorrow.feels_like.day,
-                tomorrow.weather[0].icon, tomorrow.weather[0].id)
-
-        val tomorrowWeatherGridData = WeatherGridData(tomorrow.sunrise, tomorrow.sunset, oneCallResponse.timezoneOffset,
-        tomorrow.pressure, tomorrow.humidity, tomorrow.windDeg,
-        tomorrow.windSpeed, null, tomorrow.temp.min, tomorrow.temp.max, tomorrow.pop)
-
-        val tomorrowHourlyForecast = mutableListOf<Hourly>()
-
-        // Filter all the items oneCallResponse.hourly that have the same day of tomorrow
-        for (hourlyItem in oneCallResponse.hourly) {
-            if (WeatherUtils.getDateFromEpoch(hourlyItem.dt, oneCallResponse.timezoneOffset)
-                    == WeatherUtils.getDateFromEpoch(tomorrow.dt, oneCallResponse.timezoneOffset)) {
-                tomorrowHourlyForecast.add(hourlyItem)
-            }
-        }
-        val tomorrowHourlyAdapter = HourlyAdapter(tomorrowHourlyForecast, oneCallResponse.timezoneOffset)
-
-        tomorrowWeatherFragmentData = DayWeatherFragmentData(tomorrowWeatherHeaderData,
-                tomorrowWeatherGridData, tomorrowHourlyAdapter)
+        val weatherFragmentData = DayWeatherFragmentData(todayWeatherHeaderData,
+                todayWeatherGridData, todayHourlyAdapter, nextDaysAdapter)
 
         dayWeatherFragment.setOfflineMode(cached)
-        switchDayWeatherFragment(selectedFragmentData)?.let { dayWeatherFragment.setFragmentData(it) }
+        dayWeatherFragment.setFragmentData(weatherFragmentData)
     }
 
     override fun onCurrentWeatherUpdateFailed(errorMessage: String) {

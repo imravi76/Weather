@@ -203,7 +203,17 @@
                     app:layout_constraintTop_toBottomOf="@id/today_forecast"
                     app:layout_constraintStart_toStartOf="parent"/>
 
-
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/next_days_forecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingStart="@dimen/forecast_container_horizontal_margin"
+                    android:paddingEnd="@dimen/forecast_container_horizontal_margin"
+                    android:splitMotionEvents="false"
+                    app:layout_constraintTop_toBottomOf="@id/next_days"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 

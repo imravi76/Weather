@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.revengeos.weather.*
+import com.revengeos.weather.forecast.DailyAdapter
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.util.WeatherUtils
 import com.revengeos.weathericons.WeatherIconsHelper
@@ -31,11 +32,10 @@ open class DayWeatherFragment : Fragment() {
 
     private lateinit var currentData: WeatherDataGridView
 
-    private lateinit var pageTitleView : TextView
-    private var pageTitle : String? = null
     private lateinit var offlineModeIndicator : IconTextView
 
     private lateinit var todayForecast: RecyclerView
+    private lateinit var nextDaysForecast : RecyclerView
     private lateinit var updateFailedView : View
 
     private var weatherDataAvailable = false
@@ -64,6 +64,9 @@ open class DayWeatherFragment : Fragment() {
         todayForecast = v.findViewById(R.id.today_forecast)
         todayForecast.layoutManager = LinearLayoutManager(v.context, LinearLayoutManager.HORIZONTAL, false)
 
+        nextDaysForecast = v.findViewById(R.id.next_days_forecast)
+        nextDaysForecast.layoutManager = LinearLayoutManager(v.context)
+
         ViewCompat.setOnApplyWindowInsetsListener(v) { view, inset ->
             val topInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).top
 
@@ -73,8 +76,6 @@ open class DayWeatherFragment : Fragment() {
                     return@setOnApplyWindowInsetsListener inset
         }
 
-        //pageTitleView = v.findViewById(R.id.today_title)
-        //pageTitle?.let { pageTitleView.text = it }
         offlineModeIndicator = v.findViewById(R.id.offline_mode)
 
         return v
@@ -98,17 +99,11 @@ open class DayWeatherFragment : Fragment() {
         updateFailedView.visibility = if (value) View.GONE else View.VISIBLE
     }
 
-    fun setPageTitle(title : String) {
-        pageTitle = title
-        if (this::pageTitleView.isInitialized) {
-            pageTitleView?.text = pageTitle
-        }
-    }
-
     fun setFragmentData(dayWeatherFragmentData: DayWeatherFragmentData) {
         setWeatherHeaderData(dayWeatherFragmentData.weatherHeaderData)
         setWeatherDataGrid(dayWeatherFragmentData.weatherGridData)
         setHourlyForecastAdapter(dayWeatherFragmentData.hourlyAdapter)
+        nextDaysForecast.adapter = dayWeatherFragmentData.nextDaysAdapter
     }
 
     fun setLocation(name : String) {
