@@ -117,6 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
                     android:layout_marginStart="@dimen/forecast_container_title_start_margin"
+                    android:visibility="gone"
                     android:text="@string/day_weather_fragment_tag"
                     android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"
                     app:layout_constraintTop_toBottomOf="@id/current_icon"
@@ -136,86 +137,78 @@
                     app:layout_constraintBottom_toBottomOf="@id/today_title"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <View
-                    android:id="@+id/forecast_title_separator"
-                    android:layout_width="0dp"
-                    android:layout_height="0.8dp"
-                    android:background="@drawable/forecast_title_separator"
-                    android:layout_marginTop="@dimen/forecast_container_vertical_margin"
-                    app:layout_constraintTop_toBottomOf="@id/today_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <FrameLayout
-                    android:id="@+id/forecast_container"
+                <LinearLayout
+                    android:id="@+id/today_additional_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/forecast_title_separator"
-                    app:layout_constraintStart_toStartOf="parent">
+                    android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/today_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
 
-                    <LinearLayout
-                        android:id="@+id/weather_data_updated_failed"
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:id="@+id/current_data_container"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        tools:visibility="visible">
+                        android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
+                        android:layout_marginBottom="@dimen/forecast_container_title_vertical_margin">
 
-                        <ImageView
-                            android:layout_width="@dimen/current_weather_icon_size"
-                            android:layout_height="@dimen/current_weather_icon_size"
-                            android:src="@drawable/ic_outline_cloud_off"
-                            app:tint="?android:textColorSecondary" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="30dp"
-                            android:layout_marginEnd="30dp"
-                            android:textAlignment="center"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="17sp"
-                            android:text="@string/weather_data_failed_update_text"/>
-                    </LinearLayout>
+                        <com.revengeos.weather.WeatherDataGridView
+                            android:id="@+id/current_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </FrameLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/today_forecast"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:clipToPadding="false"
                         android:paddingStart="@dimen/forecast_container_horizontal_margin"
                         android:paddingEnd="@dimen/forecast_container_horizontal_margin"
                         android:splitMotionEvents="false"/>
-                </FrameLayout>
 
-                <View
-                    android:id="@+id/today_forecast_separator"
-                    android:layout_width="0dp"
-                    android:layout_height="0.8dp"
-                    android:background="@drawable/forecast_title_separator"
-                    app:layout_constraintTop_toBottomOf="@id/forecast_container"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    <TextView
+                        android:id="@+id/tomorrow_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
+                        android:layout_marginStart="@dimen/forecast_container_title_start_margin"
+                        android:textSize="32sp"
+                        android:text="@string/tomorrow_title"
+                        android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"
+                        app:layout_constraintTop_toBottomOf="@id/current_icon"
+                        app:layout_constraintStart_toStartOf="parent"/>
+                </LinearLayout>
 
-                <FrameLayout
-                    android:id="@+id/current_data_container"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/weather_data_updated_failed"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
-                    android:layout_marginBottom="@dimen/forecast_container_title_vertical_margin"
-                    app:layout_constraintTop_toBottomOf="@id/today_forecast_separator"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
-                    <com.revengeos.weather.WeatherDataGridView
-                        android:id="@+id/current_data"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </FrameLayout>
+                    <ImageView
+                        android:layout_width="@dimen/current_weather_icon_size"
+                        android:layout_height="@dimen/current_weather_icon_size"
+                        android:src="@drawable/ic_outline_cloud_off"
+                        app:tint="?android:textColorSecondary" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
+                        android:text="@string/weather_data_failed_update_text"
+                        android:textAlignment="center"
+                        android:textColor="?android:textColorSecondary"
+                        android:textSize="17sp" />
+                </LinearLayout>
             </androidx.constraintlayout.motion.widget.MotionLayout>
         </ScrollView>
 

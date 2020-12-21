@@ -99,7 +99,7 @@
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start" >
         <OnSwipe
-            app:touchAnchorId="@id/current_data_container"
+            app:touchAnchorId="@id/today_additional_info"
             app:touchAnchorSide="top"
             app:dragDirection="dragUp" />
         <KeyFrameSet >
