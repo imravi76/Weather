@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_inset_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:id="@+id/next_days_container" />
+        <Constraint
+            android:id="@+id/next_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/current_data_container"
+            android:layout_marginStart="@dimen/forecast_container_title_start_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/today_forecast"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/next_hours"
+            app:layout_constraintStart_toStartOf="parent"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/current_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/current_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/current_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="@dimen/current_weather_icon_size"
+            android:layout_height="@dimen/current_weather_icon_size"
+            android:layout_marginEnd="@dimen/current_weather_horizontal_margin"
+            app:layout_constraintTop_toBottomOf="@id/top_inset_container"
+            android:layout_marginTop="@dimen/current_weather_top_margin"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/current_temp_feels_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/current_icon"
+            app:layout_constraintTop_toBottomOf="@+id/current_location"
+            app:layout_constraintStart_toStartOf="@+id/current_temperature_end"
+            android:layout_marginTop="5sp"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/current_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/current_temp_feels_like"
+            app:layout_constraintTop_toBottomOf="@+id/current_temperature"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/current_temperature"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/current_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/current_location"
+            android:layout_marginStart="@dimen/current_weather_horizontal_margin"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="@+id/current_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            android:alpha="0" />
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@+id/start" >
+        <OnSwipe app:touchAnchorId="@+id/next_days_container" />
+    </Transition>
+</MotionScene>
