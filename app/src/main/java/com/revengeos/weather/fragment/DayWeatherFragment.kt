@@ -66,8 +66,6 @@ open class DayWeatherFragment : Fragment() {
 
         ViewCompat.setOnApplyWindowInsetsListener(v) { view, inset ->
             val topInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).top
-            val content = v.findViewById<View>(R.id.content_container)
-            (content.layoutParams as ViewGroup.MarginLayoutParams).topMargin = topInset
 
             val bottomInset = WindowInsetsCompat(inset).getInsets(WindowInsetsCompat.Type.systemBars()).bottom
             val bottomInsetView = v.findViewById<View>(R.id.bottom_inset)
@@ -75,8 +73,8 @@ open class DayWeatherFragment : Fragment() {
                     return@setOnApplyWindowInsetsListener inset
         }
 
-        pageTitleView = v.findViewById(R.id.today_title)
-        pageTitle?.let { pageTitleView.text = it }
+        //pageTitleView = v.findViewById(R.id.today_title)
+        //pageTitle?.let { pageTitleView.text = it }
         offlineModeIndicator = v.findViewById(R.id.offline_mode)
 
         return v

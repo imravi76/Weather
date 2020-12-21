@@ -9,4 +9,12 @@
         <attr name="iconTextVerticalMargin" format="dimension" />
         <attr name="iconTextHorizontalMargin" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="WeatherGridItemView">
+        <attr name="unit" format="string" />
+        <attr name="value" format="string" />
+        <attr name="unitTextAppearance" format="reference" />
+        <attr name="valueTextAppearance" format="reference" />
+        <attr name="unitValueHorizontalMargin" format="dimension" />
+    </declare-styleable>
 </resources>

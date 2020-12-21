@@ -1,85 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/current_data_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/expandable_indicator">
 
-        <com.revengeos.weather.IconTextView
-            android:id="@+id/current_min_temp"
-            style="@style/AppTheme.TextIconView.ExtraData"
-            app:src="@drawable/thermometer_minus" />
+    <com.revengeos.weather.WeatherGridItemView
+        android:id="@+id/current_min_temp"
+        style="@style/AppTheme.WeatherGridItem"
+        app:unit="Min temp" />
 
-        <com.revengeos.weather.IconTextView
-            android:id="@+id/current_max_temp"
-            style="@style/AppTheme.TextIconView.ExtraData"
-            app:src="@drawable/thermometer_plus" />
+    <com.revengeos.weather.WeatherGridItemView
+        android:id="@+id/current_max_temp"
+        style="@style/AppTheme.WeatherGridItem"
+        app:unit="Max temp" />
 
-        <com.revengeos.weather.IconTextView
-            android:id="@+id/current_wind"
-            style="@style/AppTheme.TextIconView.ExtraData"
-            app:src="@drawable/ic_arrow"/>
+    <com.revengeos.weather.WeatherGridItemView
+        android:id="@+id/current_wind"
+        style="@style/AppTheme.WeatherGridItem"
+        app:unit="Wind"/>
 
-        <com.revengeos.weather.IconTextView
-            android:id="@+id/current_humidity"
-            style="@style/AppTheme.TextIconView.ExtraData"
-            app:src="@drawable/water_percent" />
-    </com.google.android.flexbox.FlexboxLayout>
+    <com.revengeos.weather.WeatherGridItemView
+        android:id="@+id/current_humidity"
+        style="@style/AppTheme.WeatherGridItem"
+        app:unit="Humidity" />
 
-    <rjsv.expframelayout.ExpandableFrameLayout
-        android:id="@+id/additional_data"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/current_data_container"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/current_data_container">
+    <com.revengeos.weather.WeatherGridItemView
+        android:id="@+id/current_sunrise"
+        style="@style/AppTheme.WeatherGridItem"
+        app:unit="Humidity" />
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
+    <com.revengeos.weather.WeatherGridItemView
+        android:id="@+id/current_sunset"
+        style="@style/AppTheme.WeatherGridItem"
+        app:unit="Humidity" />
 
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/current_sunrise"
-                style="@style/AppTheme.TextIconView.ExtraData"
-                app:src="@drawable/weather_sunset_up" />
+    <com.revengeos.weather.WeatherGridItemView
+        android:id="@+id/current_pressure"
+        style="@style/AppTheme.WeatherGridItem"
+        app:unit="Humidity" />
 
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/current_sunset"
-                style="@style/AppTheme.TextIconView.ExtraData"
-                app:src="@drawable/weather_sunset_down" />
+    <com.revengeos.weather.WeatherGridItemView
+        android:id="@+id/current_visibility"
+        style="@style/AppTheme.WeatherGridItem"
+        app:unit="Humidity" />
 
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/current_pressure"
-                style="@style/AppTheme.TextIconView.ExtraData"
-                app:src="@drawable/gauge" />
+    <com.revengeos.weather.WeatherGridItemView
+        android:visibility="gone"
+        android:id="@+id/current_precipitations"
+        style="@style/AppTheme.WeatherGridItem"
+        app:unit="Humidity" />
 
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/current_visibility"
-                style="@style/AppTheme.TextIconView.ExtraData"
-                app:src="@drawable/ic_outline_visibility_24" />
-
-            <com.revengeos.weather.IconTextView
-                android:visibility="gone"
-                android:id="@+id/current_precipitations"
-                style="@style/AppTheme.TextIconView.ExtraData"
-                app:src="@drawable/ic_umbrella_closed_outline" />
-        </com.google.android.flexbox.FlexboxLayout>
-    </rjsv.expframelayout.ExpandableFrameLayout>
-
-    <com.revengeos.revengeui.view.ExpandableIndicator
-        android:id="@+id/expandable_indicator"
-        android:layout_width="48dp"
-        android:layout_height="24dp"
-        android:layout_gravity="center"
-        android:tint="?android:textColorPrimary"
-        app:layout_constraintTop_toTopOf="@id/current_data_container"
-        app:layout_constraintBottom_toBottomOf="@id/current_data_container"
-        app:layout_constraintEnd_toEndOf="parent"/>
 </merge>

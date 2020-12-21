@@ -14,7 +14,6 @@
             android:layout_width="@dimen/current_weather_icon_size_collapsed"
             android:layout_height="@dimen/current_weather_icon_size_collapsed"
             android:layout_marginBottom="@dimen/current_weather_vertical_margin_collapsed"
-            app:layout_constraintBottom_toTopOf="@id/today_title"
             android:layout_marginEnd="@dimen/current_weather_horizontal_margin_collapsed"
             app:layout_constraintTop_toTopOf="@id/parent"
             android:layout_marginTop="@dimen/current_weather_vertical_margin_collapsed" />
@@ -99,7 +98,6 @@
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start" >
         <OnSwipe
-            app:touchAnchorId="@id/today_additional_info"
             app:touchAnchorSide="top"
             app:dragDirection="dragUp" />
         <KeyFrameSet >

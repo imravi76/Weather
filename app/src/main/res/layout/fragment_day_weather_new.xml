@@ -162,7 +162,7 @@
         android:paddingStart="@dimen/forecast_container_horizontal_margin"
         android:paddingEnd="@dimen/forecast_container_horizontal_margin"
         android:splitMotionEvents="false"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_inset_container"
+        app:layout_constraintBottom_toBottomOf="@+id/bottom_inset_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
