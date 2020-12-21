@@ -135,7 +135,6 @@
         android:layout_height="@dimen/current_weather_icon_size"
         android:layout_marginTop="@dimen/current_weather_top_margin"
         android:layout_marginEnd="@dimen/current_weather_horizontal_margin"
-        android:layout_marginBottom="@dimen/current_weather_bottom_margin"
         tools:src="@drawable/sunny"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -144,7 +143,8 @@
         android:id="@+id/current_data_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/today_forecast"
+        android:layout_marginTop="@dimen/current_weather_bottom_margin"
+        app:layout_constraintTop_toBottomOf="@id/current_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -154,6 +154,17 @@
             android:layout_height="wrap_content" />
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/next_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
+        android:layout_marginStart="@dimen/forecast_container_title_start_margin"
+        android:text="Next hours"
+        android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"
+        app:layout_constraintTop_toBottomOf="@id/current_data_container"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/today_forecast"
         android:layout_width="match_parent"
@@ -162,9 +173,21 @@
         android:paddingStart="@dimen/forecast_container_horizontal_margin"
         android:paddingEnd="@dimen/forecast_container_horizontal_margin"
         android:splitMotionEvents="false"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_inset_container"
+        app:layout_constraintTop_toBottomOf="@id/next_hours"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tomorrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
+        android:text="Tomorrow"
+        android:textSize="32sp"
+        android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"
+        app:layout_constraintTop_toBottomOf="@id/today_forecast"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <FrameLayout
         android:id="@+id/bottom_inset_container"
