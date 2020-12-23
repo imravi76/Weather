@@ -51,6 +51,7 @@ dependencies {
     implementation 'com.daasuu:EasingInterpolator:1.3.0'
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'com.yayandroid:LocationManager:2.4.0'
+    implementation 'com.eightbitlab:blurview:1.6.5'
 
     // Google Location required for locationManager
     implementation 'com.google.android.gms:play-services-location:17.1.0'

@@ -19,6 +19,8 @@ import com.revengeos.weather.forecast.DailyAdapter
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.util.WeatherUtils
 import com.revengeos.weathericons.WeatherIconsHelper
+import eightbitlab.com.blurview.BlurView
+import eightbitlab.com.blurview.RenderScriptBlur
 
 open class DayWeatherFragment : Fragment() {
 
@@ -81,6 +83,20 @@ open class DayWeatherFragment : Fragment() {
         }
 
         offlineModeIndicator = v.findViewById(R.id.offline_mode)
+
+        // Setup blur layers
+        val fragmentRoot = v.findViewById<ViewGroup>(R.id.fragment_root)
+        val currentDataContainer = v.findViewById<BlurView>(R.id.current_data_container)
+        currentDataContainer.clipToOutline = true
+        currentDataContainer.setupWith(fragmentRoot).setBlurAlgorithm(RenderScriptBlur(v.context))
+
+        val todayForecastContainer = v.findViewById<BlurView>(R.id.today_forecast_container)
+        todayForecastContainer.clipToOutline = true
+        todayForecastContainer.setupWith(fragmentRoot).setBlurAlgorithm(RenderScriptBlur(v.context))
+
+        val nextDaysForecastContainer = v.findViewById<BlurView>(R.id.next_days_forecast_container)
+        nextDaysForecastContainer.clipToOutline = true
+        nextDaysForecastContainer.setupWith(fragmentRoot).setBlurAlgorithm(RenderScriptBlur(v.context))
 
         return v
     }

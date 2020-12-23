@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -166,13 +167,16 @@
                 app:layout_constraintTop_toBottomOf="@id/top_inset_container"
                 tools:src="@drawable/sunny" />
 
-            <FrameLayout
+            <eightbitlab.com.blurview.BlurView
                 android:id="@+id/current_data_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/current_weather_bottom_margin"
                 android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
                 android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
+                android:background="@drawable/forecast_container"
+                android:outlineProvider="background"
+                android:elevation="@dimen/floating_container_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/current_icon">
@@ -182,11 +186,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/forecast_container_title_vertical_margin"
-                    android:paddingBottom="@dimen/forecast_container_title_vertical_margin"
-                    android:background="@drawable/forecast_container"
-                    android:outlineProvider="background"
-                    android:elevation="@dimen/floating_container_elevation"/>
-            </FrameLayout>
+                    android:paddingBottom="@dimen/forecast_container_title_vertical_margin" />
+            </eightbitlab.com.blurview.BlurView>
 
             <TextView
                 android:id="@+id/next_hours"
@@ -199,8 +200,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/current_data_container" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/today_forecast"
+            <eightbitlab.com.blurview.BlurView
+                android:id="@+id/today_forecast_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
@@ -210,15 +211,20 @@
                 android:background="@drawable/forecast_container"
                 android:outlineProvider="background"
                 android:elevation="@dimen/floating_container_elevation"
-                android:splitMotionEvents="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/next_hours"
-                app:layout_constraintBottom_toTopOf="@id/next_days_forecast" />
+                app:layout_constraintBottom_toTopOf="@id/next_days_forecast_container">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/today_forecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:splitMotionEvents="false" />
+            </eightbitlab.com.blurview.BlurView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/next_days_forecast"
+            <eightbitlab.com.blurview.BlurView
+                android:id="@+id/next_days_forecast_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
@@ -226,14 +232,20 @@
                 android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
                 android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
                 android:background="@drawable/forecast_container"
-                android:overScrollMode="never"
                 android:outlineProvider="background"
                 android:elevation="@dimen/floating_container_elevation"
-                android:splitMotionEvents="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/today_forecast"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/today_forecast_container"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/next_days_forecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:splitMotionEvents="false" />
+            </eightbitlab.com.blurview.BlurView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
