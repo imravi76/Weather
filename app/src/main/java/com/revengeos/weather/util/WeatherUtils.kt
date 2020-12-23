@@ -50,6 +50,10 @@ class WeatherUtils {
             return formatDate(epoch, shiftSeconds, "HH:mm")
         }
 
+        fun getWeekDayFromEpoch(epoch: Long, shiftSeconds: Int) : String {
+            return formatDate(epoch, shiftSeconds, "EEEE")
+        }
+
         fun formatDate(epoch : Long, shiftSeconds : Int, pattern : String) : String {
             val sdf = SimpleDateFormat(pattern)
             sdf.timeZone = TimeZone.getTimeZone("UTC")

@@ -21,7 +21,11 @@ class DailyAdapter(private val dataSet: List<Daily>, private val timeZone : Int)
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(daily: Daily, timeZone : Int) {
             view.findViewById<TextView>(R.id.temperature).text = WeatherUtils.getFormattedTemperature(daily.temp.day)
-            view.findViewById<TextView>(R.id.day).text = WeatherUtils.getDateFromEpoch(daily.dt, timeZone)
+            if (adapterPosition == 0) {
+                view.findViewById<TextView>(R.id.day).text = view.context.getString(R.string.tomorrow_title)
+            } else {
+                view.findViewById<TextView>(R.id.day).text = WeatherUtils.getWeekDayFromEpoch(daily.dt, timeZone).capitalize()
+            }
             view.findViewById<TextView>(R.id.extra_temp_data).text = "Min ${WeatherUtils.getFormattedTemperature(daily.temp.min)} Max ${WeatherUtils.getFormattedTemperature(daily.temp.max)}"
 
             val isDay = daily.weather[0].icon.takeLast(1) == "d"
