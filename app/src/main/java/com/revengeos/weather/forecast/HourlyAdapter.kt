@@ -40,27 +40,6 @@ class HourlyAdapter(private val dataSet: List<Hourly>, private val timeShift : I
             val windView = view.findViewById<IconTextView>(R.id.hourly_wind)
             windView.iconView.rotation = hourly.windDeg.toFloat()
             windView.textView.text = WeatherUtils.getFormattedSpeed(hourly.windSpeed)
-
-            val additionalData = view.findViewById<ExpandableFrameLayout>(R.id.additional_data)
-            additionalData.collapse()
-            additionalData.animationDuration = 700
-            view.setOnClickListener { view ->
-                additionalData.toggle()
-            }
-
-            val visibilityDistanceView = view.findViewById<IconTextView>(R.id.visibility)
-            val pressureView = view.findViewById<IconTextView>(R.id.pressure)
-            val precipitations = view.findViewById<IconTextView>(R.id.precipitations)
-            pressureView.textView.text = "${hourly.pressure} hPa"
-            visibilityDistanceView.textView.text = WeatherUtils.getFormattedDistance(hourly.visibility.toFloat())
-            if (hourly.pop > 0.15f) {
-                precipitations.iconView.setImageResource(R.drawable.ic_umbrella_outline)
-            } else {
-                precipitations.iconView.setImageResource(R.drawable.ic_umbrella_closed_outline)
-            }
-            precipitations.textView.text = "${(hourly.pop * 100).roundToInt()} %"
-
-            view.findViewById<IconTextView>(R.id.uv).textView.text = "${hourly.uvi}"
         }
     }
 

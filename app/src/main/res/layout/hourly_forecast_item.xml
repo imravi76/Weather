@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="100sp"
+    android:layout_width="@dimen/hourly_forecast_item_width"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:paddingTop="@dimen/forecast_item_vertical_margin"
-    android:paddingBottom="@dimen/forecast_item_vertical_margin"
-    android:paddingStart="@dimen/forecast_item_horizontal_margin"
-    android:paddingEnd="@dimen/forecast_item_horizontal_margin">
+    android:paddingTop="@dimen/hourly_forecast_item_vertical_margin"
+    android:paddingBottom="@dimen/hourly_forecast_item_vertical_margin"
+    android:paddingStart="@dimen/hourly_forecast_item_horizontal_margin"
+    android:paddingEnd="@dimen/hourly_forecast_item_horizontal_margin">
 
     <TextView
         android:id="@+id/time"
@@ -44,7 +44,8 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
 
         <com.revengeos.weather.IconTextView
             android:id="@+id/hourly_wind"
@@ -63,38 +64,4 @@
             app:src="@drawable/water_percent"
             android:visibility="gone"/>
     </LinearLayout>
-
-    <rjsv.expframelayout.ExpandableFrameLayout
-        android:id="@+id/additional_data"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:visibility="gone">
-
-        <com.google.android.flexbox.FlexboxLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/pressure"
-                style="@style/AppTheme.TextIconView.ExtraData"
-                app:src="@drawable/gauge" />
-
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/visibility"
-                style="@style/AppTheme.TextIconView.ExtraData"
-                app:src="@drawable/ic_outline_visibility_24" />
-
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/precipitations"
-                style="@style/AppTheme.TextIconView.ExtraData"
-                app:src="@drawable/ic_umbrella_closed_outline" />
-
-            <com.revengeos.weather.IconTextView
-                android:id="@+id/uv"
-                style="@style/AppTheme.TextIconView.ExtraData"
-                app:src="@drawable/ic_ultraviolet" />
-        </com.google.android.flexbox.FlexboxLayout>
-    </rjsv.expframelayout.ExpandableFrameLayout>
 </LinearLayout>
