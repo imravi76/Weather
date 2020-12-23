@@ -21,11 +21,5 @@
         app:labelVisibilityMode="labeled"
         app:elevation="0dp"
         app:menu="@menu/nav_items">
-
-        <View
-            android:id="@+id/forecast_title_separator"
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:background="@drawable/forecast_title_separator" />
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 </FrameLayout>
