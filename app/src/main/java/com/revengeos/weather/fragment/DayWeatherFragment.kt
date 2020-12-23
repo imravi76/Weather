@@ -1,6 +1,5 @@
 package com.revengeos.weather.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.revengeos.weather.*
-import com.revengeos.weather.forecast.DailyAdapter
 import com.revengeos.weather.forecast.HourlyAdapter
 import com.revengeos.weather.util.WeatherUtils
 import com.revengeos.weathericons.WeatherIconsHelper
@@ -85,18 +81,18 @@ open class DayWeatherFragment : Fragment() {
         offlineModeIndicator = v.findViewById(R.id.offline_mode)
 
         // Setup blur layers
-        val fragmentRoot = v.findViewById<ViewGroup>(R.id.fragment_root)
+        val pageBackgroundContainer = v.findViewById<ViewGroup>(R.id.page_background_container)
         val currentDataContainer = v.findViewById<BlurView>(R.id.current_data_container)
         currentDataContainer.clipToOutline = true
-        currentDataContainer.setupWith(fragmentRoot).setBlurAlgorithm(RenderScriptBlur(v.context))
+        currentDataContainer.setupWith(pageBackgroundContainer).setBlurAlgorithm(RenderScriptBlur(v.context))
 
         val todayForecastContainer = v.findViewById<BlurView>(R.id.today_forecast_container)
         todayForecastContainer.clipToOutline = true
-        todayForecastContainer.setupWith(fragmentRoot).setBlurAlgorithm(RenderScriptBlur(v.context))
+        todayForecastContainer.setupWith(pageBackgroundContainer).setBlurAlgorithm(RenderScriptBlur(v.context))
 
         val nextDaysForecastContainer = v.findViewById<BlurView>(R.id.next_days_forecast_container)
         nextDaysForecastContainer.clipToOutline = true
-        nextDaysForecastContainer.setupWith(fragmentRoot).setBlurAlgorithm(RenderScriptBlur(v.context))
+        nextDaysForecastContainer.setupWith(pageBackgroundContainer).setBlurAlgorithm(RenderScriptBlur(v.context))
 
         return v
     }
