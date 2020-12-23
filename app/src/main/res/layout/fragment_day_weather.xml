@@ -171,6 +171,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/current_weather_bottom_margin"
+                android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
+                android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/current_icon">
@@ -178,7 +180,12 @@
                 <com.revengeos.weather.WeatherDataGridView
                     android:id="@+id/current_data"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/forecast_container_title_vertical_margin"
+                    android:paddingBottom="@dimen/forecast_container_title_vertical_margin"
+                    android:background="@drawable/forecast_container"
+                    android:outlineProvider="background"
+                    android:elevation="@dimen/floating_container_elevation"/>
             </FrameLayout>
 
             <TextView
@@ -196,13 +203,18 @@
                 android:id="@+id/today_forecast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:paddingStart="@dimen/forecast_container_horizontal_margin"
-                android:paddingEnd="@dimen/forecast_container_horizontal_margin"
+                android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
+                android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
+                android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
+                android:layout_marginBottom="@dimen/forecast_container_title_vertical_margin"
+                android:background="@drawable/forecast_container"
+                android:outlineProvider="background"
+                android:elevation="@dimen/floating_container_elevation"
                 android:splitMotionEvents="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/next_hours" />
+                app:layout_constraintTop_toBottomOf="@id/next_hours"
+                app:layout_constraintBottom_toTopOf="@id/next_days_forecast" />
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -216,7 +228,7 @@
                 android:background="@drawable/forecast_container"
                 android:overScrollMode="never"
                 android:outlineProvider="background"
-                android:elevation="10dp"
+                android:elevation="@dimen/floating_container_elevation"
                 android:splitMotionEvents="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
