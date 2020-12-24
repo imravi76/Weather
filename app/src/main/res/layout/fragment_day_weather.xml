@@ -212,20 +212,105 @@
                 android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
                 android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
                 android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
-                android:layout_marginBottom="@dimen/forecast_container_title_vertical_margin"
                 android:background="@drawable/forecast_container"
                 android:outlineProvider="background"
                 android:elevation="@dimen/floating_container_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/next_hours"
-                app:layout_constraintBottom_toTopOf="@id/next_days_forecast_container">
+                app:layout_constraintTop_toBottomOf="@id/next_hours">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/today_forecast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:splitMotionEvents="false" />
+            </eightbitlab.com.blurview.BlurView>
+
+            <TextView
+                android:id="@+id/tomorrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/forecast_container_title_start_margin"
+                android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
+                android:text="@string/tomorrow_title"
+                android:textAppearance="@style/TextAppearance.AppTheme.ForecastHeader"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/today_forecast_container" />
+
+            <eightbitlab.com.blurview.BlurView
+                android:id="@+id/tomorrow_forecast_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/forecast_container_title_vertical_margin"
+                android:layout_marginStart="@dimen/forecast_container_horizontal_margin"
+                android:layout_marginEnd="@dimen/forecast_container_horizontal_margin"
+                android:layout_marginBottom="@dimen/forecast_container_title_vertical_margin"
+                android:background="@drawable/forecast_container"
+                android:outlineProvider="background"
+                android:elevation="@dimen/floating_container_elevation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tomorrow"
+                app:layout_constraintBottom_toTopOf="@id/next_days_forecast_container">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tomorrow_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/current_weather_horizontal_margin_collapsed"
+                        android:text="--"
+                        android:textAppearance="@style/TextAppearance.AppTheme.CurrentCollapsed"
+                        app:layout_constraintBottom_toTopOf="@id/tomorrow_feels_like"
+                        app:layout_constraintEnd_toStartOf="@id/tomorrow_location"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tomorrow_icon" />
+
+                    <TextView
+                        android:id="@+id/tomorrow_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="Unknown"
+                        android:textAppearance="@style/TextAppearance.AppTheme.CurrentCollapsed"
+                        app:layout_constraintBottom_toBottomOf="@id/tomorrow_temperature"
+                        app:layout_constraintStart_toEndOf="@id/tomorrow_temperature"
+                        app:layout_constraintTop_toTopOf="@id/tomorrow_temperature"
+                        app:layout_constraintVertical_chainStyle="packed" />
+
+                    <TextView
+                        android:id="@+id/tomorrow_feels_like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Unknown"
+                        android:textAppearance="@style/TextAppearance.AppTheme.CurrentExtraTempInfo"
+                        app:layout_constraintBottom_toBottomOf="@id/tomorrow_icon"
+                        app:layout_constraintStart_toStartOf="@id/tomorrow_temperature"
+                        app:layout_constraintTop_toBottomOf="@id/tomorrow_temperature" />
+
+                    <ImageView
+                        android:id="@+id/tomorrow_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="@dimen/current_weather_icon_size_collapsed"
+                        android:layout_height="@dimen/current_weather_icon_size_collapsed"
+                        android:layout_marginEnd="@dimen/current_weather_horizontal_margin_collapsed"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/current_weather_vertical_margin_collapsed"
+                        tools:src="@drawable/sunny" />
+
+                    <com.revengeos.weather.WeatherDataGridView
+                        android:id="@+id/tomorrow_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/forecast_container_title_vertical_margin"
+                        android:paddingBottom="@dimen/forecast_container_title_vertical_margin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tomorrow_icon" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </eightbitlab.com.blurview.BlurView>
 
             <eightbitlab.com.blurview.BlurView
@@ -241,7 +326,7 @@
                 android:elevation="@dimen/floating_container_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/today_forecast_container"
+                app:layout_constraintTop_toBottomOf="@id/tomorrow_forecast_container"
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <androidx.recyclerview.widget.RecyclerView

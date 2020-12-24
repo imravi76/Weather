@@ -38,6 +38,11 @@ open class DayWeatherFragment : Fragment() {
 
     private var weatherDataAvailable = false
 
+    private lateinit var tomorrowTemp : TextView
+    private lateinit var tomorrowFeelsLike: TextView
+    private lateinit var tomorrowIcon : ImageView
+    private lateinit var tomorrowData : WeatherDataGridView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -80,6 +85,11 @@ open class DayWeatherFragment : Fragment() {
 
         offlineModeIndicator = v.findViewById(R.id.offline_mode)
 
+        tomorrowTemp = v.findViewById(R.id.tomorrow_temperature)
+        tomorrowFeelsLike = v.findViewById(R.id.tomorrow_feels_like)
+        tomorrowIcon = v.findViewById(R.id.tomorrow_icon)
+        tomorrowData = v.findViewById(R.id.tomorrow_data)
+
         // Setup blur layers
         val pageBackgroundContainer = v.findViewById<ViewGroup>(R.id.page_background_container)
         val currentDataContainer = v.findViewById<BlurView>(R.id.current_data_container)
@@ -116,9 +126,11 @@ open class DayWeatherFragment : Fragment() {
     }
 
     fun setFragmentData(dayWeatherFragmentData: DayWeatherFragmentData) {
-        setWeatherHeaderData(dayWeatherFragmentData.weatherHeaderData)
-        setWeatherDataGrid(dayWeatherFragmentData.weatherGridData)
-        setHourlyForecastAdapter(dayWeatherFragmentData.hourlyAdapter)
+        setTodayWeatherHeaderData(dayWeatherFragmentData.todayWeatherHeaderData)
+        setTodayWeatherDataGrid(dayWeatherFragmentData.todayWeatherGridData)
+        setHourlyForecastAdapter(dayWeatherFragmentData.todayHourlyAdapter)
+        setTomorrowWeatherHeaderData(dayWeatherFragmentData.tomorrowWeatherHeaderData)
+        setTomorrowWeatherDataGrid(dayWeatherFragmentData.tomorrowWeatherGridData)
         nextDaysForecast.adapter = dayWeatherFragmentData.nextDaysAdapter
     }
 
@@ -127,7 +139,7 @@ open class DayWeatherFragment : Fragment() {
         currentLocationEnd.text = name
     }
 
-    private fun setWeatherHeaderData(weatherHeaderData: WeatherHeaderData) {
+    private fun setTodayWeatherHeaderData(weatherHeaderData: WeatherHeaderData) {
         val temperature = WeatherUtils.getFormattedTemperature(weatherHeaderData.temp)
         currentTemp.text = temperature
         currentTempEnd.text = temperature
@@ -140,8 +152,23 @@ open class DayWeatherFragment : Fragment() {
         currentIcon.setImageResource(WeatherIconsHelper.getDrawable(state, requireContext())!!)
     }
 
-    private fun setWeatherDataGrid(weatherGridData: WeatherGridData) {
+    private fun setTodayWeatherDataGrid(weatherGridData: WeatherGridData) {
         currentData.updateData(weatherGridData)
+    }
+
+    private fun setTomorrowWeatherHeaderData(weatherHeaderData: WeatherHeaderData) {
+        val temperature = WeatherUtils.getFormattedTemperature(weatherHeaderData.temp)
+        tomorrowTemp.text = temperature
+        val feelsLikeText = WeatherUtils.getFeelsLikeFormattedTemp(requireContext(), weatherHeaderData.tempFeelsLike)
+        tomorrowFeelsLike.text = feelsLikeText
+
+        val isDay = weatherHeaderData.weatherIcon.takeLast(1) == "d"
+        val state = WeatherIconsHelper.mapConditionIconToCode(weatherHeaderData.weatherId, isDay)
+        tomorrowIcon.setImageResource(WeatherIconsHelper.getDrawable(state, requireContext())!!)
+    }
+
+    private fun setTomorrowWeatherDataGrid(weatherGridData: WeatherGridData) {
+        tomorrowData.updateData(weatherGridData)
     }
 
     private fun setHourlyForecastAdapter(hourlyAdapter: HourlyAdapter) {

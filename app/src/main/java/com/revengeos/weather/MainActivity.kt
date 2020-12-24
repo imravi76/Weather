@@ -147,10 +147,20 @@ class MainActivity : LocationBaseActivity(), WeatherDataService.WeatherDataListe
         }
         val todayHourlyAdapter = HourlyAdapter(todayHourlyForecast, oneCallResponse.timezoneOffset)
 
+        // Update tomorrow's hourly forecast data
+        val tomorrow : Daily = oneCallResponse.daily[1]
+
+        val tomorrowWeatherHeaderData = WeatherHeaderData(tomorrow.temp.day, tomorrow.feels_like.day,
+                tomorrow.weather[0].icon, tomorrow.weather[0].id)
+
+        val tomorrowWeatherGridData = WeatherGridData(tomorrow.sunrise, tomorrow.sunset, oneCallResponse.timezoneOffset,
+                tomorrow.pressure, tomorrow.humidity, tomorrow.windDeg,
+                tomorrow.windSpeed, null, tomorrow.temp.min, tomorrow.temp.max, tomorrow.pop)
+
         val nextDaysAdapter = DailyAdapter(oneCallResponse.daily, oneCallResponse.timezoneOffset)
 
         val weatherFragmentData = DayWeatherFragmentData(todayWeatherHeaderData,
-                todayWeatherGridData, todayHourlyAdapter, nextDaysAdapter)
+                todayWeatherGridData, todayHourlyAdapter, tomorrowWeatherHeaderData, tomorrowWeatherGridData, nextDaysAdapter)
 
         dayWeatherFragment.setOfflineMode(cached)
         dayWeatherFragment.setFragmentData(weatherFragmentData)
